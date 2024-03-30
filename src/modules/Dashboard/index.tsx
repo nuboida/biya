@@ -1,6 +1,7 @@
 import React from "react";
+import { DashboardLayoutProps } from "./models";
 
-const Dashboard: React.FC = () => {
+const Dashboard = ({name: string}: DashboardLayoutProps) => {
   return (
     <div className="mt-4 grid grid-cols-12 grid-rows-5 gap-4">
 
@@ -8,7 +9,7 @@ const Dashboard: React.FC = () => {
 
       <div className="col-span-8 rounded-sm border border-stroke bg-black px-5 pb-5 pt-7">
         <div className="flex flex-col flex-wrap items-start justify-between gap-3 pl-8 pb-12">
-          <h6 className="text-white text-l">Wallet</h6>
+          <h6 className="text-white text-l">WALLET BALANCE</h6>
           <h1 className="text-white text-4xl font-extrabold">$100,000</h1>
         </div>
       </div>

@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <>
       <DefaultLayout>
-        <Dashboard />
+        <Dashboard name="Dashboard" />
       </DefaultLayout>
     </>
   )
