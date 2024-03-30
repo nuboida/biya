@@ -1,10 +1,11 @@
-import DefaultLayout from "@/modules/layouts/DefaultLayout";
+import Dashboard from "@/modules/Dashboard";
+import DefaultLayout from "@/modules/layouts/DefaultLayouts/DefaultLayout";
 
 export default function Home() {
   return (
     <>
       <DefaultLayout>
-        home
+        <Dashboard />
       </DefaultLayout>
     </>
   )

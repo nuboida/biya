@@ -54,8 +54,8 @@ const Sidebar = () => {
           />
         </Link>
       </div>
-      <div className="">
-        <ul className="">
+      <div className="flex flex-col justify-between h-[85%]">
+        <ul>
           {
             menuItems.map((menuItem, index) => (
 
@@ -70,8 +70,18 @@ const Sidebar = () => {
             ))
           }
         </ul>
+      <div className="flex items-center pl-[42px]">
+        <div className="w-[60px] h-[60px] rounded-full mr-[12px] overflow-hidden bg-white">
+        </div>
+        <div>
+          <h1 className="text-white font-bold mb-2">Chisom Okechukwu</h1>
+          <button className="text-white flex items-center text-xs">
+            <BiyaIcon name="logout" className="pr-3" />
+            Logout
+          </button>
+        </div>
       </div>
-
+      </div>
     </aside>
   )
 }
