@@ -23,7 +23,7 @@ const Sidebar = () => {
       </div>
       <div className="text-white flex flex-col justify-between items-center pl-14 py-20 h-[90%]">
         <div>
-          <h1 className="text-5xl font-semibold mb-10 w-[80%] lg:text-3xl">
+          <h1 className="font-semibold mb-10 w-[80%] lg:text-3xl xl:text-5xl">
             Automate your recharges with ease.
           </h1>
           <p className="font-thin">
