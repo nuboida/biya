@@ -1,5 +1,8 @@
 import React from "react";
 import { DashboardLayoutProps } from "./models";
+import { BiyaInput } from "@/components/BiyaInput";
+import { BiyaButton } from "@/components/BiyaButton";
+import { BiyaSelect } from "@/components/BiyaSelect";
 
 const Dashboard = ({name: string}: DashboardLayoutProps) => {
   return (
@@ -7,62 +10,61 @@ const Dashboard = ({name: string}: DashboardLayoutProps) => {
 
       {/* Item 1 */}
 
-      <div className="col-span-8 rounded-sm border border-stroke bg-black px-5 pb-5 pt-7">
+      <div className="dashboard lg:col-span-7 rounded border border-stroke bg-primary px-5 pb-5 pt-7 2xl:col-span-8">
         <div className="flex flex-col flex-wrap items-start justify-between gap-3 pl-8 pb-12">
           <h6 className="text-white text-l">WALLET BALANCE</h6>
-          <h1 className="text-white text-4xl font-extrabold">$100,000</h1>
+          <h1 className="text-white text-5xl font-extrabold">&#x20A6;100,000</h1>
         </div>
       </div>
 
       {/* Item 2 */}
-      <div className="col-span-4 rounded-sm border border-stroke bg-white p-7 row-span-3 shadow-default border-black border-1">
+      <div className="lg:col-span-5 2xl:col-span-4 rounded border border-stroke bg-white p-7 row-span-2 shadow-default border-black border-1">
         <div className="mb-4 justify-between gap-4">
           <div>
-            <h4 className="text-xl font-semibold text-black">
+            <h4 className="text-xl font-semibold text-black pb-5">
               Create New Transaction
             </h4>
           </div>
           <div className="flex flex-col">
-            <label htmlFor="option">Select An Option</label>
-            <select className="border border-1 border-black">
-              <option value="">Airtime</option>
-            </select>
+            <BiyaSelect name="csvSelect" label="Select An Option"/>
           </div>
           <div className="flex flex-col">
-            <label htmlFor="csv">Upload Csv</label>
-            <input type="text" className="border border-1 border-black" />
+            <BiyaInput name="uplodad csv" label="Upload CSV"/>
           </div>
-          <div>
-            <button className="border border-1 border-black bg-black text-white">Upload Csv</button>
+          <div className="flex justify-between items-center">
+            <div>
+              <p className="text-sm underline mb-1 text-primary">Download Sample CSV for Data</p>
+              <p className="text-sm underline text-primary">Download Sample CSV for Airtime</p>
+            </div>
+            <BiyaButton label="Upload Csv"/>
           </div>
         </div>
       </div>
 
       {/* Item 3 */}
-      <div className="col-span-8 rounded-sm border border-stroke bg-white p-7 row-span-12 shadow-default border-black border-1">
+      <div className="lg:col-span-7 2xl:col-span-8 rounded border border-stroke bg-white p-7 row-span-4 shadow-default border-black border-1">
 
       </div>
 
       {/* Item 4 */}
-      <div className="col-span-4 rounded-sm border border-stroke bg-white p-7 row-span-10 shadow-default border-black border-1">
+      <div className="lg:col-span-5 2xl:col-span-4 rounded border border-stroke bg-white p-7 row-span-3 shadow-default border-black border-1">
         <div className="mb-4 justify-between gap-4">
           <div>
-            <h4 className="text-xl font-semibold text-black">
-              Create New Transaction
+            <h4 className="text-xl font-semibold text-black pb-5">
+              Single Recharge
             </h4>
           </div>
           <div className="flex flex-col">
-            <label htmlFor="option">Select An Option</label>
-            <select className="border border-1 border-black">
-              <option value="">Airtime</option>
-            </select>
+            <BiyaInput name="uplodad csv" label="Upload CSV"/>
           </div>
           <div className="flex flex-col">
-            <label htmlFor="csv">Upload Csv</label>
-            <input type="text" className="border border-1 border-black" />
+            <BiyaSelect name="csvSelect" label="Select An Option"/>
           </div>
-          <div>
-            <button className="border border-1 border-black bg-black text-white">Upload Csv</button>
+          <div className="flex flex-col">
+            <BiyaInput name="uplodad csv" label="Upload CSV"/>
+          </div>
+          <div className="flex flex-row-reverse">
+            <BiyaButton label="Upload Csv"/>
           </div>
         </div>
       </div>

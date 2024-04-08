@@ -5,7 +5,7 @@ import { InputProps } from "./models/Input.models";
  * Primary input component
  */
 
-export const BiyaInput = ({
+export const BiyaSelect = ({
   type = 'text',
   required = false,
   size = 'regular',
@@ -23,7 +23,7 @@ export const BiyaInput = ({
   return (
     <div className="col-span-3 flex flex-col pb-5 relative">
       {label && <label htmlFor={name} className="text-xs mb-[12px] font-bold">{label}</label>}
-      <input
+      {/* <input
         name={name}
         required={required}
         ref={forwardRef || ref}
@@ -32,8 +32,11 @@ export const BiyaInput = ({
         onChange={onChange}
         {...register}
         {...props}
-        className="p-[10px] text-base bg-white border-2 border-gray-300 rounded"
-      />
+        className="p-[10px] text-base bg-white border-2 border-gray-300 rounded-sm"
+      /> */}
+      <select className="p-[10px] text-base bg-white border-2 border-gray-300 rounded" defaultValue={initialValue}>
+        <option value="">Airtime</option>
+      </select>
       {error && typeof error === "string" && (
         <span role="status" className="mt-[6px] text-xs text-red-600 absolute top-[76px]">
           {error}

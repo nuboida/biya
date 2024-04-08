@@ -41,7 +41,7 @@ import { BiyaIcon } from "@/components/Icon";
 const Sidebar = () => {
   return (
     <aside
-      className="absolute left-0 top-0 z-9999 flex h-screen w-80 flex-col overflow-y-hidden bg-black lg:static"
+      className="absolute left-0 top-0 z-9999 flex h-screen w-80 flex-col overflow-y-hidden bg-primary lg:static"
     >
       <div className="flex items-center justify-between gap-2 px-6 py-5 lg:py-6">
         <Link href="/">

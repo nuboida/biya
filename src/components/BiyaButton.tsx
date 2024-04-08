@@ -37,7 +37,7 @@ export const BiyaButton = ({
 }: ButtonProps) => {
   return (
     <button
-    className="col-span-2 font-bold border-0 rounded-md inline-flex items-center justify-center text-white bg-black py-4">
+    className="font-bold border-0 rounded-md inline-flex items-center justify-center text-white bg-primary py-[13px] px-[32px] gap-2 w-[165px] h-[43px]">
       { loading ? <i className="inline-block w-[24px] h-[24px] border-4 rounded-full"></i> : label }
     </button>
   )

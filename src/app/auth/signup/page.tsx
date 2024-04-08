@@ -1,6 +1,6 @@
 import React from "react";
 import AuthLayout from "@/modules/layouts/AuthLayout/AuthLayout";
-import SignUp from "@/modules/Auth/SignUp";
+import SignUp from "@/modules/Auth/SignUp/SignUp";
 
 
 const Auth = () => {
