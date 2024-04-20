@@ -1,10 +1,12 @@
+"use client";
 import React from "react";
-import { DashboardLayoutProps } from "./models";
+import { DashboardLayoutProps } from "./dashboard.models";
 import { BiyaInput } from "@/components/BiyaInput";
 import { BiyaButton } from "@/components/BiyaButton";
 import { BiyaSelect } from "@/components/BiyaSelect";
 
 const Dashboard = ({name: string}: DashboardLayoutProps) => {
+
   return (
     <div className="mt-4 grid grid-cols-12 grid-rows-5 gap-4">
 

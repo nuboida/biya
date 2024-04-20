@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+// @import '../../node_modules/react-toastify/dist/ReactToastify.css';
+
 @import "./typography";
 
 @layer base {
@@ -23,3 +25,30 @@ body {
 .dashboard {
   font-family: 'ClashDisplay-Bold';
 }
+
+/* .toastContent {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px;
+  background-color: #DCF0DC;
+  color: #FFFFFF;
+  font-size: 16px;
+  line-height: 21px;
+  border-radius: 5px;
+  p {
+      margin: 0 !important;
+  }
+  opacity: 0;
+  transform: translateY(-50%);
+  transition: all 0.3s ease-in-out;
+  &.show {
+      opacity: 1;
+      transform: translateX(0) translateY(0);
+  }
+
+  &.error {
+      background-color: #F4D5D5;
+  }
+} */

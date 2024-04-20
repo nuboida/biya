@@ -1,4 +1,4 @@
-import React, { ForwardedRef } from "react";
+import React from "react";
 import { InputProps } from "./models/Input.models";
 
 /**
@@ -15,18 +15,16 @@ export const BiyaInput = ({
   error,
   flat = false,
   children,
-  forwardRef,
   initialValue = '',
   onChange,
   ...props
-}: InputProps,  ref: ForwardedRef<HTMLInputElement>) => {
+}: InputProps) => {
   return (
     <div className="col-span-3 flex flex-col pb-5 relative">
       {label && <label htmlFor={name} className="text-xs mb-[12px] font-bold">{label}</label>}
       <input
         name={name}
         required={required}
-        ref={forwardRef || ref}
         type={type}
         defaultValue={initialValue}
         onChange={onChange}

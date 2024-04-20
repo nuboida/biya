@@ -16,19 +16,19 @@ const Sidebar = () => {
               <Image
                 src={"/images/logo-light.svg"}
                 alt="Biya Payments"
-                height={20}
-                width={100}
+                height={0}
+                width={0}
                 priority
-                className="max-lg:h-[25px] max-lg:w-[70px]"
+                className="w-[100px] h-[30px] max-lg:h-[25px] max-lg:w-[70px]"
               />
             </Link>
           </div>
           <div className="text-white flex flex-col py-10 lg:gap-10 lg:pl-10 lg:py-4 2xl:gap-32 2xl:pl-14 2xl:py-10 max-lg:px-10 max-lg:py-2">
             <div>
-              <h1 className="font-semibold lg:mb-10 lg:text-4xl 2xl:text-5xl w-[90%] md:text-3xl max-md:mb-6">
+              <h1 className="font-semibold lg:mb-10 lg:text-4xl 2xl:text-5xl w-[90%] md:text-3xl max-md:mb-6 leading-5">
                 Easy Recharges. Anytime. Everywhere.
               </h1>
-              <p className="font-thin w-[60%] lg:w-[70%] max-md:w-[100%]">
+              <p className="font-thin lg:w-[70%] 2xl:w-[60%] max-md:w-[100%]">
                 Biya helps businesses automate airtime and data recharges with ease.
               </p>
             </div>
@@ -38,17 +38,17 @@ const Sidebar = () => {
                   <Image src="/icons/phone-incoming-outgoing.svg" alt="phone" width={16} height={16} className="shadow-[6px_8px_34px_rgba(0,0,0,0.1)]"/>
                 </div>
                 <div>
-                  <p className="text-sm">
+                  <p className="text-sm font-semibold">
                     Recharge Data & Airtime Easily
                   </p>
                 </div>
               </div>
-              <div className="bg-white text-black rounded p-2 flex items-center text-lg z-10 lg:w-52 2xl:w-58 shadow-md">
+              <div className="bg-white text-black rounded p-2 flex items-center text-lg z-10 lg:w-56 2xl:w-56 shadow-md">
                 <div className="mr-1 h-8 w-8 rounded-full border border-primary flex justify-center items-center shadow-[8px_12px_25px_rgba(0,0,0,0.1)] bg-[rgba(53,61,74,0.1)]">
                   <Image src="/icons/schedule.svg" alt="phone" width={16} height={16} className="shadow-[6px_8px_34px_rgba(0,0,0,0.1)]"/>
                 </div>
                 <div>
-                  <p className="text-sm">
+                  <p className="text-sm font-semibold">
                     Schedule Bulk Recharges
                   </p>
                 </div>

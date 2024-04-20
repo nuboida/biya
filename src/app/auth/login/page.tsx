@@ -1,8 +1,8 @@
 import React from "react";
 import AuthLayout from "@/modules/layouts/AuthLayout/AuthLayout";
-import Login from "@/modules/Auth/Login/Login";
+import Login from "@/modules/Auth/Login";
 
-const Auth = () => {
+const LoginPage = () => {
   return (
     <AuthLayout>
       <Login />
@@ -10,4 +10,4 @@ const Auth = () => {
   )
 }
 
-export default Auth;
+export default LoginPage;

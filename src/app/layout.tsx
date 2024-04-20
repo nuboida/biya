@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "../styles/base.scss";
+import { ToastProvider } from "@/context/toastContext";
 
 
 export const metadata: Metadata = {
@@ -19,7 +20,9 @@ export default function RootLayout({
       </head>
       <body suppressHydrationWarning={true}>
         <div>
-          {children}
+          <ToastProvider>
+            {children}
+          </ToastProvider>
         </div>
       </body>
     </html>

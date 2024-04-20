@@ -1,12 +1,9 @@
-import Dashboard from "@/modules/Dashboard";
-import DefaultLayout from "@/modules/layouts/DefaultLayouts/DefaultLayout";
+import LandingPage from "@/modules/LandingPage"
 
 export default function Home() {
   return (
     <>
-      <DefaultLayout>
-        <Dashboard name="Dashboard" />
-      </DefaultLayout>
+      <LandingPage />
     </>
   )
 }

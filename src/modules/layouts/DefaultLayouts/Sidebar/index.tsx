@@ -48,9 +48,10 @@ const Sidebar = () => {
           <Image
             src={"/images/logo-light.svg"}
             alt="Biya Payments"
-            height={28}
-            width={100}
+            height={0}
+            width={0}
             priority
+            className="w-[100px] h-[28px]"
           />
         </Link>
       </div>
