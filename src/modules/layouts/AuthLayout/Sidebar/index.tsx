@@ -63,6 +63,7 @@ const Sidebar = () => {
               alt="woman looking up"
               width={450}
               height={450}
+              priority
               sizes="(max-width: 1200px) 450px 450px (max-width: 768px) 300px 300px"
               className="absolute lg:w-[300px] lg:h-[300px] 2xl:w-[450px] 2xl:h-[450px]"
             />
@@ -71,6 +72,7 @@ const Sidebar = () => {
               alt="woman looking up"
               width={450}
               height={450}
+              priority
               className="lg:w-[300px] lg:h-[300px] 2xl:w-[450px] 2xl:h-[450px]"
             />
           </div>

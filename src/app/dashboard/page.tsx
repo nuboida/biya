@@ -1,12 +1,16 @@
+"use client";
 import React from 'react';
 import DefaultLayout from '@/modules/layouts/DefaultLayouts/DefaultLayout';
 import Dashboard from '@/modules/Dashboard';
+import { AuthGuard } from '@/context/authContext';
 
 const DashboardPage = () => {
   return (
-    <DefaultLayout>
-      <Dashboard name={'Dashboard'} />
-    </DefaultLayout>
+      <AuthGuard>
+        <DefaultLayout>
+          <Dashboard name={'Dashboard'} />
+        </DefaultLayout>
+      </AuthGuard>
   )
 }
 
