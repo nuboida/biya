@@ -4,6 +4,7 @@ import { DashboardLayoutProps } from "./dashboard.models";
 import { BiyaInput } from "@/components/BiyaInput";
 import { BiyaButton } from "@/components/BiyaButton";
 import { BiyaSelect } from "@/components/BiyaSelect";
+import BiyaTable from "@/components/Table";
 
 const Dashboard = ({name: string}: DashboardLayoutProps) => {
   return (
@@ -43,8 +44,8 @@ const Dashboard = ({name: string}: DashboardLayoutProps) => {
       </div>
 
       {/* Item 3 */}
-      <div className="lg:col-span-7 2xl:col-span-8 rounded border border-stroke bg-white p-7 row-span-4 shadow-default border-black border-1">
-
+      <div className="lg:col-span-7 2xl:col-span-8 rounded border border-stroke bg-white py-7 px-2 row-span-4 shadow-default border-black border-1">
+        <BiyaTable />
       </div>
 
       {/* Item 4 */}

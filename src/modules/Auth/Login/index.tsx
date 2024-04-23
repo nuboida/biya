@@ -85,7 +85,7 @@ const Login = () => {
         />
         </div>
         <div className="flex flex-row-reverse underline text-secondary -mt-3">
-          <Link href={'/forgot_password'}>Forgot Password?</Link>
+          <Link href={'/auth/forgot-password'}>Forgot Password?</Link>
         </div>
         <div className="py-10">
           <BiyaButton label="Sign In" onClick={() => {onSubmit()}} />

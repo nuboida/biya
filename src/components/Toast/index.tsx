@@ -30,7 +30,7 @@ export const Toast = ({higher}: ToastProps) => {
   }, [message, clear])
 
   return (
-    <div className={`absolute top-8 left-0 right-0 z-50 ml-8 mr-5 ${!show ? 'opacity-0 translate-y-[-50%]' : 'block opacity-100 translate-y-0' } transition-all`}>
+    <div className={`absolute top-8 left-0 right-0 ml-8 mr-5 ${!show ? 'opacity-0 translate-y-[-50%]' : 'block opacity-100 translate-y-0' } ${!show ? '-z-10' : 'z-50'} transition-all`}>
       <div className={`w-full flex items-center justify-between p-5 text-black text-lg font-semibold rounded-sm ${type === 'success' ? 'bg-[#DCF0DC]' : (type === 'error' ? 'bg-[#F4D5D5]' : " ")}`}>
         <p className="m-0">{message}</p>
         <button className="bg-transparent border-0" onClick={handleClick}>
