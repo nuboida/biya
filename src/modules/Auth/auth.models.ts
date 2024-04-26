@@ -3,18 +3,19 @@ export interface LoginRequest {
   password: string;
 }
 
+export interface UserData {
+  id: string;
+  email: string;
+  name: string;
+  phone: string;
+  verifyEmail: boolean;
+  authToken: string;
+}
 export interface LoginResponse {
   status: string;
   message: string;
   code: number;
-  data: {
-    id: string;
-    email: string;
-    name: string;
-    phone: string;
-    verifyEmail: boolean;
-    authToken: string;
-  }
+  data: UserData
 }
 
 export interface SignupRequest {
