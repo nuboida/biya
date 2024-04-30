@@ -1,13 +1,26 @@
 "use client";
 
 import auth from "@/helpers/auth.helper";
-import { JwtPayload, jwtDecode } from "jwt-decode";
+import { UserData } from "@/modules/Auth/auth.models";
+import { jwtDecode } from "jwt-decode";
 import { useRouter } from "next/navigation";
 import React, { ReactNode, useEffect, useState, createContext } from "react";
 
 
-const AuthContext = createContext({
-  user: null,
+interface AuthContextModel {
+  user: UserData;
+  userToken: string;
+}
+
+const AuthContext = createContext<AuthContextModel>({
+  user: {
+    id: "",
+    email: "",
+    name: "",
+    phone: "",
+    verifyEmail: false,
+    authToken: ""
+  },
   userToken: ''
 })
 
@@ -18,7 +31,7 @@ interface Props {
 const AuthGuard = ({children}: Props) => {
   const router = useRouter();
   const [userToken, setUserToken] = useState('')
-  const user = auth.isAuthenticated();
+  const user = auth.isAuthenticated()['data'];
 
   useEffect(() => {
     if(!user) {
@@ -26,7 +39,7 @@ const AuthGuard = ({children}: Props) => {
     }
 
     if(user) {
-      const token = user.data['authToken'];
+      const token = user['authToken'];
       if(token) {
         if(jwtDecode(token).exp! < Date.now() / 1000) {
           sessionStorage.clear()
@@ -47,7 +60,7 @@ const AuthGuard = ({children}: Props) => {
       userToken
     }}>
       <>
-        { children }
+        {userToken ? children : <></>}
       </>
     </AuthContext.Provider>
   )

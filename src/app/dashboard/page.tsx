@@ -7,7 +7,7 @@ import { AuthGuard } from '@/context/authContext';
 const DashboardPage = () => {
   return (
       <AuthGuard>
-        <DefaultLayout>
+        <DefaultLayout name='Dashboard'>
           <Dashboard name={'Dashboard'} />
         </DefaultLayout>
       </AuthGuard>

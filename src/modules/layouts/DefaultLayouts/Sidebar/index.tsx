@@ -4,6 +4,8 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { BiyaIcon } from "@/components/Icon";
+import auth from "@/helpers/auth.helper";
+import { usePathname, useRouter } from "next/navigation";
 
  const menuItems = [
   {
@@ -39,6 +41,8 @@ import { BiyaIcon } from "@/components/Icon";
 ];
 
 const Sidebar = () => {
+  const router = useRouter();
+  const currentPath = usePathname();
   return (
     <aside
       className="absolute left-0 top-0 z-9999 flex h-screen w-80 flex-col overflow-y-hidden bg-primary lg:static"
@@ -63,7 +67,7 @@ const Sidebar = () => {
               <Link
               href={menuItem.url}
               key={index}
-              className="text-white group relative flex items-center gap-2 rounded-sm py-2 font-medium hover:bg-slate-700 pl-12 my-4"
+              className={`text-white group relative flex items-center gap-2 rounded-sm py-2 font-medium hover:bg-slate-700 pl-12 my-4 ${menuItem.url === currentPath ? 'bg-slate-500' : ''}`}
               >
                 <BiyaIcon name={menuItem.icon} />
                 {menuItem.title}
@@ -76,7 +80,11 @@ const Sidebar = () => {
         </div>
         <div>
           <h1 className="text-white font-bold mb-2">Chisom Okechukwu</h1>
-          <button className="text-white flex items-center text-xs">
+          <button className="text-white flex items-center text-xs" onClick={() => {
+            auth.clearJWT(() => {
+              router.push("/auth/login");
+            })
+          }}>
             <BiyaIcon name="logout" className="pr-3" />
             Logout
           </button>
