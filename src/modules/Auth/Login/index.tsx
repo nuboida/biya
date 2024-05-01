@@ -62,7 +62,7 @@ const Login = () => {
     if(redirectToDashboard) {
       router.push("/dashboard")
     }
-  }, [router, loginCredentials]);
+  }, [router, loginCredentials, auth]);
 
   return (
     <div className="lg:p-14 2xl:p-28 max-lg:px-5">

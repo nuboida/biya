@@ -25,7 +25,6 @@ export interface WalletTransactions {
       modelId: string;
       createdAt: string;
       updateAt: string;
-      __v: number;
       customer: {
         _id: string;
         name: string;
@@ -35,4 +34,23 @@ export interface WalletTransactions {
 
 export interface WalletTransactionsResponse extends GlobalResponse {
   data: WalletTransactions[]
+}
+
+export interface MerchantPaymentRequest {
+  customerId: string;
+  amount: number;
+  orderId: string;
+}
+export interface MerchantPaymentResponse extends GlobalResponse {
+  data: {
+    merchantId: string;
+    customerId: string;
+    amount: number;
+    orderId: string;
+    reference: string;
+    status: string;
+    _id: string;
+    createdAt: string;
+    updatedAT: string;
+  }
 }

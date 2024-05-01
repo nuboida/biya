@@ -10,11 +10,13 @@ import AuthContext from "@/context/authContext";
 import { getWalletBalance, getWalletTransactions } from "./dashboard.api";
 import ToastContext from "@/context/toastContext";
 import { BiyaIcon } from "@/components/Icon";
+import { PaymentModal } from "./PaymentModal";
 
 const Dashboard = ({name: string}: DashboardLayoutProps) => {
   const [walletBalance, setWalletBalance] = useState(0);
   const [walletTransactions, setWalletTransactions] = useState<WalletTransactions[]>([]);
   const [walletTransactionLoading, setWalletTransactionLoading] = useState(false);
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
   const toast = useContext(ToastContext)
   const {userToken} = useContext(AuthContext);
 
@@ -38,7 +40,13 @@ const Dashboard = ({name: string}: DashboardLayoutProps) => {
     })
   }, []);
 
+  const togglePaymentModal = () => {
+    setShowPaymentModal(true);
+  }
+
   return (
+    <>
+    {showPaymentModal && <PaymentModal onClose={() => setShowPaymentModal(false)} />}
     <div className="mt-4 grid grid-cols-12 grid-rows-5 gap-4">
 
       {/* Item 1 */}
@@ -69,7 +77,7 @@ const Dashboard = ({name: string}: DashboardLayoutProps) => {
               <p className="text-sm underline mb-1 text-primary">Download Sample CSV for Data</p>
               <p className="text-sm underline text-primary">Download Sample CSV for Airtime</p>
             </div>
-            <BiyaButton label="Upload Csv"/>
+            <BiyaButton label="Upload Csv" onClick={() => togglePaymentModal()}/>
           </div>
         </div>
       </div>
@@ -98,7 +106,7 @@ const Dashboard = ({name: string}: DashboardLayoutProps) => {
             </h4>
           </div>
           <div className="flex flex-col">
-            <BiyaInput name="uplodad csv" label="Upload CSV"/>
+            <BiyaInput name="uplodad csv" label="Upload CSV" />
           </div>
           <div className="flex flex-col">
             <BiyaSelect name="csvSelect" label="Select An Option"/>
@@ -112,6 +120,7 @@ const Dashboard = ({name: string}: DashboardLayoutProps) => {
         </div>
       </div>
     </div>
+    </>
   )
 }
 

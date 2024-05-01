@@ -115,7 +115,7 @@ export default function LandingPage () {
               </Link>
             </div>
             <div className="max-lg:hidden">
-              <Image src={"/images/places.jpg"} alt="all places" width={790} height={790} className="w-auto h-auto" />
+              <Image src={"/images/places.jpg"} alt="all places" width={790} height={790} className="w-auto h-auto" priority />
             </div>
           </div>
         </section>
@@ -125,27 +125,26 @@ export default function LandingPage () {
         <footer className="bg-primary text-white py-9 px-[72px] max-lg:p-5">
           <div className="flex justify-between items-center max-w-[1340px] my-0 mx-auto max-lg:block">
             <div className="flex items-center">
-              <Link href={"/"}>
+              <Link href={"/"} className="mr-6">
                 <Image
                   src={"/images/logo-light.svg"}
                   alt="Biya"
-                  height={40}
-                  width={40}
-                  className="w-auto h-auto"
+                  height={80}
+                  width={80}
                 />
               </Link>
               <ul className="flex list-none m-0 p-0">
-              <li>
+              <li className="mr-5">
                   <Link href="/register">
                       Get Started
                   </Link>
                 </li>
-                <li>
+                <li className="mr-5">
                     <Link href="https://biya.com.ng/terms" target="_blank">
                         Terms and Conditions
                     </Link>
                 </li>
-                <li>
+                <li className="mr-5">
                     <Link href="https://biya.com.ng/privacy" target="_blank">
                         Privacy Policy
                     </Link>
@@ -153,7 +152,7 @@ export default function LandingPage () {
               </ul>
             </div>
             <ul className="flex list-none m-0 p-0">
-              <li>
+              <li className="mr-5">
                   <Link href="https://facebook.com/biyabot">
                       <Image
                         src={"/icons/facebook.svg"}
@@ -164,7 +163,7 @@ export default function LandingPage () {
                       />
                   </Link>
               </li>
-              <li>
+              <li className="mr-5">
                   <Link href="https://twitter.com/biyabot" target="_blank">
                   <Image
                         src={"/icons/twitter.svg"}
@@ -175,7 +174,7 @@ export default function LandingPage () {
                       />
                   </Link>
               </li>
-              <li>
+              <li className="mr-5">
                   <Link href="https://instagram.com/biyabot/" target="_blank">
                   <Image
                         src={"/icons/instagram.svg"}
