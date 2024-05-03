@@ -10,7 +10,7 @@ import ToastContext from '@/context/toastContext';
 interface PaymentModalProps {
   onClose: () => void;
 }
-export const PaymentModal: React.FC<PaymentModalProps> = ({onClose}) => {
+export const MerchantRequestModal: React.FC<PaymentModalProps> = ({onClose}) => {
   const [paymentCredentials, setPaymentCredentials] = useState<MerchantPaymentRequest>({
     customerId: '',
     amount: 0,

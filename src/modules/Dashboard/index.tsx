@@ -10,13 +10,15 @@ import AuthContext from "@/context/authContext";
 import { getWalletBalance, getWalletTransactions } from "./dashboard.api";
 import ToastContext from "@/context/toastContext";
 import { BiyaIcon } from "@/components/Icon";
-import { PaymentModal } from "./PaymentModal";
+import { MerchantRequestModal } from "./MerchantPayment";
+import { RefundCustomerModal } from "./RefundCustomerModal";
 
 const Dashboard = ({name: string}: DashboardLayoutProps) => {
   const [walletBalance, setWalletBalance] = useState(0);
   const [walletTransactions, setWalletTransactions] = useState<WalletTransactions[]>([]);
   const [walletTransactionLoading, setWalletTransactionLoading] = useState(false);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [showRefundModal, setShowRefundModal] = useState(false);
   const toast = useContext(ToastContext)
   const {userToken} = useContext(AuthContext);
 
@@ -44,16 +46,21 @@ const Dashboard = ({name: string}: DashboardLayoutProps) => {
     setShowPaymentModal(true);
   }
 
+  const toggleRefundModal = () => {
+    setShowRefundModal(true);
+  }
+
   return (
     <>
-    {showPaymentModal && <PaymentModal onClose={() => setShowPaymentModal(false)} />}
+    {showPaymentModal && <MerchantRequestModal onClose={() => setShowPaymentModal(false)} />}
+    {showRefundModal && <RefundCustomerModal onClose={() => setShowRefundModal(false)} />}
     <div className="mt-4 grid grid-cols-12 grid-rows-5 gap-4">
 
       {/* Item 1 */}
 
       <div className="dashboard lg:col-span-7 rounded border border-stroke bg-primary px-5 pb-5 pt-7 2xl:col-span-8">
         <div className="flex flex-col flex-wrap items-start justify-between gap-3 pl-8 pb-12">
-          <h6 className="text-white text-l">Wallet Balance</h6>
+          <h6 className="text-white text-l font-Roobert font-thin tracking-[4px]">WALLET BALANCE</h6>
           <h1 className="text-white text-5xl font-extrabold"><span className="pr-2">&#x20A6;</span>{walletBalance}</h1>
         </div>
       </div>
@@ -92,7 +99,7 @@ const Dashboard = ({name: string}: DashboardLayoutProps) => {
           </div>
         </div>
         :
-        <BiyaTable tableData={walletTransactions} isLoading={walletTransactionLoading} />
+        <BiyaTable tableHeaders={["Batch Reference", "Type", "Date"]} tableData={walletTransactions} isLoading={walletTransactionLoading} />
       }
 
       </div>
@@ -115,7 +122,7 @@ const Dashboard = ({name: string}: DashboardLayoutProps) => {
             <BiyaInput name="uplodad csv" label="Upload CSV"/>
           </div>
           <div className="flex flex-row-reverse">
-            <BiyaButton label="Recharge"/>
+            <BiyaButton label="Recharge" onClick={() => toggleRefundModal()}/>
           </div>
         </div>
       </div>

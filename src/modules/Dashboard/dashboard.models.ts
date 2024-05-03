@@ -41,6 +41,10 @@ export interface MerchantPaymentRequest {
   amount: number;
   orderId: string;
 }
+
+export interface RefundCustomerRequest extends MerchantPaymentRequest {
+
+}
 export interface MerchantPaymentResponse extends GlobalResponse {
   data: {
     merchantId: string;
@@ -54,3 +58,5 @@ export interface MerchantPaymentResponse extends GlobalResponse {
     updatedAT: string;
   }
 }
+
+export interface RefundCustomerResponse extends MerchantPaymentResponse {}

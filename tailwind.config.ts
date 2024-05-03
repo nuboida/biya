@@ -26,6 +26,10 @@ const config: Config = {
         orange: "#F5A623",
       }
     },
+    fontFamily: {
+      'display': ['ClashDisplay'],
+      'Roobert': ['Roobert']
+    }
   },
   plugins: [],
 };

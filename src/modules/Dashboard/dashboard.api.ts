@@ -1,4 +1,4 @@
-import { MerchantPaymentRequest } from "./dashboard.models";
+import { MerchantPaymentRequest, RefundCustomerRequest } from "./dashboard.models";
 
 const getWalletBalance = async (token: string) => {
   try {
@@ -49,9 +49,28 @@ const merchantRequestPayment = async (request: MerchantPaymentRequest, token: st
   }
 }
 
+const refundCustomer = async (request: RefundCustomerRequest, token: string) => {
+  try {
+    const response = await fetch('http://merch.biya.com.ng:5000/api/v1/merchant/refund', {
+      method: "POST",
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      },
+      body: JSON.stringify(request)
+    });
+    return await response.json()
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+
 
 export {
   getWalletBalance,
   getWalletTransactions,
-  merchantRequestPayment
+  merchantRequestPayment,
+  refundCustomer
 }
