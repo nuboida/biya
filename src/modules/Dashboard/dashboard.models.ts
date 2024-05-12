@@ -15,25 +15,18 @@ export interface WalletResponse extends GlobalResponse {
 };
 
 export interface WalletTransactions {
-      _id: string;
-      userId: string;
-      transactionType: string;
-      reference: string;
-      balance: number;
-      difference: number;
-      modelResponsible: string;
-      modelId: string;
-      createdAt: string;
-      updateAt: string;
-      customer: {
-        _id: string;
-        name: string;
-        email: string;
-      }
-  }
-
+    _id: string;
+    merchantId: string;
+    customerId: string;
+    amount: number;
+    orderId: string;
+    reference: string;
+    status: string;
+    createdAt: string;
+    updatedAt: string;
+}
 export interface WalletTransactionsResponse extends GlobalResponse {
-  data: WalletTransactions[]
+  data: WalletTransactions[];
 }
 
 export interface MerchantPaymentRequest {

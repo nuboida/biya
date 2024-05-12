@@ -18,7 +18,7 @@ const getWalletBalance = async (token: string) => {
 
 const getWalletTransactions = async (token: string) => {
   try {
-    const response = await fetch('http://merch.biya.com.ng:5000/api/v1/merchant/wallet-transactions', {
+    const response = await fetch('http://merch.biya.com.ng:5000/api/v1/merchant/payment-requests', {
       method: "GET",
       headers: {
         "Accept": "application/json",

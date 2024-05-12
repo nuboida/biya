@@ -1,7 +1,7 @@
 import { BiyaInput } from '@/components/BiyaInput';
 import Modal from '@/components/modal';
 import React, { ChangeEvent, useContext, useState } from 'react';
-import { MerchantPaymentResponse, RefundCustomerRequest, RefundCustomerResponse } from '../dashboard.models';
+import { RefundCustomerRequest, RefundCustomerResponse } from '../dashboard.models';
 import { refundCustomer } from '../dashboard.api';
 import AuthContext from '@/context/authContext';
 import ToastContext from '@/context/toastContext';

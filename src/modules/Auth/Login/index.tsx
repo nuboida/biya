@@ -32,6 +32,7 @@ const Login = () => {
   });
   const router = useRouter();
   const toast = useContext(ToastContext);
+  const [isLoading, setIsLoading] = useState(false);
 
   const onSubmit = (): void => {
     const userCredentials: LoginRequest = {
@@ -40,10 +41,11 @@ const Login = () => {
     }
 
     login(userCredentials).then((data: LoginResponse) => {
+      setIsLoading(true);
       if(!data) {
         toast.error("Something went wrong, please try again later");
       } else if(data.status ==='error') {
-        toast.error("Wrong Login Credentials");
+        toast.error("Incorrect Username or Password");
         setLoginCredentials({...loginCredentials, error: data.message});
       }
       else {
@@ -88,7 +90,7 @@ const Login = () => {
           <Link href={'/auth/forgot-password'}>Forgot Password?</Link>
         </div>
         <div className="py-10">
-          <BiyaButton label="Sign In" onClick={() => {onSubmit()}} />
+          <BiyaButton loading={isLoading} label="Sign In" onClick={() => {onSubmit()}} />
         </div>
     </div>
   )
