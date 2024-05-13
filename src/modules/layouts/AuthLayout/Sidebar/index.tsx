@@ -32,13 +32,13 @@ const Sidebar = () => {
                 Biya helps businesses receive money, automate airtime and data recharges with ease.
               </p>
             </div>
-            <div className="top-[50%] left-10 z-10 flex flex-col h-30 justify-between 2xl:gap-14 lg:gap-10 max-lg:hidden">
-            <div className="bg-white text-black rounded p-2 flex items-center text-lg z-10 lg:w-56 2xl:w-80 shadow-md">
+            <div className="top-[50%] left-10 z-10 flex flex-col h-30 justify-between 2xl:gap-14 lg:gap-8 max-lg:hidden">
+            <div className="bg-white text-black rounded p-2 flex items-center text-lg z-10 lg:w-64 2xl:w-80 shadow-md">
                 <div className="mr-1 h-8 w-8 rounded-full border border-primary flex justify-center items-center shadow-[8px_12px_25px_rgba(0,0,0,0.1)] bg-[rgba(53,61,74,0.1)]">
                   <Image src="/icons/schedule.svg" alt="phone" width={16} height={16} className="shadow-[6px_8px_34px_rgba(0,0,0,0.1)]"/>
                 </div>
                 <div>
-                  <p className="text-sm font-semibold">
+                  <p className="text-sm font-semibold lg:text-xs">
                     Receive payments easily from anywhere
                   </p>
                 </div>
@@ -48,7 +48,7 @@ const Sidebar = () => {
                   <Image src="/icons/phone-incoming-outgoing.svg" alt="phone" width={16} height={16} className="shadow-[6px_8px_34px_rgba(0,0,0,0.1)]"/>
                 </div>
                 <div>
-                  <p className="text-sm font-semibold">
+                  <p className="text-sm font-semibold lg:text-xs">
                     Recharge Data & Airtime Easily
                   </p>
                 </div>
@@ -58,7 +58,7 @@ const Sidebar = () => {
                   <Image src="/icons/schedule.svg" alt="phone" width={16} height={16} className="shadow-[6px_8px_34px_rgba(0,0,0,0.1)]"/>
                 </div>
                 <div>
-                  <p className="text-sm font-semibold">
+                  <p className="text-sm font-semibold lg:text-xs">
                     Schedule Bulk Recharges
                   </p>
                 </div>

@@ -32,6 +32,7 @@ const Dashboard = ({name: string}: DashboardLayoutProps) => {
     orderId: '',
   });
   const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const tableHeaders = ["Batch Reference", "Amount", "Customer", "Date", "Status"];
 
   useEffect(() => {
@@ -63,20 +64,24 @@ const Dashboard = ({name: string}: DashboardLayoutProps) => {
   }
 
   const handleMerchantPayment = () => {
+    setIsLoading(true);
     merchantRequestPayment(paymentCredentials, userToken).then((data: MerchantPaymentResponse) => {
       if(!data) {
         toast.error("Something went wrong, Please try again later");
+        setIsLoading(false);
       } else if(data.status === 'error') {
         toast.error(data.message);
         setPaymentCredentials({...paymentCredentials});
-        setError(data.message)
+        setError(data.message);
+        setIsLoading(false);
       } else {
         setError('');
         setPaymentCredentials({
           customerId: '',
           amount: 0,
           orderId: '',
-        })
+        });
+        setIsLoading(false);
       }
     });
   }
@@ -85,7 +90,7 @@ const Dashboard = ({name: string}: DashboardLayoutProps) => {
     <>
     {tableRowData.open &&  <TableRowModal onClose={() => setShowTableRowData({...tableRowData, open: false})} rowData={tableRowData.data} />}
     {showRefundModal && <RefundCustomerModal onClose={() => setShowRefundModal(false)} />}
-    <div className="mt-4 grid grid-cols-12 grid-rows-1 gap-4">
+    <div className="mt-4 grid grid-cols-12 grid-rows gap-4">
 
       {/* Item 1 */}
 
@@ -110,13 +115,13 @@ const Dashboard = ({name: string}: DashboardLayoutProps) => {
             <BiyaInput name='orderId' label='Order ID' onChange={handleChange}/>
           </div>
           <div className="mt-6 flex justify-end">
-            <BiyaButton label="Submit" onClick={() => handleMerchantPayment()}/>
+            <BiyaButton loading={isLoading} label="Submit" onClick={() => handleMerchantPayment()}/>
         </div>
         </div>
       </div>
 
       {/* Item 3 */}
-      <div className="lg:col-span-7 2xl:col-span-8 rounded border border-stroke bg-white py-7 px-2 row-span-2 shadow-default border-black border-1 overflow-hidden overflow-x-scroll">
+      <div className="lg:col-span-7 2xl:col-span-8 rounded border border-stroke bg-white pb-7 px-2 row-span-4 shadow-default border-black border-1 overflow-scroll">
        { (!walletTransactions || walletTransactions.length === 0)  ? <div className="p-10">
           <h6 className="mb-3 font-bold">Recent Transactions</h6>
           <div className="flex items-center">
@@ -125,12 +130,12 @@ const Dashboard = ({name: string}: DashboardLayoutProps) => {
           </div>
         </div>
         :
-        <div>
+        <div className="h-96">
           <table className="w-full border-collapse border-spacing-0">
             <thead className="sticky top-0 bg-white">
               <tr>
                 {tableHeaders.map((header: string, i: number) => (
-                  <th key={`header${i}`} className={`px-6 align-middle py-3 text-lg uppercase text-[#97A4AC] whitespace-nowrap font-semibold text-left bg-blueGray-50 text-blueGray-500 ${i > 0 ? 'text-center' : ''}`}>{ header }</th>
+                  <th key={`header${i}`} className={`px-6 align-middle py-10 text-lg uppercase text-[#97A4AC] whitespace-nowrap font-semibold text-left bg-blueGray-50 text-blueGray-500 ${i > 0 ? 'text-center' : ''}`}>{ header }</th>
                 ))}
               </tr>
             </thead>
@@ -140,7 +145,7 @@ const Dashboard = ({name: string}: DashboardLayoutProps) => {
                   <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap py-7 text-left flex items-center"><a className="text-blue cursor-pointer" onClick={() => {
                     handleClickTableItem(data);
                   }}>{data.reference}</a></td>
-                  <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap py-7 text-center">{data.amount}</td>
+                  <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap py-7 text-center"><span className="pr-2">&#x20A6;</span>{(data.amount).toLocaleString()}</td>
                   <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap py-7 text-center">{data.customerId}</td>
                   <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap py-7 text-center">{format(data.createdAt, 'dd/MM/yyyy')}</td>
                   <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap py-7 text-center"><span className={`border-2 ${data.status === 'APPROVED' ?'border-green text-green bg-[#48b2461e]' : (data.status === "DECLINED" ? 'border-red text-red bg-[#ce3f3f1e]' : 'text-amber-400 border-amber-400 bg-amber-100')} font-semibold rounded-2xl p-2`}>{data.status}</span></td>

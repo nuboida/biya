@@ -53,7 +53,7 @@ const Wallet = () => {
             { walletTransactions.map((data, i) => (
               <tr key={`tableData${i}`} className={`${i%2==1 ? 'bg-sky-50': ''}`}>
                 <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap py-7 text-left flex items-center"><a className="text-blue cursor-pointer">{data.reference}</a></td>
-                    <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap py-7 text-center">{data.transactionType}</td>
+                    <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap py-7 text-center capitalize">{((data.transactionType).replace(/([a-z0-9])([A-Z])/g, '$1 $2'))}</td>
                     <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap py-7 text-center">{data.customer['name']}</td>
                     <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap py-7 text-center">{data.customer['email']}</td>
                     <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap py-7 text-center">{format(data.createdAt, 'dd/MM/yyyy')}</td>

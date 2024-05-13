@@ -39,7 +39,7 @@ export const BiyaButton = ({
   return (
     <button onClick={onClick}
     className="font-bold border-0 rounded-md inline-flex items-center justify-center text-white bg-primary py-[13px] px-[32px] gap-2 w-[165px] h-[43px]">
-      { loading ? <i className="inline-block w-[24px] h-[24px] border-4 rounded-full"></i> : label }
+      { loading ? <div className="lds-ring"><div></div><div></div><div></div><div></div></div> : label }
     </button>
   )
 }

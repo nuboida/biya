@@ -35,18 +35,20 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const onSubmit = (): void => {
+    setIsLoading(true);
     const userCredentials: LoginRequest = {
       email: loginCredentials.email,
       password: loginCredentials.password
     }
 
     login(userCredentials).then((data: LoginResponse) => {
-      setIsLoading(true);
       if(!data) {
         toast.error("Something went wrong, please try again later");
+        setIsLoading(false)
       } else if(data.status ==='error') {
         toast.error("Incorrect Username or Password");
         setLoginCredentials({...loginCredentials, error: data.message});
+        setIsLoading(false)
       }
       else {
         setAuth(data);
@@ -62,7 +64,7 @@ const Login = () => {
   useEffect(() => {
     const { redirectToDashboard } = loginCredentials;
     if(redirectToDashboard) {
-      router.push("/dashboard")
+      router.push("/")
     }
   }, [router, loginCredentials, auth]);
 

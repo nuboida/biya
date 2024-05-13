@@ -11,7 +11,7 @@ import { usePathname, useRouter } from "next/navigation";
   {
       title: 'Dashboard',
       icon: 'dashboard',
-      url: '/dashboard'
+      url: '/'
   },
   {
       title: 'Wallet',
