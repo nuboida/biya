@@ -3,12 +3,13 @@
 import React from "react";
 import DefaultLayout from "@/modules/layouts/DefaultLayouts/DefaultLayout";
 import { AuthGuard } from "@/context/authContext";
+import Wallet from "@/modules/Wallet";
 
 const WalletPage = () => {
   return (
     <AuthGuard>
       <DefaultLayout name="Wallet">
-        <div>Wallet page</div>
+        <Wallet />
       </DefaultLayout>
     </AuthGuard>
   )

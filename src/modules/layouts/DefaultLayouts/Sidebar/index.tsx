@@ -11,14 +11,14 @@ import { usePathname, useRouter } from "next/navigation";
   {
       title: 'Dashboard',
       icon: 'dashboard',
-      url: '/dashboard'
+      url: '/'
   },
   {
       title: 'Wallet',
       icon: 'wallet',
       url: '/wallet'
   },
-  {
+  /* {
       title: 'Batches',
       icon: 'transactions',
       url: '/batches'
@@ -27,7 +27,7 @@ import { usePathname, useRouter } from "next/navigation";
       title: 'Transactions',
       icon: 'transactions',
       url: '/transactions'
-  },
+  }, */
   {
       title: 'Settings',
       icon: 'settings',

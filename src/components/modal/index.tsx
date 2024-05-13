@@ -28,8 +28,8 @@ const Modal = ({
   return (
     <div className="fixed top-0 left-0 bottom-0 right-0 bg-[rgba(0,0,0,0.5)] backdrop-blur-sm flex z-50" {...props}>
       <div className={`m-auto bg-white rounded-md max-h-[90vh] overflow-auto max-lg:max-h-[100vh] ${modalContentSize[size]}`}>
-        <div className={`relative text-black ${modalHeaderSize[size]}`}>
-          <button className="absolute top-0 right-9 cursor-pointer border-0 bg-transparent">
+        <div className={`relative text-blue ${modalHeaderSize[size]}`}>
+          <button className="absolute top-0 right-9 cursor-pointer border-0 bg-transparent" onClick={onModalClose}>
             <BiyaIcon name="close" />
           </button>
           <h3 className="m-0 text-2xl">{title}</h3>
@@ -43,3 +43,5 @@ const Modal = ({
     </div>
   )
 }
+
+export default Modal;

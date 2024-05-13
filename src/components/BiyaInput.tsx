@@ -30,10 +30,10 @@ export const BiyaInput = ({
         onChange={onChange}
         {...register}
         {...props}
-        className="p-[10px] text-base bg-white border-2 border-gray-300 rounded"
+        className={`p-[10px] text-base bg-white border-2 rounded ${error ? "border-rose-600" : "border-gray-300"} focus:outline-sky-200`}
       />
       {error && typeof error === "string" && (
-        <span role="status" className="mt-[6px] text-xs text-red-600 absolute top-[76px]">
+        <span role="status" className="mt-[6px] text-xs text-rose-600 absolute top-[76px]">
           {error}
         </span>
       )}
