@@ -1,7 +1,14 @@
+import {string, object} from 'yup';
+
 export interface LoginRequest {
   email: string;
   password: string;
 }
+
+export const LoginSchema = object().shape({
+  email: string().email('Please enter a valid email').required('Email is required.'),
+  password: string().required('Password is required.')
+});
 
 export interface UserData {
   id: string;

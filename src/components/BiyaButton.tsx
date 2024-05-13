@@ -18,6 +18,7 @@ interface ButtonProps {
    * Button contents
    */
   label: string;
+  disabled?: boolean;
   /**
    * Optional click handler
    */
@@ -33,12 +34,13 @@ export const BiyaButton = ({
   size = 'regular',
   label,
   loading = false,
+  disabled,
   onClick,
   ...props
 }: ButtonProps) => {
   return (
     <button onClick={onClick}
-    className="font-bold border-0 rounded-md inline-flex items-center justify-center text-white bg-primary py-[13px] px-[32px] gap-2 w-[165px] h-[43px]">
+    className="font-bold border-0 rounded-md inline-flex items-center justify-center text-white bg-primary py-[13px] px-[32px] gap-2 w-[165px] h-[43px] disabled:bg-gray-300" disabled={disabled}>
       { loading ? <div className="lds-ring"><div></div><div></div><div></div><div></div></div> : label }
     </button>
   )
