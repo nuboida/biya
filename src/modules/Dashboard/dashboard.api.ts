@@ -2,7 +2,7 @@ import { MerchantPaymentRequest, RefundCustomerRequest } from "./dashboard.model
 
 const getWalletBalance = async (token: string) => {
   try {
-    const response = await fetch('http://merch.biya.com.ng:5000/api/v1/merchant/wallet-balance', {
+    const response = await fetch('https://merch.biya.com.ng/api/v1/merchant/wallet-balance', {
       method: "GET",
       headers: {
         "Accept": "application/json",
@@ -18,7 +18,7 @@ const getWalletBalance = async (token: string) => {
 
 const getWalletTransactions = async (token: string) => {
   try {
-    const response = await fetch('http://merch.biya.com.ng:5000/api/v1/merchant/payment-requests', {
+    const response = await fetch('https://merch.biya.com.ng/api/v1/merchant/payment-requests', {
       method: "GET",
       headers: {
         "Accept": "application/json",
@@ -34,7 +34,7 @@ const getWalletTransactions = async (token: string) => {
 
 const merchantRequestPayment = async (request: MerchantPaymentRequest, token: string) => {
   try {
-    const response = await fetch('http://merch.biya.com.ng:5000/api/v1/merchant/request-payment', {
+    const response = await fetch('https://merch.biya.com.ng/api/v1/merchant/request-payment', {
       method: "POST",
       headers: {
         "Accept": "application/json",
@@ -51,7 +51,7 @@ const merchantRequestPayment = async (request: MerchantPaymentRequest, token: st
 
 const refundCustomer = async (request: RefundCustomerRequest, token: string) => {
   try {
-    const response = await fetch('http://merch.biya.com.ng:5000/api/v1/merchant/refund', {
+    const response = await fetch('https://merch.biya.com.ng/api/v1/merchant/refund', {
       method: "POST",
       headers: {
         "Accept": "application/json",
