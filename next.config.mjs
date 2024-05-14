@@ -4,7 +4,7 @@ const nextConfig = {
     return [
       {
         source: '/auth/:path*',
-        destination: 'http://http://merch.biya.com.ng:5000/auth/:path*'
+        destination: 'https://https://merch.biya.com.ng/auth/:path*'
       }
     ]
   }
