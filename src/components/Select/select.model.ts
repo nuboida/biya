@@ -1,11 +1,11 @@
 import { ForwardedRef, ReactNode } from "react";
 
-export interface InputProps {
+export interface SelectProps {
    /**
      * Name of the input
      */
    name: string;
-   options?: string[];
+   options: string[];
    /**
    * Label of the input
    */
@@ -26,10 +26,8 @@ export interface InputProps {
     * What to display to the user when there's an error?
     */
    error?: string | undefined;
-   /**
-    * The type of input it is
-    */
-   type?: 'url' | 'text' | 'password' | 'tel' | 'search' | 'number' | 'email' | 'name' | 'date' | 'file'
+
+
    /**
     * How large should the input be?
     */
@@ -37,5 +35,5 @@ export interface InputProps {
    children?: ReactNode;
    forwardRef?: ForwardedRef<HTMLInputElement>;
    initialValue?: string;
-   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+   onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 }

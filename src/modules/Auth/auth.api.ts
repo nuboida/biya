@@ -2,7 +2,7 @@ import { LoginRequest, SignupRequest } from "./auth.models";
 
 const login = async (request: LoginRequest) => {
   try {
-    const response = await fetch('http://merch.biya.com.ng:5000/api/v1/auth/login', {
+    const response = await fetch('/api/auth/login', {
       method: 'POST',
       headers: {
         "Accept": "application/json",
@@ -18,7 +18,7 @@ const login = async (request: LoginRequest) => {
 
 const signup = async (request: SignupRequest) => {
   try {
-    const response = await fetch('http://merch.biya.com.ng:5000/api/v1/auth/', {
+    const response = await fetch('/api/auth/', {
       method: 'POST',
       headers: {
         "Accept": "application/json",

@@ -1,11 +1,12 @@
 "use client"
 
-import React from "react";
+import React, { useContext } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { BiyaIcon } from "@/components/Icon";
 import auth from "@/helpers/auth.helper";
 import { usePathname, useRouter } from "next/navigation";
+import AuthContext from "@/context/authContext";
 
  const menuItems = [
   {
@@ -41,6 +42,7 @@ import { usePathname, useRouter } from "next/navigation";
 ];
 
 const Sidebar = () => {
+  const authContext = useContext(AuthContext);
   const router = useRouter();
   const currentPath = usePathname();
   return (
@@ -79,7 +81,7 @@ const Sidebar = () => {
         <div className="w-[60px] h-[60px] rounded-full mr-[12px] overflow-hidden bg-white">
         </div>
         <div>
-          <h1 className="text-white font-bold mb-2">Chisom Okechukwu</h1>
+          <h1 className="text-white font-bold mb-2">{authContext.user.name}</h1>
           <button className="text-white flex items-center text-xs" onClick={() => {
             auth.clearJWT(() => {
               router.push("/auth/login");

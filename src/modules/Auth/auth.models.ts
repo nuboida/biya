@@ -1,4 +1,4 @@
-import {string, object} from 'yup';
+import {string, object, ObjectSchema} from 'yup';
 
 export interface LoginRequest {
   email: string;
@@ -9,6 +9,8 @@ export const LoginSchema = object().shape({
   email: string().email('Please enter a valid email').required('Email is required.'),
   password: string().required('Password is required.')
 });
+
+
 
 export interface UserData {
   id: string;
@@ -34,6 +36,22 @@ export interface SignupRequest {
   password: string;
   network: string;
 }
+
+export const signUpSchema = object().shape({
+  firstName: string().required('First name is required.'),
+  lastName: string().required('Last name is required.'),
+  businessName: string().required('Business name is required.'),
+  email: string().email('Please enter a valid email').required('Email is required.'),
+  phone: string().matches(/^(?:(?:(?:\+?234(?:\h1)?|01)\h*)?(?:\(\d{3}\)|\d{3})|\d{4})(?:\W*\d{3})?\W*\d{4}$/, 'Please enter a valid nigerian phone number'),
+  password: string()
+    .required('Password is required.')
+    .min(8, 'Password should have at lease 8 characters.')
+    .matches(
+    /^(?=.*?\d)(?=.*?[!\"#$%&'()*+,-./:;<=>?@[\]^_`{|} \\~])/,
+      'Password must include at least one digit and one special character'
+    )
+})
+
 
 export interface LoginState extends LoginRequest {
   error: string;
