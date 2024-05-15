@@ -9,7 +9,6 @@ import { useRouter } from "next/navigation";
 import ToastContext from "@/context/toastContext";
 import { FieldValues, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { BiyaSelect } from "@/components/Select/BiyaSelect";
 
 const SignUp = () => {
 
