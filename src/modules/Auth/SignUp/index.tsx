@@ -40,7 +40,7 @@ const SignUp = () => {
         setIsLoading(false)
       }
       else {
-        router.push(`/auth/validate-email`);
+        router.push(`/auth/validate-email/${data.data.email}`);
       }
     });
   }

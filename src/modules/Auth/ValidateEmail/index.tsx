@@ -6,10 +6,9 @@ import { BiyaIcon } from "@/components/Icon";
 
 interface ValidateProps {
   email: string;
-  phone: string;
 }
 
-const ValidateEmail = () => {
+const ValidateEmail: React.FC<ValidateProps> = ({email}) => {
   return (
     <div className="lg:p-10 2xl:p-28 max-lg:px-5">
       <div className="flex flex-col justify-center items-center gap-10">
@@ -17,7 +16,7 @@ const ValidateEmail = () => {
           <BiyaIcon name="mail"/>
         </div>
         <div className="flex flex-col justify-center items-center gap-1">
-          <h4 className="text-lg font-bold">An Email has been sent to you</h4>
+          <h4 className="text-lg">An Email has been sent to <span className="font-bold">{email}</span></h4>
           <p>Check your Email and click the link to activate.</p>
         </div>
       </div>
