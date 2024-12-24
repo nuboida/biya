@@ -1,12 +1,14 @@
 "use client"
 
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { BiyaIcon } from "@/components/Icon";
 import auth from "@/helpers/auth.helper";
 import { usePathname, useRouter } from "next/navigation";
 import AuthContext from "@/context/authContext";
+import { getEmployee } from "../layout.api";
+import { ErrorResponse, UserResponse } from "../layout.model";
 
  const menuItems = [
   {
@@ -42,9 +44,27 @@ import AuthContext from "@/context/authContext";
 ];
 
 const Sidebar = () => {
-  const authContext = useContext(AuthContext);
+  const [user, setUser] = useState<UserResponse>({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    merchants: []
+  })
   const router = useRouter();
   const currentPath = usePathname();
+  const token = auth.isAuthenticated();
+  const {userId} = useContext(AuthContext);
+
+  useEffect(() => {
+    getEmployee(token, userId).then((res: UserResponse | ErrorResponse) => {
+      if ('error' in res) {
+        console.log(res.error)
+      } else {
+        setUser(res);
+      }
+    })
+  }, [])
   return (
     <aside
       className="absolute left-0 top-0 z-9999 flex h-screen w-80 flex-col overflow-y-hidden bg-primary lg:static"
@@ -81,7 +101,7 @@ const Sidebar = () => {
         <div className="w-[60px] h-[60px] rounded-full mr-[12px] overflow-hidden bg-white">
         </div>
         <div>
-          <h1 className="text-white font-bold mb-2">{authContext.user.name}</h1>
+          <h1 className="text-white font-bold mb-2">{`${user.firstName} ${user.lastName}`}</h1>
           <button className="text-white flex items-center text-xs" onClick={() => {
             auth.clearJWT(() => {
               router.push("/auth/login");

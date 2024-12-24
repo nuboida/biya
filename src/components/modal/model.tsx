@@ -31,6 +31,7 @@
    * @description Modal subtitle
    **/
   subtitle?: string;
+  disabled?: boolean;
 
   /**
    * Modal action
@@ -43,6 +44,7 @@
    * @note This is a function that will be called when the action button is clicked
    **/
   action?: () => void;
+  cancel?: () => void;
 
   /**
    * Modal action name

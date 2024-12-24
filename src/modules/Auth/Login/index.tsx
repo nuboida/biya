@@ -1,10 +1,10 @@
 "use client";
 
-import React, { ChangeEvent, useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { BiyaButton } from "@/components/BiyaButton";
 import { BiyaInput } from "@/components/BiyaInput";
 import Link from "next/link";
-import { ErrorResponse, LoginRequest, LoginResponse, LoginSchema, LoginState } from "../auth.models";
+import { LoginRequest, LoginSchema } from "../auth.models";
 import { login } from "../auth.api";
 import useLocalStorage from "@/hooks/useLocalStorage";
 import { useRouter } from "next/navigation";
@@ -13,43 +13,29 @@ import { FieldValues, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 const Login = () => {
-  const [auth, setAuth] = useLocalStorage<LoginResponse>('user', {
-    status: "",
-    message: "",
-    code: 0,
-    data: {
-      id: "",
-      email: "",
-      name: "",
-      phone: "",
-      verifyEmail: false,
-      authToken: ""
-    }
-  });
+  const [auth, setAuth] = useLocalStorage<string>('user', '');
   const router = useRouter();
   const toast = useContext(ToastContext);
-  const {register, handleSubmit, formState: { errors }} = useForm({
+  const {register, handleSubmit } = useForm({
     mode: 'onChange',
-    resolver: yupResolver(LoginSchema)
+    // resolver: yupResolver(LoginSchema)
   })
   const [isLoading, setIsLoading] = useState(false);
 
-  const onSubmit = (data: FieldValues): void => {
+  const onSubmit = (req: FieldValues): void => {
     setIsLoading(true);
 
-    login(data as LoginRequest).then((data: LoginResponse) => {
-      if(!data) {
-        toast.error("Something went wrong, please try again later");
-        setIsLoading(false)
-      } else if(data.status ==='error') {
-        toast.error("Incorrect Username or Password");
+    login(req as LoginRequest).then((res) => {
+      if('error' in res) {
+        toast.error(res.error);
         setIsLoading(false)
       }
       else {
-        setAuth(data)
+        setAuth(res.token)
         router.push("/");
       }
     })
+
   }
 
   return (
@@ -60,16 +46,15 @@ const Login = () => {
         <div className="mt-10 grid grid-cols-6 lg:gap-8 2xl:gap-12 max-lg:flex max-lg:flex-col">
           <BiyaInput
             name="email"
-            type="email"
+            type="text"
             required
             label="Email"
-            error={errors?.email?.message}
             register={register('email')}
           />
           <BiyaInput
             name="password"
             type="password"
-            error={errors?.password?.message}
+            //error={errors?.password?.message}
             required
             label="Password"
             register={register('password')}

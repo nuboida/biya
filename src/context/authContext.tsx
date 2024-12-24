@@ -1,27 +1,26 @@
 "use client";
 
 import auth from "@/helpers/auth.helper";
-import { UserData } from "@/modules/Auth/auth.models";
+import { ErrorResponse } from "@/modules/Auth/auth.models";
+import { getEmployee } from "@/modules/Dashboard/dashboard.api";
 import { jwtDecode } from "jwt-decode";
 import { useRouter } from "next/navigation";
 import React, { ReactNode, useEffect, useState, createContext } from "react";
 
 
 interface AuthContextModel {
-  user: UserData;
-  userToken: string;
+  userId: string;
+  merchantId: string;
+}
+
+interface UserToken {
+  _id: string;
+  merchantId: string;
 }
 
 const AuthContext = createContext<AuthContextModel>({
-  user: {
-    id: "",
-    email: "",
-    name: "",
-    phone: "",
-    verifyEmail: false,
-    authToken: ""
-  },
-  userToken: ''
+  userId: '',
+  merchantId: '',
 })
 
 interface Props {
@@ -30,37 +29,36 @@ interface Props {
 
 const AuthGuard = ({children}: Props) => {
   const router = useRouter();
-  const [userToken, setUserToken] = useState('')
-  const user = auth.isAuthenticated()['data'];
+  const [userId, setUserId] = useState('');
+  const [merchantId, setMerchantId] = useState('');
+  const token = auth.isAuthenticated();
 
   useEffect(() => {
-    if(!user) {
+    if(!token) {
       router.push("/auth/login");
     }
 
-    if(user) {
-      const token = user['authToken'];
       if(token) {
         if(jwtDecode(token).exp! < Date.now() / 1000) {
           sessionStorage.clear()
           router.push("/auth/login");
         } else {
-          setUserToken(token);
+          setUserId(jwtDecode<UserToken>(token)._id);
+          setMerchantId(jwtDecode<UserToken>(token).merchantId)
         }
       } else {
         router.push('/auth/login')
       }
-    }
-  }, [user, router]);
+  }, [token]);
 
 
   return (
     <AuthContext.Provider value={{
-      user,
-      userToken
+      userId: userId,
+      merchantId: merchantId,
     }}>
       <>
-        {userToken ? children : <></>}
+        {userId ? children : <></>}
       </>
     </AuthContext.Provider>
   )

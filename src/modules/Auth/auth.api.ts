@@ -1,6 +1,6 @@
-import { LoginRequest, SignupRequest } from "./auth.models";
+import { ErrorResponse, LoginRequest, LoginResponse, SignupRequest, SignupResponse } from "./auth.models";
 
-const login = async (request: LoginRequest) => {
+const login = async (request: LoginRequest): Promise<LoginResponse | ErrorResponse> => {
   try {
     const response = await fetch('/api/auth/login', {
       method: 'POST',
@@ -10,15 +10,20 @@ const login = async (request: LoginRequest) => {
       },
       body: JSON.stringify(request)
     });
-    return await response.json()
+    const data: LoginResponse | ErrorResponse | null = await response.json()
+    if (!data) throw new Error('Something went wrong');
+    return data;
   } catch (err) {
-    console.log(err)
+    if (err instanceof Error) {
+      throw new Error(err.message)
+    }
+    throw new Error('Something went wrong');
   }
 }
 
-const signup = async (request: SignupRequest) => {
+const signup = async (request: SignupRequest): Promise<SignupResponse | ErrorResponse> => {
   try {
-    const response = await fetch('/api/auth/', {
+    const response = await fetch('/api/auth/register', {
       method: 'POST',
       headers: {
         "Accept": "application/json",
@@ -26,9 +31,14 @@ const signup = async (request: SignupRequest) => {
       },
       body: JSON.stringify(request)
     });
-    return await response.json()
+    const data: SignupResponse | ErrorResponse | null = await response.json();
+    if (!data) throw new Error("Something went wrong");
+    return data;
   } catch (err) {
-    console.log(err)
+    if (err instanceof Error) {
+      throw new Error(err.message);
+    }
+    throw new Error('Something went wrong');
   }
 }
 

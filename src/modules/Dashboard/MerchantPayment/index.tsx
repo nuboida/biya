@@ -17,7 +17,7 @@ export const MerchantRequestModal: React.FC<PaymentModalProps> = ({onClose}) => 
     orderId: '',
   });
   const [error, setError] = useState('');
-  const {userToken} = useContext(AuthContext);
+  const {token: userToken} = useContext(AuthContext);
   const toast = useContext(ToastContext);
 
 

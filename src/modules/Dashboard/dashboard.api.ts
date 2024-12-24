@@ -1,8 +1,24 @@
-import { MerchantPaymentRequest, RefundCustomerRequest } from "./dashboard.models";
+import { MerchantPaymentRequest,  RefundRequest, WithdrawFundsRequest } from "./dashboard.models";
 
-const getWalletBalance = async (token: string) => {
+const getEmployee = async (token: string, employeeId: string) => {
   try {
-    const response = await fetch('/api/merchant/wallet-balance', {
+    const response = await fetch(`/api/employee/${employeeId}`, {
+      method: "GET",
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      }
+    });
+    return await response.json();
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+const getWalletBalance = async (token: string, merchantId: string) => {
+  try {
+    const response = await fetch(`/api/merchants/${merchantId}/wallet-balance`, {
       method: "GET",
       headers: {
         "Accept": "application/json",
@@ -16,9 +32,9 @@ const getWalletBalance = async (token: string) => {
   }
 };
 
-const getWalletTransactions = async (token: string) => {
+const getPaymentRequests = async (token: string, merchantId: string) => {
   try {
-    const response = await fetch('/api/merchant/payment-requests', {
+    const response = await fetch(`/api/merchants/${merchantId}/payment-requests`, {
       method: "GET",
       headers: {
         "Accept": "application/json",
@@ -32,9 +48,9 @@ const getWalletTransactions = async (token: string) => {
   }
 }
 
-const merchantRequestPayment = async (request: MerchantPaymentRequest, token: string) => {
+const merchantRequestPayment = async (request: MerchantPaymentRequest, token: string, merchantId: string) => {
   try {
-    const response = await fetch('/api/merchant/request-payment', {
+    const response = await fetch(`/api/merchants/${merchantId}/request-payment`, {
       method: "POST",
       headers: {
         "Accept": "application/json",
@@ -49,9 +65,26 @@ const merchantRequestPayment = async (request: MerchantPaymentRequest, token: st
   }
 }
 
-const refundCustomer = async (request: RefundCustomerRequest, token: string) => {
+const refundCustomerRequest = async (token: string, merchantId: string, request: RefundRequest) => {
   try {
-    const response = await fetch('/api/merchant/refund', {
+    const response = await fetch(`/api/merchants/${merchantId}/refund`, {
+      method: 'POST',
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      },
+      body: JSON.stringify(request)
+    });
+    return await response.json();
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+const withdrawFunds = async (token: string, merchantId: string, request: WithdrawFundsRequest) => {
+  try {
+    const response = await fetch(`api/merchants/${merchantId}/withdraw`, {
       method: "POST",
       headers: {
         "Accept": "application/json",
@@ -60,17 +93,19 @@ const refundCustomer = async (request: RefundCustomerRequest, token: string) => 
       },
       body: JSON.stringify(request)
     });
-    return await response.json()
-  } catch (err) {
-    console.log(err);
+    return await response.json();
+  } catch (error) {
+    console.log(error)
   }
 }
 
 
 
 export {
+  getEmployee,
   getWalletBalance,
-  getWalletTransactions,
+  getPaymentRequests,
   merchantRequestPayment,
-  refundCustomer
+  refundCustomerRequest,
+  withdrawFunds
 }

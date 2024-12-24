@@ -21,10 +21,14 @@ export interface UserData {
   authToken: string;
 }
 export interface LoginResponse {
-  status: string;
-  message: string;
-  code: number;
-  data: UserData
+  token: string
+}
+
+export interface SignupResponse {
+  signupKey: string;
+}
+export interface ErrorResponse {
+  error: string;
 }
 
 export interface SignupRequest {

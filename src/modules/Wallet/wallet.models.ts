@@ -1,11 +1,4 @@
-interface GlobalResponse {
-  status: string;
-  message: string;
-  code: number;
-}
-
 export interface WalletTransactions {
-  _id: string;
   userId: string;
   transactionType: string;
   reference: string;
@@ -15,19 +8,26 @@ export interface WalletTransactions {
   modelId: string;
   createdAt: string;
   updatedAt: string;
-  customer: {
-    _id: string;
-    name: string;
-    email: string;
-  }
 }
 
-export interface WalletTransactionsResponse extends GlobalResponse {
-  data: WalletTransactions[];
+export interface ErrorResponse {
+  error: string;
 }
 
-export interface WalletBalanceResponse extends GlobalResponse {
-  data: {
-    balance: number;
-  }
+export interface WalletBalanceResponse {
+  balance: number;
+}
+
+export interface PaymentRequestsResponse  {
+  merchantId: string;
+  customerId: string;
+  orderId: string;
+  amount: number;
+  reference: string;
+  status: string;
+  createdAt: Date;
+}
+
+export interface RefundResponse {
+  message: string;
 }

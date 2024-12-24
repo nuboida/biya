@@ -1,63 +1,87 @@
 import { BiyaInput } from '@/components/BiyaInput';
 import Modal from '@/components/modal';
 import React, { ChangeEvent, useContext, useState } from 'react';
-import { RefundCustomerRequest, RefundCustomerResponse } from '../dashboard.models';
-import { refundCustomer } from '../dashboard.api';
+import { ErrorResponse, GeneralResponse, RefundCustomerResponse } from '../../Dashboard/dashboard.models';
 import AuthContext from '@/context/authContext';
 import ToastContext from '@/context/toastContext';
+import auth from '@/helpers/auth.helper';
+import { refundCustomerRequest } from '../dashboard.api';
 
 
 interface RefundCustomerModalProps {
   onClose: () => void;
+  orderId: string;
+  customer: string;
+  amount: number;
 }
 
-export const RefundCustomerModal: React.FC<RefundCustomerModalProps> = ({onClose}) => {
-  const [refundCredentials, setRefundCredentials] = useState<RefundCustomerRequest>({
-    customerId: '',
-    amount: 0,
-    orderId: '',
-  });
+export const RefundCustomerModal: React.FC<RefundCustomerModalProps> = ({onClose, orderId, customer, amount}) => {
+  const [refundAmount, setRefundAmount] = useState<number>(0);
   const [error, setError] = useState('');
-  const {userToken} = useContext(AuthContext);
   const toast = useContext(ToastContext);
+  const token = auth.isAuthenticated();
+  const {merchantId} = useContext(AuthContext);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
-
-  const handlePayment = () => {
-    refundCustomer(refundCredentials, userToken).then((data: RefundCustomerResponse) => {
-      if(!data) {
-        toast.error("Something went wrong, Please try again later");
-        onClose()
-      } else if(data.status === 'error') {
-        toast.error(data.message);
-        setRefundCredentials({...refundCredentials});
-        setError(data.message)
-        onClose();
-      } else {
-        setError('');
-        onClose();
+  const handleRefund = () => {
+    try {
+      let refundCredential = {
+        orderId,
+        customerId: customer,
+        amount: refundAmount
       }
-    })
+
+      refundCustomerRequest(token, merchantId, refundCredential).then((res: GeneralResponse | ErrorResponse) => {
+        setIsLoading(true);
+        if ('error' in res) {
+          toast.error(res.error);
+          setIsLoading(false);
+          onClose();
+        } else {
+          toast.success(res.message);
+          setIsLoading(false);
+          onClose();
+        }
+      })
+
+    } catch (error) {
+      console.log(error);
+      onClose();
+    }
   }
 
+
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setRefundCredentials({...refundCredentials, [event.target.name]: event.target.value})
+    setRefundAmount(Number(event.target.value))
+    if (refundAmount > amount) {
+      setError("Refund amount should not be greater than request amount");
+    } else {
+      setError('');
+    }
   }
 
   return (
     <>
       <Modal
         title='Refund Customer'
-        action={() => handlePayment()}
+        action={() => {handleRefund()}}
         actionName='Submit'
         onModalClose={() => onClose()}
         size='large'
+        loading={isLoading}
+        disabled={!!error}
       >
         <div className='px-28 mt-6'>
-          <BiyaInput name='customerId' label='Customer ID' onChange={handleChange}/>
-          <BiyaInput name='amount' label='Amount' onChange={handleChange}/>
-          <BiyaInput name='orderId' label='Order ID' onChange={handleChange}/>
+          <BiyaInput
+          name='amount'
+          label='Amount'
+          onChange={handleChange}
+          error={error}
+          />
         </div>
+
       </Modal>
     </>
   )
 }
+

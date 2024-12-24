@@ -2,31 +2,38 @@ export interface DashboardLayoutProps {
   name: string;
 }
 
-interface GlobalResponse {
-  status: string;
-  message: string;
-  code: number;
+export interface ErrorResponse {
+  error: string;
 }
 
-export interface WalletResponse extends GlobalResponse {
-  data: {
-    balance: number
-  }
+export interface WalletResponse {
+  balance: number
 };
 
 export interface WalletTransactions {
-    _id: string;
-    merchantId: string;
-    customerId: string;
-    amount: number;
-    orderId: string;
-    reference: string;
-    status: string;
-    createdAt: string;
-    updatedAt: string;
+  userId: string;
+  transactionType: string;
+  reference: string;
+  balance: number;
+  difference: number;
+  modelResponsible: string;
+  modelId: string;
+  createdAt: Date
 }
-export interface WalletTransactionsResponse extends GlobalResponse {
-  data: WalletTransactions[];
+export interface PaymentRequestsResponse  {
+  merchantId: string;
+  requestBy: {
+    id: string;
+    firstName: string;
+    lastName: string;
+  };
+  customerId: string;
+  orderId: string;
+  amount: number;
+  reference: string;
+  refund: number;
+  status: string;
+  createdAt: Date;
 }
 
 export interface MerchantPaymentRequest {
@@ -35,21 +42,23 @@ export interface MerchantPaymentRequest {
   orderId: string;
 }
 
-export interface RefundCustomerRequest extends MerchantPaymentRequest {
-
+export interface RefundRequest {
+  customerId: string;
+  orderId: string;
+  amount: number;
 }
-export interface MerchantPaymentResponse extends GlobalResponse {
-  data: {
-    merchantId: string;
-    customerId: string;
-    amount: number;
-    orderId: string;
-    reference: string;
-    status: string;
-    _id: string;
-    createdAt: string;
-    updatedAT: string;
-  }
+
+export interface WithdrawFundsRequest {
+  amount: number;
+  reason: string;
+}
+
+export interface MerchantPaymentResponse {
+  message: string;
+}
+
+export interface GeneralResponse {
+  message: string;
 }
 
 export interface RefundCustomerResponse extends MerchantPaymentResponse {}

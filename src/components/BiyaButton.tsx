@@ -40,7 +40,26 @@ export const BiyaButton = ({
 }: ButtonProps) => {
   return (
     <button onClick={onClick}
-    className="font-bold border-0 rounded-md inline-flex items-center justify-center text-white bg-primary active:bg-activePrimary py-[13px] px-[32px] gap-2 w-[165px] h-[43px] disabled:bg-gray-300" disabled={disabled}>
+    className={`
+    font-semiBold
+    border-0
+    rounded-md
+    inline-flex
+    items-center
+    justify-center
+    text-white
+    text-sm
+    text-nowrap
+    active:bg-activePrimary
+    py-4
+    px-[32px]
+    gap-2
+    w-[165px]
+    h-[43px]
+    disabled:bg-gray-300
+      ${size === 'small' ? 'w-20 h-9' : 'text-sm w-40 h-10'}
+      ${!primary ? 'bg-secondary' : 'bg-primary'}
+    `} disabled={disabled}>
       { loading ? <div className="lds-ring"><div></div><div></div><div></div><div></div></div> : label }
     </button>
   )

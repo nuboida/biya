@@ -13,6 +13,7 @@ const Modal = ({
   size = 'regular',
   actionName = '',
   loading = false,
+  disabled = false,
   ...props
 }: ModalProps) => {
   const modalContentSize = {
@@ -37,7 +38,9 @@ const Modal = ({
         </div>
         {children}
         <div className="mt-6 flex justify-end p-10">
-          {action && <BiyaButton loading={loading} onClick={action} label={actionName} />}
+          {action && <div>
+            <BiyaButton loading={loading} onClick={action} label={actionName} disabled={disabled} />
+            </div>}
         </div>
       </div>
     </div>

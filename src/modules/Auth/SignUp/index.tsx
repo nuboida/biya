@@ -3,7 +3,7 @@ import React, { ChangeEvent, useContext, useEffect, useState } from "react";
 import Link from "next/link";
 import { BiyaButton } from "@/components/BiyaButton";
 import { BiyaInput } from "@/components/BiyaInput";
-import { SignupRequest, SignupState, signUpSchema } from "../auth.models";
+import { ErrorResponse, SignupRequest, SignupResponse, SignupState, signUpSchema } from "../auth.models";
 import { signup } from "../auth.api";
 import { useRouter } from "next/navigation";
 import ToastContext from "@/context/toastContext";
@@ -28,20 +28,15 @@ const SignUp = () => {
     setIsLoading(true);
     const signupRequest = {
       ...data,
-      network: 'MTN'
     }
 
-    signup(signupRequest as SignupRequest).then((data: any) => {
-      if(!data) {
-        toast.error("Something went wrong, please try again later");
-        setIsLoading(false)
-      } else if(data.status ==='error') {
-        toast.error(data.message);
-        setIsLoading(false)
-      }
-      else {
-        router.push(`/auth/validate-email/${data.data.email}`);
-      }
+    signup(signupRequest as SignupRequest).then((res: SignupResponse | ErrorResponse ) => {
+     if ('error' in res) {
+      toast.error(res.error);
+      setIsLoading(false);
+     } else {
+      router.push(`/auth/validate-email/${signupRequest.email}`);
+     }
     });
   }
 
@@ -85,7 +80,7 @@ const SignUp = () => {
         />
           <BiyaInput
             name="phone"
-            type="tel"
+            type="text"
             required
             label="Phone Number"
             error={errors?.phone?.message}
@@ -101,7 +96,7 @@ const SignUp = () => {
         />
         </div>
         <div className="py-10">
-          <BiyaButton loading={isLoading} label="Sign Up" />
+          <BiyaButton loading={isLoading} label="Submit" />
         </div>
       </form>
     </div>
