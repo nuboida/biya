@@ -11,6 +11,9 @@ export interface WalletResponse {
 };
 
 export interface WalletTransactions {
+  amount: number;
+  customerId: string;
+  status: string;
   userId: string;
   transactionType: string;
   reference: string;
