@@ -21,15 +21,15 @@ const nextConfig = {
     ] : [
       {
         source: '/api/auth/login',
-        destination: 'https://merch.biyabot.com.ng/api/v1/auth/login'
+        destination: 'https://merch.biya.com.ng/api/v1/auth/login'
       },
       {
         source: '/api/auth',
-        destination: 'https://merch.biyabot.com.ng/api/v1/auth'
+        destination: 'https://merch.biya.com.ng/api/v1/auth'
       },
       {
         source: '/api/merchant/:path*',
-        destination: 'https://merch.biyabot.com.ng/api/v1/merchant/:path*'
+        destination: 'https://merch.biya.com.ng/api/v1/merchant/:path*'
       }
     ];
   }
