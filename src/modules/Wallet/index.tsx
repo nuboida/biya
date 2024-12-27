@@ -64,7 +64,7 @@ const Wallet = () => {
             <tr>
               <th className="text-left px-6 py-5">Reference</th>
               <th className="text-center px-6 py-5">Transaction Type</th>
-              <th className="text-center px-6 py-5">Amount</th>
+              <th className="text-left px-6 py-5">Amount</th>
               <th className="text-center px-6 py-5">Date</th>
             </tr>
           </thead>
@@ -74,7 +74,7 @@ const Wallet = () => {
               <tr key={`tableData${i}`} className={`${i%2==1 ? 'bg-sky-50': ''}`}>
                 <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap py-7 text-left flex items-center"><a className="text-blue cursor-pointer">{data.reference}</a></td>
                 <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap py-7 text-center capitalize">{((data.transactionType).replace(/([a-z0-9])([A-Z])/g, '$1 $2'))}</td>
-                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap py-7 text-center"><span className="pr-2">&#x20A6;</span>{data.difference}</td>
+                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap py-7 text-left"><span className="pr-2">&#x20A6;</span><span className={String(data.difference).includes("-") ? "text-red" : "text-green"}>{String(data.difference).includes("-") ? convertKoboToNaira(Number(String(data.difference).replace("-", ""))) : convertKoboToNaira(data.difference)}</span></td>
                 <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap py-7 text-center">{format(data.createdAt, 'dd/MM/yyyy')}</td>
               </tr>
               ))
