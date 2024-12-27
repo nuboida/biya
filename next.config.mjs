@@ -25,7 +25,7 @@ const nextConfig = {
       },
       {
         source: '/api/merchants/:merchantId/:path*',
-        destination: 'https://merch.biya.com.ng/api/v1/merchant/:merchatId/:path*'
+        destination: 'https://merch.biya.com.ng/api/v1/merchants/:merchantId/:path*'
       }
     ];
   }
