@@ -21,7 +21,7 @@ const nextConfig = {
       },
       {
         source: '/api/employee/:employeeId',
-        destination: 'https//merch.biya.com.ng/api/v1/employees/:employeeId'
+        destination: 'https://merch.biya.com.ng/api/v1/employees/:employeeId'
       },
       {
         source: '/api/merchants/:merchantId/:path*',
