@@ -7,10 +7,6 @@ const nextConfig = {
         destination: 'http://172.208.53.166:5000/api/v1/auth/:path*'
       },
       {
-        source: '/auth',
-        destination: 'http://172.208.53.166:5000/api/v1/auth'
-      },
-      {
         source: '/api/employee/:employeeId',
         destination: 'http://172.208.53.166:5000/api/v1/employees/:employeeId'
       },
@@ -20,16 +16,16 @@ const nextConfig = {
       }
     ] : [
       {
-        source: '/api/auth/login',
-        destination: 'https://merch.biya.com.ng/api/v1/auth/login'
+        source: '/api/auth/:path*',
+        destination: 'https://merch.biya.com.ng/api/v1/auth/:path*'
       },
       {
-        source: '/api/auth',
-        destination: 'https://merch.biya.com.ng/api/v1/auth'
+        source: '/api/employee/:employeeId',
+        destination: 'https//merch.biya.com.ng/api/v1/employees/:employeeId'
       },
       {
-        source: '/api/merchant/:path*',
-        destination: 'https://merch.biya.com.ng/api/v1/merchant/:path*'
+        source: '/api/merchants/:merchantId/:path*',
+        destination: 'https://merch.biya.com.ng/api/v1/merchant/:merchatId/:path*'
       }
     ];
   }
