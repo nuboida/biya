@@ -97,7 +97,7 @@ const Dashboard = ({name: string}: DashboardLayoutProps) => {
       <div className=" flex justify-between items-center dashboard lg:col-span-7 row-span-1 rounded border border-stroke bg-primary px-5 pb-5 pt-7 2xl:col-span-8">
         <div className="flex flex-col flex-wrap items-start justify-between gap-3 pl-8 pb-8">
           <h6 className="text-white text-l font-Roobert font-thin tracking-[4px]">WALLET BALANCE</h6>
-          <h1 className="text-white text-5xl font-extrabold"><span className="pr-2">&#x20A6;</span>{walletBalance ? convertKoboToNaira(walletBalance) : '--'}</h1>
+          <h1 className="text-white text-5xl font-extrabold"><span className="pr-2">&#x20A6;</span>{typeof walletBalance !== 'number' ? '--' : convertKoboToNaira(walletBalance)}</h1>
         </div>
         <div>
           <BiyaButton label="withdraw" primary={false} onClick={() => setShowWithdrawModal(true)} />

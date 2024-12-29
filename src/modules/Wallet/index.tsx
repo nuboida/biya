@@ -54,7 +54,7 @@ const Wallet = () => {
       <div className="dashboard rounded border border-stroke bg-primary px-5 pb-5 pt-7 mb-5">
         <div className="flex flex-col flex-wrap items-start justify-between gap-3 pl-8 pb-12">
           <h6 className="text-white text-l font-Roobert font-thin tracking-[4px]">WALLET BALANCE</h6>
-          <h1 className="text-white text-5xl font-extrabold"><span className="pr-2">&#x20A6;</span>{walletBalance ? convertKoboToNaira(walletBalance) : '--'}</h1>
+          <h1 className="text-white text-5xl font-extrabold"><span className="pr-2">&#x20A6;</span>{typeof walletBalance !== 'number' ? '--' : convertKoboToNaira(walletBalance)}</h1>
         </div>
       </div>
 
