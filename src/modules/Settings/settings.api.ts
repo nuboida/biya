@@ -1,4 +1,4 @@
-import { AddEmployeeRequest } from "./settings.model";
+import { AddEmployeeRequest, BankValidationRequest } from "./settings.model";
 
 const getMerchant = async (token: string, merchantId: string, signal: AbortSignal) => {
   try {
@@ -67,9 +67,44 @@ const removeEmployee = async (token: string, merchantId: string, employeeId: num
   }
 }
 
+const getBanks = async (token: string) => {
+  try {
+    const response = await fetch(`api/banks`, {
+      method: "GET",
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      }
+    });
+    return response.json();
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+const validateBank = async (token: string, merchantId: string, request: BankValidationRequest) => {
+  try {
+    const response = await fetch(`api/merchants/${merchantId}/validate-bank`, {
+      method: "POST",
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      },
+      body: JSON.stringify(request)
+    })
+    return response.json();
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 export {
   getMerchant,
   addEmployeeRequest,
   getRoles,
-  removeEmployee
+  removeEmployee,
+  getBanks,
+  validateBank
 }

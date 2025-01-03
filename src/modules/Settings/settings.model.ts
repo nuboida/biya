@@ -34,3 +34,13 @@ export interface AddEmployeeRequest {
 export interface GeneralResponse {
   message: string;
 }
+
+export interface BankValidationRequest {
+  country: string;
+  type: string;
+  account_number: string;
+  bvn: string;
+  bank_code: string;
+  first_name: string;
+  last_name: string;
+}

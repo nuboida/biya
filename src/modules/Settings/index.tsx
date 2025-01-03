@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import { getMerchant, getRoles } from './settings.api';
+import { getBanks, getMerchant, getRoles } from './settings.api';
 import auth from '@/helpers/auth.helper';
 import AuthContext from '@/context/authContext';
 import { ErrorResponse, GetMerchantResponse, RolesResponse } from './settings.model';
@@ -7,6 +7,8 @@ import ToastContext from '@/context/toastContext';
 import { BiyaButton } from '@/components/BiyaButton';
 import { AddEmployeeModal } from './AddEmployeeModal';
 import { RemoveEmployeeModal } from './RemoveEmployeeModal';
+import { DropdownProps } from '@/components/models/dropdown.models';
+import ValidateBankModal from './ValidateBankModal';
 
 const Settings = () => {
 
@@ -22,6 +24,7 @@ const Settings = () => {
   const [merchantLoading, setMerchantLoading] = useState<boolean>(false);
   const [owner, setOwner] = useState({})
   const [showAddEmployeeModal, setShowAddEmployeeModal] = useState<boolean>(false);
+  const [showBankValidateModal, setShowValidateModal] = useState<boolean>(false);
   const [employeeToRemove, setEmployeeToRemove] = useState<{fullName: string, employeeId: number}>({
     fullName: '',
     employeeId: 0
@@ -30,7 +33,8 @@ const Settings = () => {
   const [roles, setRoles] = useState<RolesResponse[]>([]);
   const abortControllerRef = useRef(new AbortController());
   const [keyValue, setKeyValue] = useState<number>(0);
-  const [error, setError] = useState('')
+  const [error, setError] = useState('');
+  const [bankOptions, setBankOptions] = useState([]);
 
   const filterRoles = (id: string) => {
     return roles.filter(role => id === role.employee)[0]?.role
@@ -56,6 +60,20 @@ const Settings = () => {
         setRoles(res)
       }
     });
+
+    getBanks(token).then((res) => {
+      if ('error' in res) {
+        toast.error(res.error)
+      } else {
+       const bankValues =  res.data.map((bank: any) => {
+          return {
+            label: bank.name,
+            value: bank.code
+          }
+        });
+        setBankOptions(bankValues);
+      }
+    })
   }, [error]);
 
   if (error) {
@@ -68,9 +86,13 @@ const Settings = () => {
     return (
       <>
       {showAddEmployeeModal && <AddEmployeeModal onClose={() => setShowAddEmployeeModal(false)} />}
-        {showRemoveModal && <RemoveEmployeeModal onClose={() => setRemoveModal(false)} employeeId={employeeToRemove.employeeId} fullName={employeeToRemove.fullName} />}
+      {showRemoveModal && <RemoveEmployeeModal onClose={() => setRemoveModal(false)} employeeId={employeeToRemove.employeeId} fullName={employeeToRemove.fullName} />}
+      {showBankValidateModal && <ValidateBankModal onClose={() => setShowValidateModal(false)} banks={bankOptions} />}
 
-        <div className='flex justify-end mt-20 mb-2'>
+        <div className='flex justify-end mt-20 mb-2 gap-2'>
+          <div>
+            <BiyaButton label='Validate Merchant Bank' onClick={() => setShowValidateModal(true)} />
+          </div>
           <div>
             <BiyaButton label='Add Employee' onClick={() => setShowAddEmployeeModal(true)} />
           </div>

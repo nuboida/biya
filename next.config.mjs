@@ -13,7 +13,11 @@ const nextConfig = {
       {
         source: '/api/merchants/:merchantId/:path*',
         destination: 'http://172.208.53.166:5000/api/v1/merchants/:merchantId/:path*'
-      }
+      },
+      {
+        source: '/api/:path*',
+        destination: 'http://172.208.53.166:5000/api/v1/:path*'
+      },
     ] : [
       {
         source: '/api/auth/:path*',
@@ -26,7 +30,11 @@ const nextConfig = {
       {
         source: '/api/merchants/:merchantId/:path*',
         destination: 'https://merch.biya.com.ng/api/v1/merchants/:merchantId/:path*'
-      }
+      },
+      {
+        source: "/api/:path*",
+        destination: "http://merch.biya.com.ng/api/v1/:path*"
+      },
     ];
   }
 };
