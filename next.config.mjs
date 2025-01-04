@@ -32,8 +32,8 @@ const nextConfig = {
         destination: 'https://merch.biya.com.ng/api/v1/merchants/:merchantId/:path*'
       },
       {
-        source: "/api/:path*",
-        destination: "http://merch.biya.com.ng/api/:path*"
+        source: "/api/banks",
+        destination: "http://merch.biya.com.ng/api/v1/banks"
       },
     ];
   }
