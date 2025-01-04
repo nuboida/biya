@@ -33,7 +33,7 @@ const nextConfig = {
       },
       {
         source: "/api/:path*",
-        destination: "http://merch.biya.com.ng/api/v1/:path*"
+        destination: "http://merch.biya.com.ng/api/:path*"
       },
     ];
   }
