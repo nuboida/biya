@@ -100,11 +100,28 @@ const validateBank = async (token: string, merchantId: string, request: BankVali
   }
 }
 
+const getMerchantAccounts = async (token: string, merchantId: string) => {
+  try {
+    const response = await fetch(`api/merchants/${merchantId}/get-accounts`, {
+      method : "GET",
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      }
+    });
+    return response.json();
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 export {
   getMerchant,
   addEmployeeRequest,
   getRoles,
   removeEmployee,
   getBanks,
-  validateBank
+  validateBank,
+  getMerchantAccounts
 }

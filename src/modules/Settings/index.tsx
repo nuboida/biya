@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import { getBanks, getMerchant, getRoles } from './settings.api';
+import { getBanks, getMerchant, getMerchantAccounts, getRoles } from './settings.api';
 import auth from '@/helpers/auth.helper';
 import AuthContext from '@/context/authContext';
 import { ErrorResponse, GetMerchantResponse, RolesResponse } from './settings.model';
@@ -34,7 +34,8 @@ const Settings = () => {
   const abortControllerRef = useRef(new AbortController());
   const [keyValue, setKeyValue] = useState<number>(0);
   const [error, setError] = useState('');
-  const [bankOptions, setBankOptions] = useState([]);
+  const [bankOptions, setBankOptions] = useState<{label: string, value: string}[]>([]);
+  const [merchantAccounts, setMerchantAccounts] = useState<{accountNumber: string, bankCode: string}[]>([]);
 
   const filterRoles = (id: string) => {
     return roles.filter(role => id === role.employee)[0]?.role
@@ -73,7 +74,16 @@ const Settings = () => {
         });
         setBankOptions(bankValues);
       }
+    });
+
+    getMerchantAccounts(token, merchantId).then((res) => {
+      if ('error' in res) {
+        toast.error(res.error)
+      } else {
+        setMerchantAccounts(res.accounts);
+      }
     })
+
   }, [error]);
 
   if (error) {
@@ -96,6 +106,27 @@ const Settings = () => {
           <div>
             <BiyaButton label='Add Employee' onClick={() => setShowAddEmployeeModal(true)} />
           </div>
+        </div>
+        <div>
+          <h1 className='text-lg font-semibold'>Merchant Accounts</h1>
+          <ul>
+            {
+              merchantAccounts.map((account, i) => (
+                <li key={i} className='mb-4'>
+                  <h6 className='leading-normal text-sm'>
+                    {bankOptions.map((bank) => {
+                      if (bank.value === account.bankCode) {
+                        return bank.label;
+                      }
+                    })}
+                  </h6>
+                  <span>
+                    {account.accountNumber}
+                  </span>
+                </li>
+              ))
+            }
+          </ul>
         </div>
         <div className="dashboard lg:col-span-7 row-span-1 rounded border border-stroke px-8 pb-5 pt-7 2xl:col-span-8">
           <ul className="flex flex-col pl-0 mb rounded-lg">
