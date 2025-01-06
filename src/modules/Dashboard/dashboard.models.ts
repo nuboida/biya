@@ -54,6 +54,7 @@ export interface RefundRequest {
 export interface WithdrawFundsRequest {
   amount: number;
   reason: string;
+  accountId: string
 }
 
 export interface MerchantPaymentResponse {

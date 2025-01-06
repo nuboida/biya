@@ -5,7 +5,7 @@ import { DashboardLayoutProps, ErrorResponse, MerchantPaymentRequest, MerchantPa
 import { BiyaInput } from "@/components/BiyaInput";
 import { BiyaButton } from "@/components/BiyaButton";
 import AuthContext from "@/context/authContext";
-import { getPaymentRequests, getWalletBalance, merchantRequestPayment } from "./dashboard.api";
+import { getBanks, getMerchantAccounts, getPaymentRequests, getWalletBalance, merchantRequestPayment } from "./dashboard.api";
 import ToastContext from "@/context/toastContext";
 import { BiyaIcon } from "@/components/Icon";
 import { RefundCustomerModal } from "../Dashboard/RefundCustomerModal";
@@ -39,7 +39,9 @@ const Dashboard = ({name: string}: DashboardLayoutProps) => {
   });
   const [isLoading, setIsLoading] = useState(false);
   const tableHeaders = ["Batch Reference", "Amount", "Customer", "Employee", "Status", "Date", "Refunded", " "];
-  const token = auth.isAuthenticated()
+  const token = auth.isAuthenticated();
+  const [merchantAccounts, setMerchantAccounts] = useState<{_id: string, accountNumber: string, bankCode: string}[]>([]);
+  const [banks, setBanks] = useState<{bankCode: string, bankName: string}[]>([]);
 
   useEffect(() => {
     getWalletBalance(token,merchantId).then((res: WalletResponse | ErrorResponse) => {
@@ -59,6 +61,28 @@ const Dashboard = ({name: string}: DashboardLayoutProps) => {
       } else {
         setPaymentRequests(res);
         setWalletTransactionLoading(false);
+      }
+    });
+
+    getBanks(token).then((res) => {
+      if ('error' in res) {
+        toast.error(res.error)
+      } else {
+        const bankValues = res.data.map((bank: any) => {
+          return {
+            bankCode: bank.code,
+            bankName: bank.name
+          }
+        });
+        setBanks(bankValues);
+      }
+    })
+
+    getMerchantAccounts(token, merchantId).then((res) => {
+      if ('error' in res) {
+        toast.error(res.error);
+      } else {
+        setMerchantAccounts(res.accounts);
       }
     });
 
@@ -89,7 +113,7 @@ const Dashboard = ({name: string}: DashboardLayoutProps) => {
     <>
     {tableRowData.open &&  <TableRowModal onClose={() => setShowTableRowData({...tableRowData, open: false})} rowData={tableRowData.data} />}
     {showRefundModal && <RefundCustomerModal onClose={() => setShowRefundModal(false)} orderId={refundCredentials.orderId} customer={refundCredentials.customerId} amount={refundCredentials.amount} />}
-    {showWithdrawModal && <WithdrawalModal onClose={() => setShowWithdrawModal(false)}/>}
+    {showWithdrawModal && <WithdrawalModal onClose={() => setShowWithdrawModal(false)} banks={banks} accounts={merchantAccounts} />}
     <div className="mt-4 grid grid-cols-12 grid-rows gap-4">
 
       {/* Item 1 */}

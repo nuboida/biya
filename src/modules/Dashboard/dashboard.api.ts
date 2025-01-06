@@ -99,6 +99,38 @@ const withdrawFunds = async (token: string, merchantId: string, request: Withdra
   }
 }
 
+const getMerchantAccounts = async (token: string, merchantId: string) => {
+  try {
+    const response = await fetch(`api/merchants/${merchantId}/get-accounts`, {
+      method : "GET",
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      }
+    });
+    return response.json();
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+const getBanks = async (token: string) => {
+  try {
+    const response = await fetch(`api/banks`, {
+      method: "GET",
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      }
+    });
+    return response.json();
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 
 
 export {
@@ -107,5 +139,7 @@ export {
   getPaymentRequests,
   merchantRequestPayment,
   refundCustomerRequest,
-  withdrawFunds
+  withdrawFunds,
+  getMerchantAccounts,
+  getBanks
 }

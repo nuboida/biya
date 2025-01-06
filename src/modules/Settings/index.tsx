@@ -84,7 +84,7 @@ const Settings = () => {
       }
     })
 
-  }, [error]);
+  }, [toast]);
 
   if (error) {
     return <>
@@ -101,7 +101,7 @@ const Settings = () => {
 
         <div className='flex justify-end mt-20 mb-2 gap-2'>
           <div>
-            <BiyaButton label='Validate Merchant Bank' onClick={() => setShowValidateModal(true)} />
+            <BiyaButton label='Add Account' onClick={() => setShowValidateModal(true)} />
           </div>
           <div>
             <BiyaButton label='Add Employee' onClick={() => setShowAddEmployeeModal(true)} />
