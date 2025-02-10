@@ -31,7 +31,7 @@ const ForgotPassword = () => {
   useEffect(() => {
       if (selectedMethod) {
           setTimeout(() => {
-              router.push(`/auth/validate-${selectedMethod}`);
+              router.push(`/auth/forgot-password/${selectedMethod}-reset`);
           }, 1000);
       }
   }, [selectedMethod, router]);
