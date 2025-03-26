@@ -1,15 +1,7 @@
-import { AuthGuard } from "@/context/authContext"
-import Dashboard from "@/modules/Dashboard"
-import DefaultLayout from "@/modules/layouts/DefaultLayouts/DefaultLayout"
+import { redirect } from "next/navigation";
 
 export default function Home() {
   return (
-    <>
-    <AuthGuard>
-      <DefaultLayout name="Dashboard">
-        <Dashboard name="dashboard" />
-      </DefaultLayout>
-    </AuthGuard>
-    </>
-  )
+    redirect('/login')
+  );
 }

@@ -1,35 +1,39 @@
 {
-  "name": "biya",
+  "name": "biya-revamp",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
-    "@hookform/resolvers": "^3.3.4",
-    "date-fns": "^3.6.0",
+    "@szhsin/react-accordion": "^1.4.0",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
     "jwt-decode": "^4.0.0",
-    "next": "14.1.4",
-    "react": "^18",
-    "react-dom": "^18",
-    "react-hook-form": "^7.51.4",
-    "react-svg": "^16.1.13",
-    "react-toastify": "^10.0.5",
-    "sass": "^1.72.0",
-    "yup": "^1.4.0"
+    "lucide-react": "^0.475.0",
+    "next": "^15.2.4",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-hot-toast": "^2.4.0",
+    "react-tabs": "^6.1.0",
+    "server-only": "^0.0.1",
+    "tailwind-merge": "^3.0.1",
+    "tailwindcss-animate": "^1.0.7",
+    "zod": "^3.24.2"
   },
   "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "@tailwindcss/typography": "^0.5.16",
     "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
-    "autoprefixer": "^10.0.1",
-    "eslint": "^8",
-    "eslint-config-next": "14.1.4",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "15.1.6",
     "postcss": "^8",
-    "tailwindcss": "^3.3.0",
+    "tailwindcss": "^3.4.1",
     "typescript": "^5"
   }
 }

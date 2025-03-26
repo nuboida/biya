@@ -1,37 +1,42 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 import type { Config } from "tailwindcss";
 
-const config: Config = {
+export default {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/modules/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    extend: {
-      backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
-      },
-      colors: {
-        primary: "#062E47",
-        activePrimary: "#062E47A1",
-        secondary: "#DC157C",
-        white: "#FFFFFF",
-        black: '#000000',
-        green: '#48B346',
-        red: '#CE3F3F',
-        grey: '#C0C0C0',
-        blue: "hsl(203, 68%, 51%)",
-        orange: "#F5A623",
+    container: {
+      center: true,
+      padding: "2rem",
+      screens: {
+        "2xl": "1440px"
       }
     },
-    fontFamily: {
-      'display': ['ClashDisplay'],
-      'Roobert': ['Roobert']
-    }
+    extend: {
+      colors: {
+        background: "var(--background)",
+        foreground: "var(--foreground)",
+        primary: {
+          "100": "#17235D",
+          "200": "#0D67AA"
+        },
+        accent: "#FDA813",
+        slated: {
+         "200": "#F5F4F6",
+         "100": "#F9F9F9"
+        },
+        black: "#000000",
+        white: "#FFFFFF",
+        disabled: "#959595"
+      },
+      fontFamily: {
+        sans: ['var(--font-darker-grotesque)'],
+        mono: ['var(--font-mango-grotesque)']
+      }
+    },
   },
-  plugins: [],
-};
-export default config;
+  plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],
+} satisfies Config;

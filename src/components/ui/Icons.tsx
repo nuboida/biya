@@ -1,0 +1,57 @@
+import {
+  AlertTriangle,
+  ArrowRight,
+  ChevronLeft,
+  Command,
+  File,
+  FileText,
+  Image,
+  Loader2,
+  MoreVertical,
+  Plus,
+  Settings,
+  Trash,
+  User,
+  ChartBar,
+  ReceiptText,
+  UserCheck,
+  UsersRound,
+  Users,
+  UserX,
+  UserPen,
+  EllipsisVertical,
+  ArrowDown,
+  ChevronDown,
+  X
+} from "lucide-react";
+
+import { Icon as LucideIcon } from "lucide-react"
+
+export type Icon = typeof LucideIcon
+
+export const Icons = {
+  logo: Command,
+  spinner: Loader2,
+  chevronLeft: ChevronLeft,
+  trash: Trash,
+  post: FileText,
+  page: File,
+  media: Image,
+  settings: Settings,
+  ellipsis: MoreVertical,
+  add: Plus,
+  warning: AlertTriangle,
+  user: User,
+  arrowRight: ArrowRight,
+  chartBar: ChartBar,
+  receiptText: ReceiptText,
+  userCheck: UserCheck,
+  usersRound: UsersRound,
+  users: Users,
+  userx: UserX,
+  userPen: UserPen,
+  ellipsisVertical: EllipsisVertical,
+  arrowDown: ArrowDown,
+  chevronDown: ChevronDown,
+  x: X
+}
