@@ -6,18 +6,20 @@ import { Toaster } from "@/components/ui/toast";
 
 const darkerGrotesque = Darker_Grotesque({
   variable: "--font-darker-grotesque",
-  subsets: ['latin']
+  subsets: ['latin'],
+  preload: false
 });
 
 const mangoGrotesque = localFont({
   src: [
     {
-      path: "./fonts/MangoGrotesque-regular.ttf",
+      path: "./fonts/MangoGrotesque-Regular.woff2",
       weight: "400",
       style: "normal",
     },
   ],
   variable: "--font-mango-grotesque",
+  preload: false
 });
 
 export const metadata: Metadata = {
