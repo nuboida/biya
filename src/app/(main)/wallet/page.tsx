@@ -17,7 +17,11 @@ const WalletPage = async () => {
           <div className="grid grid-cols-12 grid-rows gap-6 px-10">
             <div className="bg-primary-100 text-white py-7 px-6 col-span-4 row-span-1 flex flex-col justify-center">
               <WalletBalanceWidget balance={balance} role={role} />
-              <WithDrawalButton token={String(token)} merchantId={merchantId} />
+              {
+                typeof balance === "number" && (
+                  <WithDrawalButton token={String(token)} merchantId={merchantId} />
+                )
+              }
             </div>
             <div className="h-screen col-span-8 row-span-2">
             <div>

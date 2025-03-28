@@ -14,18 +14,11 @@ const VerifyEmailPage = async ({ searchParams }: Props) => {
       const response = await fetch(
         `https://merch.biya.com.ng/api/v1/auth/verifyemail?key=${key}`
       );
-      if (!response.ok) {
-        notFound();
-      }
-      if ("error" in (await response.json())) {
-        notFound();
-      }
       return await response.json();
     } catch (error) {
       if (error) {
         notFound();
       }
-      notFound();
     }
   };
 
