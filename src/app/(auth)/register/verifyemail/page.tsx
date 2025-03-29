@@ -10,23 +10,20 @@ const VerifyEmailPage = async ({ searchParams }: Props) => {
   const { key } = await searchParams;
 
   const verifyKey = async () => {
-    try {
-      const response = await fetch(
-        `https://merch.biya.com.ng/api/v1/auth/verifyemail?key=${key}`
-      );
-      if (!response.ok) {
-        notFound();
-      }
-      return await response.json();
-    } catch (error) {
-      if (error) {
-        notFound();
-      }
-      notFound();
+    const response = await fetch(
+      `https://merch.biya.com.ng/api/v1/auth/verifyemail?key=${key}`
+    );
+    if (!response.ok) {
+      return notFound();
     }
+    return await response.json();
   };
 
-  await verifyKey();
+  const keyVerification = await verifyKey();
+
+  if (!keyVerification) {
+    return notFound();
+  }
 
   return (
     <>
