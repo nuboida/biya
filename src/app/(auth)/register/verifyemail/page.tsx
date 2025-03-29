@@ -13,16 +13,21 @@ const VerifyEmailPage = async ({ searchParams }: Props) => {
     const response = await fetch(
       `https://merch.biya.com.ng/api/v1/auth/verifyemail?key=${key}`
     );
-    if (!response.ok) {
-      return notFound();
-    }
     return await response.json();
   };
 
   const keyVerification = await verifyKey();
 
+  if (!key) {
+    return notFound()
+  }
+
   if (!keyVerification) {
     return notFound();
+  }
+
+  if (keyVerification instanceof Error) {
+    return notFound()
   }
 
   return (
