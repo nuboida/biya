@@ -11,12 +11,13 @@ interface Props {
 
 const PaymentRequestPage = async ({ params }: Props) => {
   const { paymentRequestId } = await params;
-  const { token, merchantId } = await verifySession();
+  const { token, merchantId, role } = await verifySession();
   const paymentRequest = await getSinglePaymentRequest(
     token!,
     merchantId,
     paymentRequestId
   );
+
   return (
     <>
       <section>
@@ -72,16 +73,19 @@ const PaymentRequestPage = async ({ params }: Props) => {
                     {paymentRequest.status}
                   </h6>
                 </div>
-                {paymentRequest.status !== "DECLINED" &&
-                paymentRequest.status !== "EXPIRED" &&
-                paymentRequest.status !== "PENDING" && (
-                  <div className="flex justify-center items-center px-8 mt-4">
-                    {/* <RefundButton amount={paymentRequest.amount} /> */}
-                    <Link href={`/order-management/${paymentRequestId}/refund`}>
-                      <Button size="lg">Request Refund</Button>
-                    </Link>
-                  </div>
-                )}
+                {role === "Owner" &&
+                  paymentRequest.status !== "DECLINED" &&
+                  paymentRequest.status !== "EXPIRED" &&
+                  paymentRequest.status !== "PENDING" && (
+                    <div className="flex justify-center items-center px-8 mt-4">
+                      {/* <RefundButton amount={paymentRequest.amount} /> */}
+                      <Link
+                        href={`/order-management/${paymentRequestId}/refund`}
+                      >
+                        <Button size="lg">Request Refund</Button>
+                      </Link>
+                    </div>
+                  )}
               </div>
             </div>
           </div>
