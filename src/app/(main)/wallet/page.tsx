@@ -55,7 +55,8 @@ const WalletPage = async () => {
                             <td className="tableData">{i + 1}</td>
                             <td className="tableData">{transaction.reference}</td>
                             <td className="tableData capitalize">{(transaction.transactionType).replace(/([a-z0-9])([A-Z])/g, '$1 $2')}</td>
-                            <td className="tableData"><span className="pr-2">&#x20A6;</span><span className={String(transaction.difference).includes("-") ? "text-red-700" : "text-green-700"}>{String(transaction.difference).includes("-") ? convertKoboToNaira(Number(String(transaction.difference).replace("-", ""))) : convertKoboToNaira(transaction.difference)}</span></td>
+                            <td className="tableData"><span className="pr-2">&#x20A6;</span><span className={transaction.transactionType === "debitWallet" ? "text-red-700" : "text-green-700"}>{String(transaction.difference).includes("-") ? convertKoboToNaira(Number(String(transaction.difference).replace("-", ""))) : convertKoboToNaira(transaction.difference)}</span></td>
+
                             <td className="tableData">{formatDate(transaction.createdAt)}</td>
                           </tr>
                         ))

@@ -9,6 +9,7 @@ import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import toast from "./ui/toast";
 import clsx from "clsx";
+import Image from "next/image";
 
 /**
  * @type {React.ExoticComponent<import('@szhsin/react-accordion').AccordionItemProps>}
@@ -122,7 +123,7 @@ export function SettingsAccordion({
   const [isMounted, setIsMounted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [accounts, setAccounts] = useState<Account[]>([]);
-  const [banks, setBanks] = useState<{ code: string; name: string }[]>([]);
+  const [banks, setBanks] = useState<{ code: string; name: string; slug: string; longCode: string }[]>([]);
   const [bankValidationModal, setBankValidationModal] = useState(false);
   const [passwordChange, setPasswordChange] = useState<{oldPassword: string, newPassword: string, confirmPassword: string}>({
     oldPassword: '',
@@ -268,7 +269,19 @@ export function SettingsAccordion({
                     className="text-black mb-4 flex items-center border border-blue-500 gap-4 py-4 px-8"
                     key={account._id}
                   >
-                    <div className="w-[20px] h-[20px] border"></div>
+                    <div className="w-[30px] h-[30px] border">
+                      {banks.map((bank, i) => {
+                        if (bank.code === account.bankCode) {
+                          return (
+                            <div key={bank.longCode + i}>
+                              <Image src={`/bank-logos/${bank.slug}.png`} alt="bank logo" width={50} height={50} className="w-full h-full"/>
+                            </div>
+                          )
+                        } else {
+
+                        }
+                      })}
+                    </div>
                     <h1 className="mr-auto text-lg">
                       {banks.map((bank) => {
                         if (bank.code === account.bankCode) {

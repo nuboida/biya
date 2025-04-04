@@ -25,8 +25,8 @@ export default async function middleware(req: NextRequest) {
       return NextResponse.redirect(new URL('/login', req.nextUrl))
     }
 
-    if (isNotAdmin && session.role !== "Owner" && session.role !== "Admin") {
-      return NextResponse.redirect(new URL('/dashboard', req.url))
+    if (!isNotAdmin && session.role !== "Owner" && session.role !== "Admin") {
+      return NextResponse.redirect(new URL('/dashboard', req.url));
     }
 
     if (isPublicRoute && session?._id && !path.startsWith('/dashboard')) {
@@ -43,9 +43,7 @@ export const config = {
   matcher: [
     "/login",
     "/register",
-    "/wallet",
     "/wallet/:path*",
-    "/user-management",
     "/user-management/:path*",
     "/settings"
   ]

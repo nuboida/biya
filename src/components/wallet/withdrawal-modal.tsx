@@ -1,4 +1,5 @@
 import { ChangeEvent, useEffect, useState } from "react";
+import Image from "next/image";
 import { InfoModal } from "../ui/info-modal";
 import { Input } from "../ui/input";
 import toast from "../ui/toast";
@@ -78,7 +79,7 @@ export const WithdrawalModal = ({
   const [isMounted, setIsMounted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [accounts, setAccounts] = useState<Account[]>([]);
-  const [banks, setBanks] = useState<{code: string; name: string}[]>([]);
+  const [banks, setBanks] = useState<{code: string; name: string; longCode: string; slug: string}[]>([]);
   const [selectedItem, setSelectedItem] = useState('');
   const [inputData, setInputData] = useState<WithdrawFundsRequest>({
     accountId: '',
@@ -157,11 +158,23 @@ export const WithdrawalModal = ({
             className="flex flex-col border border-blue-500 p-3"
             key={account._id}
           >
-            <div className="text-black mb-4 flex items-center gap-4 cursor-pointer" onClick={() => {
+            <div className="text-black mb-2 flex items-center gap-4 cursor-pointer" onClick={() => {
               toggleAccount(account._id);
               setInputData({...inputData, accountId: account._id})
             }}>
-              <div className="w-[20px] h-[20px] border"></div>
+               <div className="w-[30px] h-[30px] border">
+                                    {banks.map((bank, i) => {
+                                      if (bank.code === account.bankCode) {
+                                        return (
+                                          <div key={bank.longCode + i}>
+                                            <Image src={`/bank-logos/${bank.slug}.png`} alt="bank logo" width={50} height={50} className="w-full h-full"/>
+                                          </div>
+                                        )
+                                      } else {
+
+                                      }
+                                    })}
+                                  </div>
               <h1 className="mr-auto text-lg">{banks.map((bank) => {
                 if (bank.code === account.bankCode) {
                   return `${bank.name}: ${account.accountNumber}`
