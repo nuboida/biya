@@ -27,6 +27,7 @@ interface SettingsAccordionProps {
   merchant: {
     businessName: string;
     merchantId: string;
+    businessEmail: string;
   }
 }
 
@@ -206,6 +207,11 @@ export function SettingsAccordion({
                   </div>
                   <div className="focus:shadow-soft-primary-outline text-lg leading-5.6 ease-soft block w-full appearance-none rounded-sm border border-solid border-gray-300 bg-white bg-clip-padding px-3 2xl:py-3 lg:py-2 font-bold text-gray-700 transition-all focus:border-black focus:outline-none focus:transition-shadow">
                     {merchant.merchantId}
+                  </div>
+                </div>
+                <div className="flex gap-5 mb-5">
+                  <div className="focus:shadow-soft-primary-outline text-lg leading-5.6 ease-soft block w-full appearance-none rounded-sm border border-solid border-gray-300 bg-white bg-clip-padding px-3 2xl:py-3 lg:py-2 font-bold text-gray-700 transition-all focus:border-black focus:outline-none focus:transition-shadow">
+                    {merchant.businessEmail}
                   </div>
                 </div>
               </div>
