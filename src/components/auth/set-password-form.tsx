@@ -5,7 +5,6 @@ import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Icons } from "../ui/Icons";
 import { redirect } from "next/navigation";
-import toast from "../ui/toast";
 
 interface SetPasswordFormProps {
   token: string;
@@ -43,12 +42,8 @@ export const SetNewPassword = ({ token }: SetPasswordFormProps) => {
         setError(res.error);
         setIsLoading(false);
       } else {
-        toast({
-          message: res.message,
-          type: 'success'
-        })
         setIsLoading(false);
-        redirect("/")
+        redirect(`/login/forgot-password/${token}/confirmation`)
       }
     })
   }

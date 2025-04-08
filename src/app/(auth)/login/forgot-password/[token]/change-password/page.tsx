@@ -1,6 +1,7 @@
 import { SetNewPassword } from "@/components/auth/set-password-form";
 import Image from "next/image";
-import { redirect } from "next/navigation";
+import { notFound } from "next/navigation";
+import { getEmployeeByToken } from "../../services";
 
 interface Props {
   params: Promise<{token: string}>
@@ -8,9 +9,12 @@ interface Props {
 
 const LoginChangePasswordPage = async ({ params }: Props) => {
   const { token } = await params;
-
   if (!token) {
-    redirect("/login")
+    notFound()
+  }
+  const employee = await getEmployeeByToken(token);
+  if (!employee.id) {
+    notFound();
   }
 
   return (
