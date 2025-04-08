@@ -24,7 +24,7 @@ interface BankValidationRequest {
 
 const validateBank = async (token: string, merchantId: string, request: BankValidationRequest) => {
   try {
-    const response = await fetch(`api/merchants/${merchantId}/validate-bank`, {
+    const response = await fetch(`/api/merchants/${merchantId}/validate-bank`, {
       method: "POST",
       headers: {
         "Accept": "application/json",

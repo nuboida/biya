@@ -12,7 +12,7 @@ interface SetPasswordFormProps {
 }
 
 const setPasswordSubmit = async (token: string, request: {password: string, confirmPassword: string}) => {
-  const response = await fetch(`api/auth/${token}/reset-password`, {
+  const response = await fetch(`/api/auth/${token}/reset-password`, {
     method: "POST",
     headers: {
       Accept: "application/json",
@@ -48,7 +48,7 @@ export const SetNewPassword = ({ token }: SetPasswordFormProps) => {
           type: 'success'
         })
         setIsLoading(false);
-        redirect("/login")
+        redirect("/")
       }
     })
   }

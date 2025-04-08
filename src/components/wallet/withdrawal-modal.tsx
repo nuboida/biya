@@ -24,7 +24,7 @@ interface WithdrawFundsRequest {
 
 const getMerchantAccounts = async (token: string, merchantId: string) => {
   try {
-    const response = await fetch(`api/merchants/${merchantId}/get-accounts`, {
+    const response = await fetch(`/api/merchants/${merchantId}/get-accounts`, {
       method: "GET",
       headers: {
         Accept: "application/json",
@@ -40,7 +40,7 @@ const getMerchantAccounts = async (token: string, merchantId: string) => {
 
 const getBanks = async (token: string) => {
   try {
-    const response = await fetch(`api/banks`, {
+    const response = await fetch(`/api/banks`, {
       method: "GET",
       headers: {
         Accept: "application/json",
@@ -60,7 +60,7 @@ const withdrawFunds = async (
   request: WithdrawFundsRequest
 ) => {
   try {
-    const response = await fetch(`api/merchants/${merchantId}/withdraw`, {
+    const response = await fetch(`/api/merchants/${merchantId}/withdraw`, {
       method: "POST",
       headers: {
         Accept: "application/json",
