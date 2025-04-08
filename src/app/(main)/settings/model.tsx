@@ -14,5 +14,6 @@ export interface GetMerchantResponse {
   id: string;
   merchantId: string;
   businessName: string;
+  businessEmail: string;
   employees: Employee[]
 }
