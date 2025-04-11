@@ -11,7 +11,17 @@ const DashboardPage = async () => {
   const totalRequestAmount = paymentRequests.reduce((acc, n) => {
     acc += n.amount;
     return acc;
-  }, 0)
+  }, 0);
+
+  const todayRequestAmount = paymentRequests.reduce((acc, n) => {
+    const getCreatedDate = n.createdAt.split('T')[0];
+    const getTodayDate = new Date().toISOString().split('T')[0];
+    if (getCreatedDate === getTodayDate) {
+      acc += n.amount;
+    }
+    return acc;
+  }, 0);
+
   const { balance } = await getWalletBalance(token!, merchantId);
   const pendingRequests = paymentRequests.filter(
     (request) => request.status === "PENDING"
@@ -86,6 +96,57 @@ const DashboardPage = async () => {
                 <h1 className="text-6xl font-mono">0</h1>
               </div>
             </div>
+            )
+          }
+
+          {
+            role !== "Owner" && (
+              <div className="bg-slated-200 py-7 px-6 w-1/4 flex flex-col justify-between">
+            <div className="flex justify-between items-center">
+              <h1 className="font-medium text-2xl">Today&apos;s Total Requests</h1>
+              <div>
+                <svg
+                  width="31"
+                  height="31"
+                  viewBox="0 0 31 31"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <rect
+                    x="0.947266"
+                    y="0.257812"
+                    width="30"
+                    height="30"
+                    fill="#17235D"
+                  />
+                  <g clipPath="url(#clip0_127_34496)">
+                    <path
+                      d="M15.9473 22.7578C11.805 22.7578 8.44727 19.4001 8.44727 15.2578C8.44727 11.1156 11.805 7.75781 15.9473 7.75781C20.0895 7.75781 23.4473 11.1156 23.4473 15.2578C23.4473 19.4001 20.0895 22.7578 15.9473 22.7578ZM15.1995 18.2578L20.502 12.9546L19.4415 11.8941L15.1995 16.1368L13.0778 14.0151L12.0173 15.0756L15.1995 18.2578Z"
+                      fill="white"
+                    />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_127_34496">
+                      <rect
+                        width="18"
+                        height="18"
+                        fill="white"
+                        transform="translate(6.94727 6.25781)"
+                      />
+                    </clipPath>
+                  </defs>
+                </svg>
+              </div>
+            </div>
+            <div>
+            <h1 className="text-7xl">
+              &#8358;
+              <span className="font-mono text-6xl inline-block pl-1">
+                 {convertKoboToNaira(todayRequestAmount)}
+              </span>
+            </h1>
+            </div>
+          </div>
             )
           }
 

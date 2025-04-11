@@ -33,7 +33,7 @@ const Dropdown = React.forwardRef<HTMLSelectElement, DropdownProps>(
             {...props}
             value={defaultValue}
         >
-          <option disabled value={0} className="text-slate-400">{placeholder ? placeholder : "--"}</option>
+          <option disabled value={0} className="text-slate-200">{placeholder ? placeholder : "--"}</option>
           {
             options.map((option, i) => (
               <option key={`${String(option.value) + i}`} value={option.value}>
