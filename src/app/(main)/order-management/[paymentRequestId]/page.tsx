@@ -57,6 +57,13 @@ const PaymentRequestPage = async ({ params }: Props) => {
                   </h6>
                 </div>
                 <div className="flex justify-between items-center px-8">
+                  <h4 className="font-semibold">Refunded:</h4>
+                  <h6>
+                    <span>&#8358; </span>
+                    {convertKoboToNaira(paymentRequest.refund)}
+                  </h6>
+                </div>
+                <div className="flex justify-between items-center px-8">
                   <h4 className="font-semibold">Date:</h4>
                   <h6>{formatDate(paymentRequest.createdAt)}</h6>
                 </div>
@@ -64,19 +71,24 @@ const PaymentRequestPage = async ({ params }: Props) => {
                   <h4 className="font-semibold">Status:</h4>
                   <h6
                     className={cn(
-                      "tableData font-bold",
+                      "font-bold",
                       paymentRequest.status === "APPROVED" && "text-green-500",
                       paymentRequest.status === "DECLINED" && "text-red-500",
-                      paymentRequest.status === "PENDING" && "text-yellow-500"
+                      paymentRequest.status === "PENDING" && "text-yellow-500",
+                      paymentRequest.status === "PARTIAL REFUND" && 'text-blue-500',
+                      paymentRequest.status === "REFUND" && "text-purple-500"
                     )}
                   >
-                    {paymentRequest.status}
+                    {
+                      paymentRequest.status === "PARTIAL REFUND" ? 'PARTIALLY REFUNDED' : paymentRequest.status
+                    }
                   </h6>
                 </div>
                 {role === "Owner" &&
                   paymentRequest.status !== "DECLINED" &&
                   paymentRequest.status !== "EXPIRED" &&
-                  paymentRequest.status !== "PENDING" && (
+                  paymentRequest.status !== "PENDING" &&
+                  paymentRequest.status !== "REFUND" && (
                     <div className="flex justify-center items-center px-8 mt-4">
                       {/* <RefundButton amount={paymentRequest.amount} /> */}
                       <Link

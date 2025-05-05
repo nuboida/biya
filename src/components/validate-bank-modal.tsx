@@ -56,6 +56,7 @@ const ValidateBankModal: React.FC<ValidateBankModalProps> = ({onClose, token, me
   }
 
   const handleDropdown = (event: ChangeEvent<HTMLSelectElement>) => {
+    console.log()
     setBankCredential({...bankCredentials, bank_code: event.target.value});
   }
 
@@ -96,7 +97,7 @@ const ValidateBankModal: React.FC<ValidateBankModalProps> = ({onClose, token, me
           <Dropdown name="bank_code" className="mb-3" options={banks.map((bank) => ({
             label: bank.name,
             value: bank.code
-          }))} onChange={handleDropdown} defaultValue={Number(bankCredentials.bank_code)}  />
+          }))} onChange={handleDropdown} defaultValue={bankCredentials.bank_code}  />
           <Input name="first_name" placeholder="First Name" onChange={handleInputChange} className="mb-3" />
           <Input name="last_name" placeholder="Last Name" onChange={handleInputChange} className="mb-3" />
         </div>

@@ -22,7 +22,8 @@ import {
   EllipsisVertical,
   ArrowDown,
   ChevronDown,
-  X
+  X,
+  Camera
 } from "lucide-react";
 
 import { Icon as LucideIcon } from "lucide-react"
@@ -53,5 +54,6 @@ export const Icons = {
   ellipsisVertical: EllipsisVertical,
   arrowDown: ArrowDown,
   chevronDown: ChevronDown,
-  x: X
+  x: X,
+  camera: Camera
 }

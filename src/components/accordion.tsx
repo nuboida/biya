@@ -1,9 +1,13 @@
 "use client";
 
-import { Accordion, AccordionItemProps, AccordionItem as Item } from "@szhsin/react-accordion";
+import {
+  Accordion,
+  AccordionItemProps,
+  AccordionItem as Item,
+} from "@szhsin/react-accordion";
 import { Icons } from "./ui/Icons";
 import { cn } from "@/lib/utils";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import ValidateBankModal from "./validate-bank-modal";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
@@ -28,25 +32,29 @@ interface SettingsAccordionProps {
     businessName: string;
     merchantId: string;
     businessEmail: string;
-  }
+    photoUrl: string;
+  };
 }
 
-const changePasswordSubmit = async (token: string, request: {oldPassword: string, newPassword: string, confirmPassword: string}) => {
+const changePasswordSubmit = async (
+  token: string,
+  request: { oldPassword: string; newPassword: string; confirmPassword: string }
+) => {
   try {
     const response = await fetch("/api/auth/change-password", {
       method: "POST",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(request)
+      body: JSON.stringify(request),
     });
-    return await response.json()
+    return await response.json();
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
-}
+};
 
 const getMerchantAccounts = async (token: string, merchantId: string) => {
   try {
@@ -80,7 +88,25 @@ const getBanks = async (token: string) => {
   }
 };
 
-const AccordionItem = ({ header, ...rest}: AccordionItemProps) => (
+const uploadMerchantImage = async (
+  token: string,
+  merchantId: string,
+  formData: FormData
+) => {
+  const response = await fetch(`/api/${merchantId}/update`, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: formData,
+  });
+
+  return await response.json();
+};
+
+const AccordionItem = ({ header, ...rest }: AccordionItemProps) => (
   <Item
     {...rest}
     header={({ state: { isEnter } }) => (
@@ -119,23 +145,62 @@ const AccordionItem = ({ header, ...rest}: AccordionItemProps) => (
 export function SettingsAccordion({
   token,
   merchantId,
-  merchant
+  merchant,
 }: SettingsAccordionProps) {
   const [isMounted, setIsMounted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isImageLoading, setIsImageLoading] = useState(false);
   const [accounts, setAccounts] = useState<Account[]>([]);
-  const [banks, setBanks] = useState<{ code: string; name: string; slug: string; longCode: string }[]>([]);
+  const [banks, setBanks] = useState<
+    { code: string; name: string; slug: string; longCode: string }[]
+  >([]);
   const [bankValidationModal, setBankValidationModal] = useState(false);
-  const [passwordChange, setPasswordChange] = useState<{oldPassword: string, newPassword: string, confirmPassword: string}>({
-    oldPassword: '',
-    newPassword: '',
-    confirmPassword: ''
+  const [passwordChange, setPasswordChange] = useState<{
+    oldPassword: string;
+    newPassword: string;
+    confirmPassword: string;
+  }>({
+    oldPassword: "",
+    newPassword: "",
+    confirmPassword: "",
   });
   const [error, setError] = useState("");
+  const fileUpload = useRef<HTMLInputElement>(null);
+
+  const uploadImage = (e: ChangeEvent<HTMLInputElement>) => {
+    setIsImageLoading(true)
+    if (!e.currentTarget.files) {
+      return;
+    }
+    const formData = new FormData();
+    formData.append("photoUrl", e.currentTarget.files[0]);
+    uploadMerchantImage(token, merchantId, formData).then((res) => {
+      if ("error" in res) {
+        toast({
+          message: res.error,
+          type: "error",
+        });
+        setIsImageLoading(false);
+      } else {
+        toast({
+          message: res.message,
+          type: "success",
+        });
+        setIsImageLoading(false);
+      }
+    });
+  };
+
+  const handleUpload = () => {
+    fileUpload.current?.click();
+  };
 
   const handlePasswordChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setError('');
-    setPasswordChange({...passwordChange, [event.target.name]: event.target.value})
+    setError("");
+    setPasswordChange({
+      ...passwordChange,
+      [event.target.name]: event.target.value,
+    });
   };
 
   useEffect(() => {
@@ -165,28 +230,35 @@ export function SettingsAccordion({
   const submitChangePassword = () => {
     setIsLoading(true);
 
-    changePasswordSubmit(token, passwordChange).then(res => {
-      if("error" in res) {
+    changePasswordSubmit(token, passwordChange).then((res) => {
+      if ("error" in res) {
         setError(res.error);
         setIsLoading(false);
       } else {
         toast({
           message: res.message,
-          type: 'success'
+          type: "success",
         });
         setIsLoading(false);
         setPasswordChange({
-          oldPassword: '',
-          newPassword: '',
-          confirmPassword: ''
-        })
+          oldPassword: "",
+          newPassword: "",
+          confirmPassword: "",
+        });
       }
     });
-  }
+  };
 
   return (
     <>
-      { bankValidationModal && <ValidateBankModal onClose={() => setBankValidationModal(false)} token={token} merchantId={merchantId} banks={banks} /> }
+      {bankValidationModal && (
+        <ValidateBankModal
+          onClose={() => setBankValidationModal(false)}
+          token={token}
+          merchantId={merchantId}
+          banks={banks}
+        />
+      )}
       <div className="mx-2 my-4 border-t">
         {/* `transitionTimeout` prop should be equal to the transition duration in CSS */}
         <Accordion transition transitionTimeout={200}>
@@ -199,7 +271,29 @@ export function SettingsAccordion({
             }
           >
             <div className="flex gap-16">
-              <div className="w-[264px] h-[264px] border-gray-100 border"></div>
+              <div className="w-[264px] h-[264px] border-gray-100 border relative">
+                {isImageLoading && (<div className="bg-[rgba(0,0,0,0.5)] backdrop-blur-sm flex z-40 w-full h-full"></div>)}
+                {merchant.photoUrl && (
+                  <Image
+                    src={merchant.photoUrl}
+                    alt="Merchant Image"
+                    className="min-w-full min-h-full"
+                  />
+                )}
+                <input
+                  className="hidden"
+                  type="file"
+                  id="iconUpload"
+                  onChange={uploadImage}
+                  ref={fileUpload}
+                />
+                <button
+                  className="absolute bottom-0 right-1 p-2 rounded-full border"
+                  onClick={() => handleUpload()}
+                >
+                  <Icons.camera />
+                </button>
+              </div>
               <div className="grow">
                 <div className="flex gap-5 mb-5">
                   <div className="focus:shadow-soft-primary-outline text-lg leading-5.6 ease-soft block w-full appearance-none rounded-sm border border-solid border-gray-300 bg-white bg-clip-padding px-3 2xl:py-3 lg:py-2 font-bold text-gray-700 transition-all focus:border-black focus:outline-none focus:transition-shadow">
@@ -222,39 +316,59 @@ export function SettingsAccordion({
             itemKey="item-2"
             header={
               <div>
-                <h1 className="text-2xl font-semibold">Password and Security</h1>
+                <h1 className="text-2xl font-semibold">
+                  Password and Security
+                </h1>
               </div>
             }
           >
             <div className={clsx(error && "border border-red-500", "px-4")}>
-              {
-                typeof error == "string" && (
-                  <p className="px-1 pb-4 text-red-600 font-semibold">{error}</p>
-                )
-              }
+              {typeof error == "string" && (
+                <p className="px-1 pb-4 text-red-600 font-semibold">{error}</p>
+              )}
               <div className="flex gap-16">
                 <div className="grow">
                   <div className="flex gap-5 mb-5">
-                    <Input type="password" placeholder="Current Password" name="oldPassword" onChange={handlePasswordChange} value={passwordChange.oldPassword} />
-                    <Input type="password" placeholder="New Password" name="newPassword" onChange={handlePasswordChange} value={passwordChange.newPassword} />
+                    <Input
+                      type="password"
+                      placeholder="Current Password"
+                      name="oldPassword"
+                      onChange={handlePasswordChange}
+                      value={passwordChange.oldPassword}
+                    />
+                    <Input
+                      type="password"
+                      placeholder="New Password"
+                      name="newPassword"
+                      onChange={handlePasswordChange}
+                      value={passwordChange.newPassword}
+                    />
                   </div>
                   <div className="flex gap-5 mb-5 justify-between">
-                    <Input type="password" placeholder="Confirm Password" name="confirmPassword" className="w-1/2" onChange={handlePasswordChange} value={passwordChange.confirmPassword} />
+                    <Input
+                      type="password"
+                      placeholder="Confirm Password"
+                      name="confirmPassword"
+                      className="w-1/2"
+                      onChange={handlePasswordChange}
+                      value={passwordChange.confirmPassword}
+                    />
                     <div className="w-1/2 flex justify-end">
-                      <Button className="bg-accent px-10" disabled={isLoading} onClick={(e) => {
-                        e.preventDefault();
-                        submitChangePassword();
-                      }}>
-                        {
-                          isLoading && (
-                            <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-                          )
-                        }
+                      <Button
+                        className="bg-accent px-10"
+                        disabled={isLoading}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          submitChangePassword();
+                        }}
+                      >
+                        {isLoading && (
+                          <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                        )}
                         Save
                       </Button>
                     </div>
                   </div>
-
                 </div>
               </div>
             </div>
@@ -280,11 +394,16 @@ export function SettingsAccordion({
                         if (bank.code === account.bankCode) {
                           return (
                             <div key={bank.longCode + i}>
-                              <Image src={`/bank-logos/${bank.slug}.png`} alt="bank logo" width={50} height={50} className="w-full h-full"/>
+                              <Image
+                                src={`/bank-logos/${bank.slug}.png`}
+                                alt="bank logo"
+                                width={50}
+                                height={50}
+                                className="w-full h-full"
+                              />
                             </div>
-                          )
+                          );
                         } else {
-
                         }
                       })}
                     </div>
@@ -304,9 +423,14 @@ export function SettingsAccordion({
                 <div>
                   <Icons.add />
                 </div>
-                <button className="font-bold" onClick={() => {
-                  setBankValidationModal(true);
-                }}>Add New Account</button>
+                <button
+                  className="font-bold"
+                  onClick={() => {
+                    setBankValidationModal(true);
+                  }}
+                >
+                  Add New Account
+                </button>
               </div>
             </div>
           </AccordionItem>
@@ -319,12 +443,11 @@ export function SettingsAccordion({
               </div>
             }
           >
-            Suspendisse massa risus, pretium id interdum in, dictum sit amet ante.
-            Fusce vulputate purus sed tempus feugiat.
+            Suspendisse massa risus, pretium id interdum in, dictum sit amet
+            ante. Fusce vulputate purus sed tempus feugiat.
           </AccordionItem>
         </Accordion>
       </div>
-
     </>
   );
 }

@@ -171,7 +171,9 @@ export const OrderManagementTable = ({ token, merchantId, role }: OrderManagemen
                   "tableData font-bold",
                   paymentRequest.status === "APPROVED" && "text-green-500",
                   paymentRequest.status === "DECLINED" && "text-red-500",
-                  paymentRequest.status === "PENDING" && "text-yellow-500"
+                  paymentRequest.status === "PENDING" && "text-yellow-500",
+                  paymentRequest.status === "PARTIAL REFUND" && "text-blue-500",
+                  paymentRequest.status === "REFUND" && "text-purple-500",
                 )}
               >
                 {paymentRequest.status}

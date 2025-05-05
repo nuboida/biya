@@ -8,6 +8,7 @@ import { convertKoboToNaira } from "@/lib/utils";
 
 interface RefundFormProps {
   amount: number;
+  refund: number;
   paymentRequestId: string;
   orderId: string;
   customerId: string;
@@ -17,6 +18,7 @@ interface RefundFormProps {
 
 export const RefundForm = ({
   amount,
+  refund,
   paymentRequestId,
   orderId,
   customerId,
@@ -67,7 +69,7 @@ export const RefundForm = ({
       <div className="w-3/4 flex flex-col gap-6 bg-white py-10 px-36">
         <div>Initial Amount</div>
         <div className="text-lg leading-5.6 ease-soft block w-full appearance-none rounded-sm border border-solid border-gray-300 bg-slate-400 bg-clip-padding px-3 2xl:py-3 lg:py-2 font-bold text-gray-700">
-          &#8358; {convertKoboToNaira(amount)}
+          &#8358; {convertKoboToNaira(amount - refund)}
         </div>
         <Input
           placeholder="Enter amount to be refunded"

@@ -298,7 +298,11 @@ const DashboardPage = async () => {
                               paymentRequest.status === "DECLINED" &&
                                 "text-red-500",
                               paymentRequest.status === "PENDING" &&
-                                "text-yellow-500"
+                                "text-yellow-500",
+                              paymentRequest.status === "PARTIAL REFUND" &&
+                                "text-blue-500",
+                              paymentRequest.status === "REFUND" &&
+                                "text-purple-500"
                             )}
                           >
                             {paymentRequest.status}

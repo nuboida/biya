@@ -11,7 +11,7 @@ interface Props {
 const RefundPage = async ({ params }: Props) => {
   const { paymentRequestId } = await params;
   const { token, merchantId } = await verifySession();
-  const {amount, customerId, orderId } = await getSinglePaymentRequest(
+  const {amount, customerId, orderId, refund } = await getSinglePaymentRequest(
     token!,
     merchantId,
     paymentRequestId
@@ -35,7 +35,7 @@ const RefundPage = async ({ params }: Props) => {
         <div className="px-10 mb-10">
           <div className="w-full max-h-full bg-slated-100">
             <div className="relative rounded-lg min-h-[80vh] flex justify-center items-center">
-              <RefundForm token={String(token)} merchantId={merchantId} amount={amount} paymentRequestId={paymentRequestId} orderId={orderId} customerId={customerId} />
+              <RefundForm token={String(token)} merchantId={merchantId} amount={amount} paymentRequestId={paymentRequestId} orderId={orderId} customerId={customerId} refund={refund} />
             </div>
           </div>
         </div>
