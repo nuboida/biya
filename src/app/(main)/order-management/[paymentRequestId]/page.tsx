@@ -35,7 +35,7 @@ const PaymentRequestPage = async ({ params }: Props) => {
       <section>
         <div className="px-10 mb-10">
           <div className="w-full max-h-full bg-slated-100">
-            <div className="relative rounded-lg min-h-[80vh] flex justify-center items-center">
+            <div className="relative rounded-lg min-h-[80vh] flex flex-col justify-center items-center py-10">
               <div className="w-1/2 flex flex-col gap-6 bg-white py-10 px-2">
                 <div className="flex justify-between px-8">
                   <h4 className="font-semibold">OrderId:</h4>
@@ -63,36 +63,6 @@ const PaymentRequestPage = async ({ params }: Props) => {
                     {convertKoboToNaira(paymentRequest.refund)}
                   </h6>
                 </div>
-                <div className="border border-slate-300">
-                  <div className="flex justify-between items-center px-8">
-                    <h4 className="font-semibold text-green-500">Refund Breakdown:</h4>
-                  </div>
-                  <div className="flex justify-center items-center mb-2">
-                    <table className="max-h-[120px] overflow-auto">
-                      <thead>
-                        <tr>
-                          <th className="min-w-[50px] font-medium px-3 py-4 align-middle text-green-500">Amount</th>
-                          <th className="min-w-[120px] font-medium px-3 py-4 align-middle text-green-500">Comment</th>
-                          <th className="min-w-[120px] font-medium px-3 py-4 align-middle text-green-500">Date</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {
-                          paymentRequest.refunds.length !== 0 && (
-                            paymentRequest.refunds.map((refund) => (
-                              <tr key={refund._id}>
-                                <td className="px-4 py-1"><span>&#8358; </span>
-                                {convertKoboToNaira(refund.amountRefunded)}</td>
-                                <td className="px-4 py-1">{refund.comment}</td>
-                                <td className="px-4 py-1">{formatDate(refund.createdAt)}</td>
-                              </tr>
-                            ))
-                          )
-                        }
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
                 <div className="flex justify-between items-center px-8">
                   <h4 className="font-semibold">Date:</h4>
                   <h6>{formatDate(paymentRequest.createdAt)}</h6>
@@ -105,13 +75,14 @@ const PaymentRequestPage = async ({ params }: Props) => {
                       paymentRequest.status === "APPROVED" && "text-green-500",
                       paymentRequest.status === "DECLINED" && "text-red-500",
                       paymentRequest.status === "PENDING" && "text-yellow-500",
-                      paymentRequest.status === "PARTIAL REFUND" && 'text-blue-500',
+                      paymentRequest.status === "PARTIAL REFUND" &&
+                        "text-blue-500",
                       paymentRequest.status === "REFUND" && "text-purple-500"
                     )}
                   >
-                    {
-                      paymentRequest.status === "PARTIAL REFUND" ? 'PARTIALLY REFUNDED' : paymentRequest.status
-                    }
+                    {paymentRequest.status === "PARTIAL REFUND"
+                      ? "PARTIALLY REFUNDED"
+                      : paymentRequest.status}
                   </h6>
                 </div>
                 {role === "Owner" &&
@@ -129,6 +100,39 @@ const PaymentRequestPage = async ({ params }: Props) => {
                     </div>
                   )}
               </div>
+              {paymentRequest.refunds.length != 0 && (
+                <div className="flex justify-center items-center mb-2 w-[90%] bg-white mt-10 px-5">
+                  <div className="w-full">
+                    <div className="flex justify-between items-center py-4">
+                      <h4 className="font-semibold">Refund Breakdown:</h4>
+                    </div>
+                    <table className="table w-full table-auto border-collapse border-0 text-left align-middle leading-5">
+                      <thead>
+                        <tr>
+                          <th className="min-w-[50px] tableHeader">Amount</th>
+                          <th className="min-w-[120px] tableHeader">Comment</th>
+                          <th className="min-w-[120px] tableHeader">Date</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {paymentRequest.refunds.length !== 0 &&
+                          paymentRequest.refunds.map((refund) => (
+                            <tr key={refund._id}>
+                              <td className="tableData">
+                                <span>&#8358; </span>
+                                {convertKoboToNaira(refund.amountRefunded)}
+                              </td>
+                              <td className="tableData">{refund.comment}</td>
+                              <td className="tableData">
+                                {formatDate(refund.createdAt)}
+                              </td>
+                            </tr>
+                          ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
