@@ -4,6 +4,7 @@ import { verifySession } from "@/dal";
 import { getSinglePaymentRequest } from "../services";
 import { cn, convertKoboToNaira, formatDate } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import {format} from 'date-fns';
 
 interface Props {
   params: Promise<{ paymentRequestId: string }>;
@@ -124,7 +125,7 @@ const PaymentRequestPage = async ({ params }: Props) => {
                               </td>
                               <td className="tableData">{refund.comment}</td>
                               <td className="tableData">
-                                {formatDate(refund.createdAt)}
+                                {format(new Date(refund.createdAt), 'eeee, d MMM yyyy. hh:mma')}
                               </td>
                             </tr>
                           ))}
