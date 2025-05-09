@@ -51,7 +51,7 @@ const WalletPage = async () => {
                     <tbody>
                       {
                         walletTransactions.map((transaction:WalletTransactionModel, i: number) => (
-                          <tr key={transaction.reference}>
+                          <tr key={`${transaction.reference}-${i}`}>
                             <td className="tableData">{i + 1}</td>
                             <td className="tableData">{transaction.reference}</td>
                             <td className="tableData capitalize">{(transaction.transactionType).replace(/([a-z0-9])([A-Z])/g, '$1 $2')}</td>

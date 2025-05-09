@@ -36,7 +36,7 @@ const PaymentRequestPage = async ({ params }: Props) => {
         <div className="px-10 mb-10">
           <div className="w-full max-h-full bg-slated-100">
             <div className="relative rounded-lg min-h-[80vh] flex justify-center items-center">
-              <div className="w-96 flex flex-col gap-6 bg-white py-10 px-2">
+              <div className="w-1/2 flex flex-col gap-6 bg-white py-10 px-2">
                 <div className="flex justify-between px-8">
                   <h4 className="font-semibold">OrderId:</h4>
                   <h6>{paymentRequest.orderId}</h6>
@@ -62,6 +62,36 @@ const PaymentRequestPage = async ({ params }: Props) => {
                     <span>&#8358; </span>
                     {convertKoboToNaira(paymentRequest.refund)}
                   </h6>
+                </div>
+                <div className="border border-slate-300">
+                  <div className="flex justify-between items-center px-8">
+                    <h4 className="font-semibold text-green-500">Refund Breakdown:</h4>
+                  </div>
+                  <div className="flex justify-center items-center mb-2">
+                    <table className="max-h-[120px] overflow-auto">
+                      <thead>
+                        <tr>
+                          <th className="min-w-[50px] font-medium px-3 py-4 align-middle text-green-500">Amount</th>
+                          <th className="min-w-[120px] font-medium px-3 py-4 align-middle text-green-500">Comment</th>
+                          <th className="min-w-[120px] font-medium px-3 py-4 align-middle text-green-500">Date</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {
+                          paymentRequest.refunds.length !== 0 && (
+                            paymentRequest.refunds.map((refund) => (
+                              <tr key={refund._id}>
+                                <td className="px-4 py-1"><span>&#8358; </span>
+                                {convertKoboToNaira(refund.amountRefunded)}</td>
+                                <td className="px-4 py-1">{refund.comment}</td>
+                                <td className="px-4 py-1">{formatDate(refund.createdAt)}</td>
+                              </tr>
+                            ))
+                          )
+                        }
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
                 <div className="flex justify-between items-center px-8">
                   <h4 className="font-semibold">Date:</h4>

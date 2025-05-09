@@ -9,7 +9,9 @@ const DashboardPage = async () => {
   const { token, merchantId, role } = await verifySession();
   const paymentRequests = await getPaymentRequests(token!, merchantId);
   const totalRequestAmount = paymentRequests.reduce((acc, n) => {
-    acc += n.amount;
+    if (n.status === "APPROVED") {
+      acc += n.amount;
+    }
     return acc;
   }, 0);
 

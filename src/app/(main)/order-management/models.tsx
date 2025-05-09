@@ -10,6 +10,12 @@ export interface PaymentRequestsResponse  {
     firstName: string;
     lastName: string;
   };
+  refunds: {
+    _id: string;
+    amountRefunded: number;
+    comment: string;
+    createdAt: string;
+  }[]
   status: string;
   merchantId: string;
   refund: number;
