@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { getPaymentRequests, getWalletBalance } from "./services";
+import { getMerchant, getPaymentRequests, getWalletBalance } from "./services";
 import { verifySession } from "@/dal";
 import { cn, convertKoboToNaira, formatDate } from "@/lib/utils";
 import { WalletBalanceWidget } from "@/components/wallet/walletBalanceWidget";
@@ -7,6 +7,8 @@ import Link from "next/link";
 
 const DashboardPage = async () => {
   const { token, merchantId, role } = await verifySession();
+  const merchant = await getMerchant(token!, merchantId);
+  const noOfAgents = merchant.employees.filter(employee => employee.role !== 'Owner').length;
   const paymentRequests = await getPaymentRequests(token!, merchantId);
   const totalRequestAmount = paymentRequests.reduce((acc, n) => {
     if (n.status === "APPROVED") {
@@ -31,6 +33,7 @@ const DashboardPage = async () => {
   const sortPaymentRequests = paymentRequests.sort(
     (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
   );
+
 
   return (
     <>
@@ -95,7 +98,7 @@ const DashboardPage = async () => {
                 </div>
               </div>
               <div>
-                <h1 className="text-6xl font-mono">0</h1>
+                <h1 className="text-6xl font-mono">{noOfAgents}</h1>
               </div>
             </div>
             )

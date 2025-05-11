@@ -14,6 +14,8 @@ import { Button } from "./ui/button";
 import toast from "./ui/toast";
 import clsx from "clsx";
 import Image from "next/image";
+import { DeleteBankAccountModal } from "./delete-bank-account-modal";
+import { useRouter } from "next/navigation";
 
 /**
  * @type {React.ExoticComponent<import('@szhsin/react-accordion').AccordionItemProps>}
@@ -23,6 +25,7 @@ interface Account {
   _id: string;
   accountNumber: string;
   bankCode: string;
+  recipientCode: string;
 }
 
 interface SettingsAccordionProps {
@@ -32,7 +35,7 @@ interface SettingsAccordionProps {
     businessName: string;
     merchantId: string;
     businessEmail: string;
-    photoUrl: string;
+    logoUrl: string;
   };
 }
 
@@ -93,11 +96,9 @@ const uploadMerchantImage = async (
   merchantId: string,
   formData: FormData
 ) => {
-  const response = await fetch(`/api/${merchantId}/update`, {
-    method: "POST",
+  const response = await fetch(`/api/merchants/${merchantId}/upload`, {
+    method: "PUT",
     headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
     body: formData,
@@ -147,6 +148,9 @@ export function SettingsAccordion({
   merchantId,
   merchant,
 }: SettingsAccordionProps) {
+  const router = useRouter();
+  const [deleteBankModal, setDeleteBankModal] = useState(false);
+  const [selectedAccount, setSelectedAccount] = useState('');
   const [isMounted, setIsMounted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isImageLoading, setIsImageLoading] = useState(false);
@@ -173,7 +177,8 @@ export function SettingsAccordion({
       return;
     }
     const formData = new FormData();
-    formData.append("photoUrl", e.currentTarget.files[0]);
+    formData.append("logoUrl", e.currentTarget.files[0]);
+
     uploadMerchantImage(token, merchantId, formData).then((res) => {
       if ("error" in res) {
         toast({
@@ -187,6 +192,7 @@ export function SettingsAccordion({
           type: "success",
         });
         setIsImageLoading(false);
+        router.refresh();
       }
     });
   };
@@ -259,6 +265,7 @@ export function SettingsAccordion({
           banks={banks}
         />
       )}
+      {deleteBankModal && (<DeleteBankAccountModal onClose={() => setDeleteBankModal(false)} token={token} merchantId={merchantId} id={selectedAccount} />)}
       <div className="mx-2 my-4 border-t">
         {/* `transitionTimeout` prop should be equal to the transition duration in CSS */}
         <Accordion transition transitionTimeout={200}>
@@ -271,13 +278,17 @@ export function SettingsAccordion({
             }
           >
             <div className="flex gap-16">
-              <div className="w-[264px] h-[264px] border-gray-100 border relative">
-                {isImageLoading && (<div className="bg-[rgba(0,0,0,0.5)] backdrop-blur-sm flex z-40 w-full h-full"></div>)}
-                {merchant.photoUrl && (
+              <div className={cn(
+                "w-[264px] h-[264px] border-gray-100 border relative",
+                isImageLoading && "bg-[rgba(0,0,0,0.5)] backdrop-blur-sm flex cursor-not-allowed"
+                )}>
+                {merchant.logoUrl && (
                   <Image
-                    src={merchant.photoUrl}
+                    src={merchant.logoUrl}
                     alt="Merchant Image"
                     className="min-w-full min-h-full"
+                    width={100}
+                    height={100}
                   />
                 )}
                 <input
@@ -288,7 +299,10 @@ export function SettingsAccordion({
                   ref={fileUpload}
                 />
                 <button
-                  className="absolute bottom-0 right-1 p-2 rounded-full border"
+                  className={cn(
+                    "absolute bottom-0 right-1 p-2 rounded-full border",
+                    isImageLoading && 'cursor-not-allowed'
+                  )}
                   onClick={() => handleUpload()}
                 >
                   <Icons.camera />
@@ -382,32 +396,35 @@ export function SettingsAccordion({
               </div>
             }
           >
-            <div className="flex items-center justify-between px-3">
-              <div className="flex flex-col">
+            <div className="flex items-center justify-between px-3 relative">
+              <div className="flex flex-col max-h-[300px] flex-wrap gap-x-6">
                 {accounts.map((account: Account) => (
                   <div
-                    className="text-black mb-4 flex items-center border border-blue-500 gap-4 py-4 px-8"
+                    className={cn("text-black mb-4 flex items-center border border-blue-500 gap-4 py-4 pl-8 pr-2",
+                      account.recipientCode === '' && "border-blue-200"
+                    )}
                     key={account._id}
                   >
-                    <div className="w-[30px] h-[30px] border">
-                      {banks.map((bank, i) => {
-                        if (bank.code === account.bankCode) {
-                          return (
-                            <div key={bank.longCode + i}>
-                              <Image
-                                src={`/bank-logos/${bank.slug}.png`}
-                                alt="bank logo"
-                                width={50}
-                                height={50}
-                                className="w-full h-full"
-                              />
-                            </div>
-                          );
-                        } else {
-                        }
-                      })}
+                    <div className="w-[30px] h-[30px] border relative">
+
+                        {banks.map((bank, i) => {
+                          if (bank.code === account.bankCode) {
+                            return (
+                              <div key={bank.longCode + i} className={cn(account.recipientCode === "" && "opacity-40")}>
+                                <Image
+                                  src={`/bank-logos/${bank.slug}.png`}
+                                  alt="bank logo"
+                                  width={50}
+                                  height={50}
+                                  className="w-full h-full"
+                                />
+                              </div>
+                            );
+                          } else {
+                          }
+                        })}
                     </div>
-                    <h1 className="mr-auto text-lg">
+                    <h1 className={cn(account.recipientCode === "" && "opacity-40", "mr-auto text-lg")}>
                       {banks.map((bank) => {
                         if (bank.code === account.bankCode) {
                           return `${bank.name}: ${account.accountNumber}`;
@@ -416,6 +433,12 @@ export function SettingsAccordion({
                         }
                       })}
                     </h1>
+                    <button className="ml-auto text-red-400 px-3" onClick={() => {
+                      setSelectedAccount(account._id);
+                      setDeleteBankModal(true);
+                    }}>
+                      <Icons.trash className="w-5"/>
+                    </button>
                   </div>
                 ))}
               </div>

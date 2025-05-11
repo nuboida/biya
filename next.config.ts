@@ -2,6 +2,15 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   /* config options here */
+  images: {
+    // domains: ["ui-avatars.com", "https://objectstorage.eu-frankfurt-1.oraclecloud.com"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "**"
+      }
+    ]
+  },
   output:'standalone',
 
   async rewrites() {

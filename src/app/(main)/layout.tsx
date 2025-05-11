@@ -22,7 +22,7 @@ const MainLayout: FC<MainLayoutProps> = async ({ children }) => {
 
   return (
     <>
-      <MainHeader role={session.role} merchant={{businessName: merchant.businessName, merchantId: merchant.merchantId}}/>
+      <MainHeader role={session.role} merchant={{businessName: merchant.businessName, merchantId: merchant.merchantId, logoUrl: merchant.logoUrl}}/>
       <main className="pt-20 container">{children}</main>
     </>
   );

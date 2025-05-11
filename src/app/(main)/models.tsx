@@ -13,5 +13,6 @@ export interface GetMerchantResponse {
   id: string;
   merchantId: string;
   businessName: string;
+  logoUrl: string;
   employees: Employee[]
 }

@@ -10,7 +10,7 @@ const SettingsPage = async () => {
     <section>
       <div className="px-10 mb-10">
         <div className="pt-10">
-          <SettingsAccordion token={String(token)} merchantId={merchantId} merchant={{businessName: merchant.businessName, merchantId: merchant.merchantId, businessEmail: merchant.businessEmail || '', photoUrl: merchant.photoUrl || ''}} />
+          <SettingsAccordion token={String(token)} merchantId={merchantId} merchant={{businessName: merchant.businessName, merchantId: merchant.merchantId, businessEmail: merchant.businessEmail || '', logoUrl: merchant.logoUrl || ''}} />
         </div>
       </div>
     </section>

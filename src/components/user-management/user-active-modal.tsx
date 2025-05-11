@@ -90,7 +90,7 @@ export const UserActiveModal = ({
       deactivate(token, merchantId, {employeeId: id}).then(res => {
         if ("error" in res) {
           toast({
-            message: res.message,
+            message: res.error,
             type: "error"
           });
           setIsLoading(false);

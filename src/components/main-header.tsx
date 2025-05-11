@@ -5,12 +5,14 @@ import Link from "next/link";
 import clsx from "clsx";
 import { redirect, usePathname } from "next/navigation";
 import { logout } from "@/action";
+import { Icons } from "./ui/Icons";
 
 interface NavigationProps {
   role: string;
   merchant: {
     businessName: string;
     merchantId: string;
+    logoUrl: string
   };
 }
 
@@ -93,7 +95,16 @@ export const MainHeader = ({ role, merchant }: NavigationProps) => {
           </div>
         </div>
         <div className="ml-auto flex items-center gap-4">
-          <div className="border border-slate-400 px-6 py-2">
+          <div className="border border-slate-400 flex  gap-5 px-6 py-2">
+            <div className="border flex justify-center items-center rounded-full w-[30px] h-[30px]">
+              {
+                merchant.logoUrl ? (
+                  <Image src={merchant.logoUrl || ''} alt="merchant logo" width={100} height={100} className="w-full h-full" />
+                ) : (
+                  <Icons.briefCase className="w-[20px] h-[20px]" />
+                )
+              }
+            </div>
             {`${merchant.businessName} - ${merchant.merchantId}`}
           </div>
           <div className="text-accent">

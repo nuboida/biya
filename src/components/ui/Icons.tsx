@@ -23,7 +23,8 @@ import {
   ArrowDown,
   ChevronDown,
   X,
-  Camera
+  Camera,
+  BriefcaseBusiness
 } from "lucide-react";
 
 import { Icon as LucideIcon } from "lucide-react"
@@ -55,5 +56,6 @@ export const Icons = {
   arrowDown: ArrowDown,
   chevronDown: ChevronDown,
   x: X,
+  briefCase: BriefcaseBusiness,
   camera: Camera
 }
