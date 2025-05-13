@@ -172,10 +172,28 @@ export function SettingsAccordion({
   const fileUpload = useRef<HTMLInputElement>(null);
 
   const uploadImage = (e: ChangeEvent<HTMLInputElement>) => {
-    setIsImageLoading(true)
+    setIsImageLoading(true);
     if (!e.currentTarget.files) {
       return;
     }
+    if (e.currentTarget.files[0].type !== "image/png") {
+      toast({
+        message: "Unknown image format",
+        type: 'error'
+      });
+      setIsImageLoading(false)
+      throw new Error("Unknown file format")
+    }
+
+    if (e.currentTarget.files[0].size > 5000) {
+      toast({
+        message: "File size too large, File should not be larger than 5mb",
+        type: "error"
+      })
+      setIsImageLoading(false);
+      throw new Error("File size too large")
+    }
+
     const formData = new FormData();
     formData.append("logoUrl", e.currentTarget.files[0]);
 
@@ -297,6 +315,7 @@ export function SettingsAccordion({
                   id="iconUpload"
                   onChange={uploadImage}
                   ref={fileUpload}
+                  accept="image/png, image/jpeg"
                 />
                 <button
                   className={cn(
