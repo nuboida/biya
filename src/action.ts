@@ -14,6 +14,7 @@ const registerSchema = z.object({
   email: z.string(),
   phone: z.string(),
   password: z.string(),
+  businessEmail: z.string()
 });
 
 const recoverAccountSchema = z.object({
@@ -29,7 +30,7 @@ export async function register(prevState: unknown, formData: FormData) {
     }
   }
 
-  const { firstName, lastName, email, businessName, phone, password } = registerData.data;
+  const { firstName, lastName, email, businessName, phone, password, businessEmail } = registerData.data;
 
   const response = await fetch("/api/auth/register", {
     method: "POST",
@@ -37,7 +38,7 @@ export async function register(prevState: unknown, formData: FormData) {
       "Accept": "application/json",
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({ firstName, lastName, businessName, email, password, phone })
+    body: JSON.stringify({ firstName, lastName, businessName, email, password, phone, businessEmail })
   });
   if (!response.ok) {
     const { error } = await response.json()
