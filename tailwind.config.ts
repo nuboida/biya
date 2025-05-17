@@ -35,7 +35,22 @@ export default {
       fontFamily: {
         sans: ['var(--font-darker-grotesque)'],
         mono: ['var(--font-mango-grotesque)']
-      }
+      },
+      keyframes: {
+        dropdown: {
+          '100%': {transform: 'translateY(0)'},
+          '0%': {transform: 'translateY(10px)'}
+        },
+        activateprompt: {
+          'from': {height: '0'},
+          'to': {height: '4rem'}
+        }
+      },
+      animation: {
+        'spin-faster': 'spin .5s linear infinite',
+        'drop-down': 'dropdown .3s linear both',
+        'activate-prompt': 'activateprompt 0.5s 1s linear both'
+      },
     },
   },
   plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],
