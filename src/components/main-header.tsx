@@ -102,7 +102,7 @@ export const MainHeader = ({ role, merchant }: NavigationProps) => {
               </div>
               <div>
                 <h1 className="text-xl text-white font-bold">
-                  Merchant has not been verified.
+                  Merchant has not been approved. You can send us an email at <span className="text-accent">merchant@biya.com.ng</span>
                 </h1>
               </div>
             </div>
