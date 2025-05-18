@@ -7,6 +7,7 @@ import { PaymentRequestsResponse } from "@/app/(main)/order-management/models";
 import { cn, convertKoboToNaira, formatDate } from "@/lib/utils";
 import { GetMerchantResponse } from "@/app/(main)/models";
 import { Dropdown } from "../ui/dropdown";
+import { Icons } from "../ui/Icons";
 
 interface OrderManagementTableProps {
   token: string;
@@ -63,6 +64,7 @@ export const getMerchant = async (
 
 export const OrderManagementTable = ({ token, merchantId, role }: OrderManagementTableProps) => {
   const [isMounted, setIsMounted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [employeeId, setEmployeeId] = useState('');
   const [employeeOpts, setEmployeeOpts] = useState<{id: string, name: string}[]>([{id: '', name: "All"}]);
   const [paymentRequests, setPaymentRequests] = useState<PaymentRequestsResponse[]>([]);
@@ -95,9 +97,11 @@ export const OrderManagementTable = ({ token, merchantId, role }: OrderManagemen
     let ignore = false;
 
     getPaymentRequests(token, merchantId, employeeId).then((res) => {
+      setIsLoading(true)
       if (!ignore) {
         const sortPaymentRequests = res.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
         setPaymentRequests(sortPaymentRequests);
+        setIsLoading(false);
       }
     });
 
@@ -117,15 +121,7 @@ export const OrderManagementTable = ({ token, merchantId, role }: OrderManagemen
     {
       role === 'Owner' && (
         <div className="w-[20%] px-4 py-2 ml-auto">
-          {/* <select defaultValue={0} onChange={handleOptChange}>
-            <option value='' disabled>--</option>
-            {
-              employeeOpts.map((employee) => (
-                <option key={`${employee.id}`} value={employee.id}>{employee.name}</option>
-              ))
-            }
-          </select> */}
-            <Dropdown placeholder="All" name="employeeId" defaultValue={employeeId || 0} options={employeeOpts.map((employee) => ({label: employee.name, value: employee.id}))} onChange={handleOptChange} />
+          <Dropdown placeholder="All" name="employeeId" defaultValue={employeeId || 0} options={employeeOpts.map((employee) => ({label: employee.name, value: employee.id}))} onChange={handleOptChange} />
         </div>
       )
     }
@@ -145,6 +141,19 @@ export const OrderManagementTable = ({ token, merchantId, role }: OrderManagemen
           </tr>
         </thead>
         <tbody>
+          {
+            isLoading && (
+              <tr>
+                <td>
+                  <div className="absolute top-0 bottom-0 right-0 left-0 bg-white opacity-40">
+                    <div className="flex justify-center items-center h-full">
+                      <Icons.spinner className="w-14 h-14 animate-spin text-blue-800" />
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            )
+          }
           {paymentRequests.map((paymentRequest, i: number) => (
             <tr key={paymentRequest.id}>
               <td className="tableData">{i + 1}</td>
@@ -168,7 +177,7 @@ export const OrderManagementTable = ({ token, merchantId, role }: OrderManagemen
               </td>
               <td
                 className={cn(
-                  "tableData font-bold",
+                  "tableData font-bold text-nowrap",
                   paymentRequest.status === "APPROVED" && "text-green-500",
                   paymentRequest.status === "DECLINED" && "text-red-500",
                   paymentRequest.status === "PENDING" && "text-yellow-500",
@@ -176,7 +185,7 @@ export const OrderManagementTable = ({ token, merchantId, role }: OrderManagemen
                   paymentRequest.status === "REFUND" && "text-purple-500",
                 )}
               >
-                {paymentRequest.status}
+                {paymentRequest.status === "APPROVED" ? 'PAID' : paymentRequest.status}
               </td>
               <td className="tableData">
                 <Link href={`/order-management/${paymentRequest.id}`}>

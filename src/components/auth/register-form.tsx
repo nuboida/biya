@@ -17,6 +17,7 @@ export interface SignupRequest {
   email: string;
   phone: string;
   password: string;
+  terms: boolean;
 }
 
 export const RegisterForm = ({ className, ...props }: RegisterFormProps) => {
@@ -28,6 +29,7 @@ export const RegisterForm = ({ className, ...props }: RegisterFormProps) => {
     email: "",
     phone: "",
     password: "",
+    terms: false
   });
 
   const [state, registerAction, isPending] = useActionState(
@@ -36,10 +38,17 @@ export const RegisterForm = ({ className, ...props }: RegisterFormProps) => {
   );
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setRegisterData({
-      ...registerData,
-      [event.target.name]: event.target.value,
-    });
+    if (event.target.name === 'terms') {
+      setRegisterData({
+        ...registerData,
+        terms: event.target.checked
+      })
+    } else {
+      setRegisterData({
+        ...registerData,
+        [event.target.name]: event.target.value,
+      });
+    }
   };
 
   return (
@@ -47,7 +56,9 @@ export const RegisterForm = ({ className, ...props }: RegisterFormProps) => {
       {typeof state == "string" && (
         <p className="px-1 pt-1 text-red-600 font-semibold">{state}</p>
       )}
-      <form action={registerAction} role="form">
+      <form action={registerAction} role="form" className={cn(
+        typeof state == "string" && "border-red-200 border p-2"
+      )}>
         <h5 className="text-accent font-semibold">Owner details</h5>
         <div className="flex flex-row items-center gap-2 mt-2">
           <div>
@@ -59,6 +70,7 @@ export const RegisterForm = ({ className, ...props }: RegisterFormProps) => {
                 placeholder="First Name"
                 name="firstName"
                 onChange={handleInputChange}
+                defaultValue={registerData.firstName}
               />
             </div>
           </div>
@@ -71,6 +83,7 @@ export const RegisterForm = ({ className, ...props }: RegisterFormProps) => {
                 placeholder="Last Name"
                 name="lastName"
                 onChange={handleInputChange}
+                defaultValue={registerData.lastName}
               />
             </div>
           </div>
@@ -85,6 +98,7 @@ export const RegisterForm = ({ className, ...props }: RegisterFormProps) => {
                 name="email"
                 placeholder="Email"
                 onChange={handleInputChange}
+                defaultValue={registerData.email}
               />
             </div>
           </div>
@@ -97,6 +111,7 @@ export const RegisterForm = ({ className, ...props }: RegisterFormProps) => {
                 name="phone"
                 placeholder="Phone"
                 onChange={handleInputChange}
+                defaultValue={registerData.phone}
               />
             </div>
           </div>
@@ -111,6 +126,7 @@ export const RegisterForm = ({ className, ...props }: RegisterFormProps) => {
               placeholder="Password"
               type="password"
               onChange={handleInputChange}
+              defaultValue={registerData.password}
             />
           </div>
         </div>
@@ -127,6 +143,7 @@ export const RegisterForm = ({ className, ...props }: RegisterFormProps) => {
                 name="businessName"
                 placeholder="Business Name"
                 onChange={handleInputChange}
+                defaultValue={registerData.businessName}
               />
             </div>
           </div>
@@ -139,6 +156,7 @@ export const RegisterForm = ({ className, ...props }: RegisterFormProps) => {
                 name="businessEmail"
                 placeholder="Business Email"
                 onChange={handleInputChange}
+                defaultValue={registerData.businessEmail}
               />
             </div>
           </div>
@@ -146,7 +164,7 @@ export const RegisterForm = ({ className, ...props }: RegisterFormProps) => {
 
         <div className="2xl:mb-4 lg:mb-3">
           <div className="flex gap-1">
-            <input type="checkbox" />
+            <input type="checkbox" onChange={handleInputChange} name="terms" defaultChecked={registerData.terms} />
             <p>
               I agree to{" "}
               <span className="text-accent font-semibold">
@@ -156,7 +174,7 @@ export const RegisterForm = ({ className, ...props }: RegisterFormProps) => {
           </div>
         </div>
         <div className="text-center">
-          <Button size="lg" type="submit" disabled={isPending}>
+          <Button size="lg" type="submit" disabled={isPending || !registerData.terms}>
             {isPending && (
               <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
             )}

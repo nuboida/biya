@@ -310,7 +310,7 @@ const DashboardPage = async () => {
                                 "text-purple-500"
                             )}
                           >
-                            {paymentRequest.status}
+                            {paymentRequest.status === "APPROVED" ? 'PAID' : paymentRequest.status}
                           </td>
                         </tr>
                       ))}

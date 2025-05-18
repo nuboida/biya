@@ -78,7 +78,7 @@ export const ChangePasswordForm = ({ token }: ChangePasswordFormProps) => {
                 placeholder="Enter Password"
                 name="oldPassword"
                 onChange={handlePasswordChange}
-                value={passwordChange.oldPassword}
+                defaultValue={passwordChange.oldPassword}
               />
             </div>
             <div className="pt-6">
@@ -87,7 +87,7 @@ export const ChangePasswordForm = ({ token }: ChangePasswordFormProps) => {
                 placeholder="Enter New Password"
                 name="newPassword"
                 onChange={handlePasswordChange}
-                value={passwordChange.newPassword}
+                defaultValue={passwordChange.newPassword}
               />
             </div>
             <div className="pt-6">
@@ -96,7 +96,7 @@ export const ChangePasswordForm = ({ token }: ChangePasswordFormProps) => {
                 placeholder="Confirm Password"
                 name="confirmPassword"
                 onChange={handlePasswordChange}
-                value={passwordChange.confirmPassword}
+                defaultValue={passwordChange.confirmPassword}
               />
             </div>
             {typeof error == "string" && (

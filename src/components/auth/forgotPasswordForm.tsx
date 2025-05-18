@@ -27,7 +27,7 @@ export const ForgotPasswordForm = () => {
             </p>
           </div>
           <div className="pt-6">
-            <Input type="email" name="email" placeholder="email" onChange={handleInputChange} />
+            <Input type="email" name="email" placeholder="email" onChange={handleInputChange} defaultValue={recoveryData.email} />
             {
               typeof state == "string" && (
                 <p className="px-1 pt-1 text-red-600 font-semibold">{state}</p>

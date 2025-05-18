@@ -37,6 +37,7 @@ export const LoginForm = ({ className, ...props }: LoginFormProps) => {
             name="email"
             placeholder="Enter email or employee id"
             onChange={handleInputChange}
+            defaultValue={loginData.email}
           />
         </div>
         <label className="sr-only mb-2 ml-1 font-bold text-xs text-slate-700">
@@ -48,6 +49,7 @@ export const LoginForm = ({ className, ...props }: LoginFormProps) => {
             name="password"
             placeholder="Enter Password"
             onChange={handleInputChange}
+            defaultValue={loginData.password}
           />
           {typeof state == "string" && (
             <p className="px-1 pt-1 text-red-600 font-semibold">{state}</p>
@@ -57,7 +59,7 @@ export const LoginForm = ({ className, ...props }: LoginFormProps) => {
           <Link href="/login/forgot-password" className="text-accent font-semibold">Forgot Password?</Link>
         </div>
         <div className="text-center mt-6">
-          <Button size="lg" disabled={isPending}>
+          <Button type="submit" size="lg" disabled={isPending || loginData.email == '' || loginData.password == ''}>
             {isPending && (
               <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
             )}
