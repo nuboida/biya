@@ -8,6 +8,7 @@ import { cn, convertKoboToNaira, formatDate } from "@/lib/utils";
 import { GetMerchantResponse } from "@/app/(main)/models";
 import { Dropdown } from "../ui/dropdown";
 import { Icons } from "../ui/Icons";
+import toast from "../ui/toast";
 
 interface OrderManagementTableProps {
   token: string;
@@ -97,11 +98,19 @@ export const OrderManagementTable = ({ token, merchantId, role }: OrderManagemen
     let ignore = false;
 
     getPaymentRequests(token, merchantId, employeeId).then((res) => {
-      setIsLoading(true)
       if (!ignore) {
-        const sortPaymentRequests = res.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-        setPaymentRequests(sortPaymentRequests);
-        setIsLoading(false);
+        setIsLoading(true);
+        if ('error' in res) {
+          toast({
+            message: 'Something went wrong',
+            type: 'error'
+          })
+          setIsLoading(false);
+        } else {
+          const sortPaymentRequests = res.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+          setPaymentRequests(sortPaymentRequests);
+          setIsLoading(false);
+        }
       }
     });
 
