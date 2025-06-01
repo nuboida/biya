@@ -9,11 +9,19 @@ export interface Employee {
   role: string;
 }
 
+export interface Vendor {
+  _id: string;
+  name: string;
+  email: string;
+  phone: string;
+}
+
 export interface GetMerchantResponse {
   id: string;
   merchantId: string;
   businessName: string;
   logoUrl: string;
   isMerchantVerified: boolean;
-  employees: Employee[]
+  employees: Employee[],
+  vendors: Vendor[]
 }

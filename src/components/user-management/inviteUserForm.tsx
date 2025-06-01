@@ -40,7 +40,7 @@ const addEmployeeRequest = async (
       },
       body: JSON.stringify(request),
     });
-    return response.json();
+    return await response.json();
   } catch (error) {
     console.log(error);
   }
@@ -143,7 +143,7 @@ export const InviteUserForm = ({ token, merchantId, edit, employee }: InviteUser
           <Link href="/user-management">
             <Button>Cancel</Button>
           </Link>
-          <Button className="bg-accent" onClick={onSubmit}>
+          <Button className="bg-accent" onClick={onSubmit} disabled={isLoading}>
             {isLoading && <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />}
             {
               edit ? "Edit User" : "Create User"

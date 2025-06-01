@@ -39,6 +39,10 @@ const navigationalItems = (role: string): NavigationItem[] => {
         href: "/user-management",
       },
       {
+        title: "Vendors",
+        href: "/vendors",
+      },
+      {
         title: "Order Management",
         href: "/order-management",
       },

@@ -33,6 +33,7 @@ const PaymentRequestPage = async ({ params }: Props) => {
           </div>
         </div>
       </section>
+
       <section>
         <div className="px-10 mb-10">
           <div className="w-full max-h-full bg-slated-100">
