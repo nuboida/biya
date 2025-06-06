@@ -1,7 +1,17 @@
 import { Icons } from "@/components/ui/Icons"
+import { verifySession } from "@/dal";
 import Link from "next/link"
+import { getSingleVendor } from "../service";
 
-const VendorPage = async () => {
+interface Props {
+  params: Promise<{ vendorId: string }>;
+}
+
+const VendorPage = async ({ params }: Props) => {
+  const { vendorId } = await params;
+  const { token } = await verifySession();
+  const vendor = await getSingleVendor(token!, vendorId);
+
   return (
     <>
       <section>
@@ -24,15 +34,15 @@ const VendorPage = async () => {
               <div className="w-1/2 flex flex-col gap-6 bg-white py-10 px-2">
                 <div className="flex justify-between px-8">
                   <h4 className="font-semibold">Name:</h4>
-                  <h6>Laurence</h6>
+                  <h6>{vendor.name}</h6>
                 </div>
                 <div className="flex justify-between px-8">
                   <h4 className="font-semibold">Email:</h4>
-                  <h6>Fill Email</h6>
+                  <h6>{vendor.email}</h6>
                 </div>
                 <div className="flex justify-between px-8">
                   <h4 className="font-semibold">Phone:</h4>
-                  <h6>Fill Phone</h6>
+                  <h6>{vendor.phone}</h6>
                 </div>
                 <div className="flex justify-between items-center px-8">
                   <h4 className="font-semibold">Account:</h4>
