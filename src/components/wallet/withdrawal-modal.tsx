@@ -1,3 +1,5 @@
+"use client"
+
 import { ChangeEvent, useEffect, useState } from "react";
 import Image from "next/image";
 import { InfoModal } from "../ui/info-modal";

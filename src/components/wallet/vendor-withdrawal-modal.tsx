@@ -1,0 +1,198 @@
+"use client"
+
+import Image from "next/image";
+import { Vendor } from "@/app/(main)/wallet/models";
+import { InfoModal } from "../ui/info-modal";
+import { ChangeEvent, useEffect, useState } from "react";
+import { Input } from "../ui/input";
+
+interface VendorWithdrawalModalProps {
+  onClose: () => void;
+  vendors: Vendor[];
+  token: string;
+}
+
+interface WithdrawFundsRequest {
+  amount: number;
+  reason: string;
+  accountId: string;
+}
+
+const getBanks = async (token: string) => {
+  try {
+    const response = await fetch(`/api/banks`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.json();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const getVendor = async (token: string, vendorId: string) => {
+  try {
+    const response = await fetch(`/api/merchants/vendor/${vendorId}`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return await response.json();
+  } catch (error) {
+    throw new Error(String(error));
+  }
+};
+
+export const VendorWithdrawalModal = ({
+  onClose,
+  vendors,
+  token,
+}: VendorWithdrawalModalProps) => {
+  const [isMounted, setIsMounted] = useState(false);
+  const [banks, setBanks] = useState<
+    { code: string; name: string; longCode: string; slug: string }[]
+  >([]);
+  const [account, setAccount] = useState<{
+    _id: string;
+    accountNumber: string;
+    bankCode: string;
+    recipientCode: string;
+    email: string;
+  } | null>({
+    _id: "",
+    accountNumber: "",
+    bankCode: "",
+    recipientCode: "",
+    email: "",
+  });
+  const [selectedItem, setSelectedItem] = useState("");
+  const [inputData, setInputData] = useState<WithdrawFundsRequest>({
+    accountId: "",
+    amount: 0,
+    reason: "",
+  });
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  useEffect(() => {
+    let ignore = false;
+
+    if (!ignore) {
+      getBanks(token).then((res) => {
+        setBanks(res.data);
+      });
+    }
+
+    return () => {
+      ignore = true;
+    };
+  }, [isMounted, token]);
+
+  const toggleAccount = (id: string) => {
+    setAccount(null);
+    getVendor(token, id).then((res) => {
+      setAccount(res.bankAccount);
+    });
+    setSelectedItem(id);
+  };
+
+  const handleChange = (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setInputData({
+      ...inputData,
+      [event.target.name]: event.target.value,
+    });
+  };
+
+  return (
+    <InfoModal
+      title="Withdraw to Vendor"
+      subtitle="Click the vendor and fill the information below to initiate withdrawal"
+      onModalClose={() => onClose()}
+    >
+      {vendors.map((vendor: Vendor) => (
+        <div
+          className="flex flex-col border border-blue-500 p-3"
+          key={vendor._id}
+        >
+          <div
+            className="text-black mb-2 flex items-center gap-4 cursor-pointer"
+            onClick={() => {
+              toggleAccount(vendor._id);
+              setInputData({ ...inputData, accountId: vendor._id });
+            }}
+          >
+            <h1 className="mr-auto text-lg">{vendor.name}</h1>
+          </div>
+          {selectedItem === vendor._id && (
+            <>
+              {account ? (
+                <div>
+                  <div className="flex gap-2 text-black mb-3 font-semibold">
+
+                    <div className="w-[30px] h-[30px] border">
+                      {banks.map((bank, i) => {
+                        if (bank.code === account.bankCode) {
+                          return (
+                            <div key={bank.longCode + i}>
+                              <Image
+                                src={`/bank-logos/${bank.slug}.png`}
+                                alt="bank logo"
+                                width={50}
+                                height={50}
+                                className="w-full h-full"
+                              />
+                            </div>
+                          );
+                        } else {
+                        }
+                      })}
+                    </div>
+                    <h1 className="mr-auto text-lg">
+                      {banks.map((bank) => {
+                        if (bank.code === account.bankCode) {
+                          return `${bank.name}: ${account.accountNumber}`;
+                        } else {
+                          return "";
+                        }
+                      })}
+                    </h1>
+                  </div>
+                  <div>
+                    <Input
+                      placeholder="Amount"
+                      name="amount"
+                      onChange={handleChange}
+                    />
+                    <textarea
+                      rows={3}
+                      className="w-full text-black border border-solid border-gray-300 mt-5 px-3 2xl:py-3 lg:py-2 resize-none"
+                      placeholder="Reason"
+                      name="reason"
+                    ></textarea>
+                  </div>
+                </div>
+              ) : (
+                <div>
+                  <h1 className="text-2xl">
+                    Vendor has no acccount registered
+                  </h1>
+                </div>
+              )}
+            </>
+          )}
+        </div>
+      ))}
+    </InfoModal>
+  );
+};

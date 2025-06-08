@@ -1,15 +1,16 @@
-import React, { ChangeEvent,  useState } from "react";
-import toast from "./ui/toast";
-import { Modal } from "./ui/modal";
-import { Input } from "./ui/input";
-import { Dropdown } from "./ui/dropdown";
+"use client"
+
+import React, { ChangeEvent,  useEffect,  useState } from "react";
+import { Modal } from "../ui/modal";
+import { Input } from "../ui/input";
+import { Dropdown } from "../ui/dropdown";
+import toast from "../ui/toast";
 
 
 interface ValidateBankModalProps {
   onClose: () => void;
-  banks: {code: string; name: string}[];
   token: string;
-  merchantId: string;
+  vendorId: string;
 }
 
 interface BankValidationRequest {
@@ -22,9 +23,25 @@ interface BankValidationRequest {
   last_name: string;
 }
 
-const validateBank = async (token: string, merchantId: string, request: BankValidationRequest) => {
+const getBanks = async (token: string) => {
   try {
-    const response = await fetch(`/api/merchants/${merchantId}/validate-bank`, {
+    const response = await fetch(`/api/banks`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return await response.json();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const validateVendorBank = async (token: string, vendorId: string, request: BankValidationRequest) => {
+  try {
+    const response = await fetch(`/api/merchants/vendor/${vendorId}/validate-bank`, {
       method: "POST",
       headers: {
         "Accept": "application/json",
@@ -39,7 +56,8 @@ const validateBank = async (token: string, merchantId: string, request: BankVali
   }
 }
 
-const ValidateBankModal: React.FC<ValidateBankModalProps> = ({onClose, token, merchantId, banks}) => {
+export const ValidateVendorBankModal: React.FC<ValidateBankModalProps> = ({onClose, token, vendorId}) => {
+  const [isMounted, setIsMounted] = useState(false);
   const [bankCredentials, setBankCredential] = useState<BankValidationRequest>({
     country: "NG",
     type: "bank_account",
@@ -49,7 +67,28 @@ const ValidateBankModal: React.FC<ValidateBankModalProps> = ({onClose, token, me
     first_name: '',
     last_name: ''
   });
+  const [banks, setBanks] = useState<
+    { code: string; name: string; slug: string; longCode: string }[]
+  >([]);
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+      setIsMounted(true);
+    }, []);
+
+  useEffect(() => {
+      let ignore = false;
+
+      if (!ignore) {
+        getBanks(token).then((res) => {
+          setBanks(res.data);
+        });
+      }
+
+      return () => {
+        ignore = true;
+      };
+    }, [isMounted]);
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     setBankCredential({...bankCredentials, [event.target.name]: event.target.value})
@@ -61,7 +100,8 @@ const ValidateBankModal: React.FC<ValidateBankModalProps> = ({onClose, token, me
 
   const handleSubmit = () => {
     setIsLoading(true);
-    validateBank(token, merchantId, bankCredentials).then((res) => {
+    setIsLoading(true);
+    validateVendorBank(token, vendorId, bankCredentials).then((res) => {
       if ('error' in res) {
         toast({
           message: res.error,
@@ -106,4 +146,4 @@ const ValidateBankModal: React.FC<ValidateBankModalProps> = ({onClose, token, me
   )
 }
 
-export default ValidateBankModal
+

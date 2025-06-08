@@ -1,7 +1,8 @@
-import { Icons } from "@/components/ui/Icons"
+import { Icons } from "@/components/ui/Icons";
 import { verifySession } from "@/dal";
-import Link from "next/link"
-import { getSingleVendor } from "../service";
+import Link from "next/link";
+import { getBanks, getSingleVendor } from "../service";
+import VendorBankComponent from "@/components/vendors/vendorBank";
 
 interface Props {
   params: Promise<{ vendorId: string }>;
@@ -11,6 +12,7 @@ const VendorPage = async ({ params }: Props) => {
   const { vendorId } = await params;
   const { token } = await verifySession();
   const vendor = await getSingleVendor(token!, vendorId);
+  const banks = await getBanks(token!);
 
   return (
     <>
@@ -44,21 +46,14 @@ const VendorPage = async ({ params }: Props) => {
                   <h4 className="font-semibold">Phone:</h4>
                   <h6>{vendor.phone}</h6>
                 </div>
-                <div className="flex justify-between items-center px-8">
-                  <h4 className="font-semibold">Account:</h4>
-                  <div className="text-black mb-4 flex items-center border border-blue-500 gap-4 py-4 pl-8 pr-2">
-                    <div className="w-[30px] h-[30px] border relative"></div>
-                    <h1 className="mr-auto text-lg">Bank name</h1>
-                  </div>
-                </div>
+                <VendorBankComponent bankAccount={vendor.bankAccount} token={String(token)} banks={banks.data} vendorId={vendorId} />
               </div>
-
             </div>
           </div>
         </div>
       </section>
     </>
-  )
-}
+  );
+};
 
-export default VendorPage
+export default VendorPage;

@@ -4,12 +4,14 @@ import { convertKoboToNaira, formatDate } from "@/lib/utils";
 import { WalletTransactionModel } from "./models";
 import { WalletBalanceWidget } from "@/components/wallet/walletBalanceWidget";
 import { WithDrawalButton } from "@/components/wallet/withdrawButton";
+import { VendorWithdrawalButton } from "@/components/wallet/vendorWithdrawButton";
+import { getMerchant } from "../service";
 
 const WalletPage = async () => {
   const {token, merchantId, role} = await verifySession();
   const {balance} = await getWalletBalance(token!, merchantId);
   const walletTransactions = await getWalletTransactions(token!, merchantId);
-
+  const merchant = await getMerchant(token!, merchantId);
   return (
     <>
       <section>
@@ -19,7 +21,10 @@ const WalletPage = async () => {
               <WalletBalanceWidget balance={balance} role={role} />
               {
                 typeof balance === "number" && (
-                  <WithDrawalButton token={String(token)} merchantId={merchantId} />
+                  <div className="flex gap-2">
+                    <WithDrawalButton token={String(token)} merchantId={merchantId} />
+                    <VendorWithdrawalButton vendors={merchant.vendors} token={String(token)}/>
+                  </div>
                 )
               }
             </div>
