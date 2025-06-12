@@ -1,15 +1,17 @@
-"use client"
+"use client";
 
 import Image from "next/image";
 import { Vendor } from "@/app/(main)/wallet/models";
 import { InfoModal } from "../ui/info-modal";
 import { ChangeEvent, useEffect, useState } from "react";
 import { Input } from "../ui/input";
+import toast from "../ui/toast";
 
 interface VendorWithdrawalModalProps {
   onClose: () => void;
   vendors: Vendor[];
   token: string;
+  merchantId: string;
 }
 
 interface WithdrawFundsRequest {
@@ -29,6 +31,27 @@ const getBanks = async (token: string) => {
       },
     });
     return response.json();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const withdrawFunds = async (
+  token: string,
+  merchantId: string,
+  request: WithdrawFundsRequest
+) => {
+  try {
+    const response = await fetch(`/api/merchants/${merchantId}/withdraw`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(request),
+    });
+    return await response.json();
   } catch (error) {
     console.log(error);
   }
@@ -54,8 +77,10 @@ export const VendorWithdrawalModal = ({
   onClose,
   vendors,
   token,
+  merchantId,
 }: VendorWithdrawalModalProps) => {
   const [isMounted, setIsMounted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [banks, setBanks] = useState<
     { code: string; name: string; longCode: string; slug: string }[]
   >([]);
@@ -65,7 +90,7 @@ export const VendorWithdrawalModal = ({
     bankCode: string;
     recipientCode: string;
     email: string;
-  } | null>({
+  }>({
     _id: "",
     accountNumber: "",
     bankCode: "",
@@ -98,9 +123,16 @@ export const VendorWithdrawalModal = ({
   }, [isMounted, token]);
 
   const toggleAccount = (id: string) => {
-    setAccount(null);
+    setAccount({
+      _id: "",
+      accountNumber: "",
+      bankCode: "",
+      recipientCode: "",
+      email: "",
+    });
     getVendor(token, id).then((res) => {
       setAccount(res.bankAccount);
+      setInputData({...inputData, accountId: res.bankAccount._id})
     });
     setSelectedItem(id);
   };
@@ -114,11 +146,35 @@ export const VendorWithdrawalModal = ({
     });
   };
 
+  const onSubmit = () => {
+    setIsLoading(true);
+
+    withdrawFunds(token, merchantId, inputData).then((res) => {
+      if ("error" in res) {
+        toast({
+          message: `${res.error}`,
+          type: "error",
+        });
+        setIsLoading(false);
+      } else {
+        toast({
+          message: res.message,
+          type: "success",
+        });
+        setIsLoading(false);
+        onClose();
+      }
+    });
+  };
+
   return (
     <InfoModal
       title="Withdraw to Vendor"
       subtitle="Click the vendor and fill the information below to initiate withdrawal"
       onModalClose={() => onClose()}
+      actionName="Withdraw"
+      isLoading={isLoading}
+      action={() => onSubmit()}
     >
       {vendors.map((vendor: Vendor) => (
         <div
@@ -129,7 +185,6 @@ export const VendorWithdrawalModal = ({
             className="text-black mb-2 flex items-center gap-4 cursor-pointer"
             onClick={() => {
               toggleAccount(vendor._id);
-              setInputData({ ...inputData, accountId: vendor._id });
             }}
           >
             <h1 className="mr-auto text-lg">{vendor.name}</h1>
@@ -139,7 +194,6 @@ export const VendorWithdrawalModal = ({
               {account ? (
                 <div>
                   <div className="flex gap-2 text-black mb-3 font-semibold">
-
                     <div className="w-[30px] h-[30px] border">
                       {banks.map((bank, i) => {
                         if (bank.code === account.bankCode) {
@@ -170,6 +224,7 @@ export const VendorWithdrawalModal = ({
                   </div>
                   <div>
                     <Input
+                      type="number"
                       placeholder="Amount"
                       name="amount"
                       onChange={handleChange}
@@ -179,6 +234,7 @@ export const VendorWithdrawalModal = ({
                       className="w-full text-black border border-solid border-gray-300 mt-5 px-3 2xl:py-3 lg:py-2 resize-none"
                       placeholder="Reason"
                       name="reason"
+                      onChange={handleChange}
                     ></textarea>
                   </div>
                 </div>

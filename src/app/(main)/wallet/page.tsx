@@ -21,9 +21,9 @@ const WalletPage = async () => {
               <WalletBalanceWidget balance={balance} role={role} />
               {
                 typeof balance === "number" && (
-                  <div className="flex gap-2">
+                  <div className="flex justify-between item-center">
                     <WithDrawalButton token={String(token)} merchantId={merchantId} />
-                    <VendorWithdrawalButton vendors={merchant.vendors} token={String(token)}/>
+                    <VendorWithdrawalButton vendors={merchant.vendors} token={String(token)} merchantId={merchantId} />
                   </div>
                 )
               }
