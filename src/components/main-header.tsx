@@ -212,10 +212,21 @@ export const MainHeader = ({ role, merchant }: NavigationProps) => {
               />
             </Link>
           </div>
-          <div className="w-[25px]" onClick={toggleMenu}>
-            <div className="h-1 w-full bg-black mb-[5px]"></div>
-            <div className="h-1 w-full bg-black mb-[5px]"></div>
-            <div className="h-1 w-full bg-black mb-[5px]"></div>
+          <div onClick={toggleMenu}>
+            {
+              !menu ? (
+                <div className="w-[25px]">
+                  <div className="h-1 w-full bg-black mb-[5px]"></div>
+                  <div className="h-1 w-full bg-black mb-[5px]"></div>
+                  <div className="h-1 w-full bg-black mb-[5px]"></div>
+                </div>
+              ) : (
+                <div>
+                  <Icons.x />
+                </div>
+              )
+            }
+
           </div>
         </nav>
         {menu && (
@@ -238,8 +249,20 @@ export const MainHeader = ({ role, merchant }: NavigationProps) => {
               >
                 {`${merchant.businessName} - ${merchant.merchantId}`}
               </h2>
+              <div className="text-accent">
+              <button
+                className="font-bold"
+                onClick={(e) => {
+                  e.preventDefault();
+                  logout();
+                  redirect("/login");
+                }}
+              >
+                Logout
+              </button>
             </div>
-            <ul className="space-y-6 flex flex-col justify-center items-center tracking-wide text-base lg:text-lg lg:flex lg:space-y-0">
+            </div>
+            <ul className="space-y-6 z-50 flex flex-col pt-10 justify-center items-center tracking-wide text-base lg:text-lg lg:flex lg:space-y-0">
               {navigationalItems(role)?.map((item, i) => (
                 <Link
                   key={i}

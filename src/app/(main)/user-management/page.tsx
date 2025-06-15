@@ -15,8 +15,8 @@ const UserManagementPage = async () => {
         <div className="px-10 mb-10 max-md:px-5">
           <div className="flex justify-between items-center pt-10">
             <div className="mr-auto">
-              <h1 className="text-3xl font-semibold max-md:text-xl">Assign Agents</h1>
-              <p>Invite agents from your business to manage transactions</p>
+              <h1 className="text-3xl font-semibold max-lg:text-xl">Assign Agents</h1>
+              <p className="max-lg:w-10/12">Invite agents from your business to manage transactions</p>
             </div>
             <InviteUserButton />
           </div>
