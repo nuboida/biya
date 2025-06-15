@@ -6,6 +6,7 @@ import { InfoModal } from "../ui/info-modal";
 import { ChangeEvent, useEffect, useState } from "react";
 import { Input } from "../ui/input";
 import toast from "../ui/toast";
+import { Icons } from "../ui/Icons";
 
 interface VendorWithdrawalModalProps {
   onClose: () => void;
@@ -187,13 +188,16 @@ export const VendorWithdrawalModal = ({
               toggleAccount(vendor._id);
             }}
           >
-            <h1 className="mr-auto text-lg">{vendor.name}</h1>
+            <div className="flex items-center gap-5">
+              <Icons.store className="text-blue-500"/>
+              <h1 className="mr-auto text-lg font-semibold">{vendor.name}</h1>
+            </div>
           </div>
           {selectedItem === vendor._id && (
             <>
               {account ? (
-                <div>
-                  <div className="flex gap-2 text-black mb-3 font-semibold">
+                <div className="pb-10">
+                  <div className="flex gap-2 text-black m-3 font-semibold">
                     <div className="w-[30px] h-[30px] border">
                       {banks.map((bank, i) => {
                         if (bank.code === account.bankCode) {
@@ -228,6 +232,7 @@ export const VendorWithdrawalModal = ({
                       placeholder="Amount"
                       name="amount"
                       onChange={handleChange}
+                      disabled={!account._id}
                     />
                     <textarea
                       rows={3}
@@ -235,12 +240,14 @@ export const VendorWithdrawalModal = ({
                       placeholder="Reason"
                       name="reason"
                       onChange={handleChange}
+                      disabled={!account._id}
                     ></textarea>
                   </div>
                 </div>
               ) : (
                 <div>
-                  <h1 className="text-2xl">
+                  <h1 className="text-xl text-slate-800 px-5 flex items-center gap-5">
+                    <span><Icons.searchx className="text-red-500" /></span>
                     Vendor has no acccount registered
                   </h1>
                 </div>

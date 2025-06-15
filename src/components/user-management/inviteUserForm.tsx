@@ -95,7 +95,7 @@ export const InviteUserForm = ({ token, merchantId, edit, employee }: InviteUser
   };
 
   return (
-    <div className="w-96 flex flex-col gap-6">
+    <div className="w-96 flex flex-col gap-6 max-md:w-60">
       <div>
         <Input
           placeholder="First Name"

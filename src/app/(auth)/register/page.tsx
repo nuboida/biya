@@ -7,8 +7,8 @@ const SignupPage = async () => {
 
   return (
     <>
-        <div className="relative flex p-0 overflow-hidden bg-center bg-cover h-screen 2xl:py-10 lg:py-5">
-          <div className="container z-10">
+        <div className="relative flex p-0 overflow-x-hidden overflow-y-auto bg-center bg-cover h-screen 2xl:py-10 lg:py-5 max-md:py-5">
+          <div className="min-md:container z-10">
             <div className="flex flex-wrap mt-0 -mx-3">
             <div className="flex flex-col w-full max-w-full px-3 mx-auto md:flex-0 shrink-0 md:w-6/12 lg:w-5/12 xl:w-4/12">
               <div>
@@ -22,7 +22,7 @@ const SignupPage = async () => {
                   <RegisterForm />
                 </div>
               </div>
-              <div className="w-full max-w-full px-3 lg:flex-0 shrink-0 md:w-6/12">
+              <div className="w-full max-w-full px-3 lg:flex-0 shrink-0 md:w-6/12 max-md:hidden">
                 <div className="lg:w-[80%] 2xl:w-full">
                   <Image src={"/auth-image.png"} alt="image" width={665.53} height={850.87} className="min-w-[60%] h-full"/>
                 </div>

@@ -60,8 +60,8 @@ export const RegisterForm = ({ className, ...props }: RegisterFormProps) => {
         typeof state == "string" && "border-red-200 border p-2"
       )}>
         <h5 className="text-accent font-semibold">Owner details</h5>
-        <div className="flex flex-row items-center gap-2 mt-2">
-          <div>
+        <div className="flex flex-row items-center gap-2 mt-2 max-md:block">
+          <div className="max-md:mb-3">
             <label className="sr-only mb-2 ml-1 font-bold text-xs text-slate-700">
               First Name
             </label>
@@ -74,7 +74,7 @@ export const RegisterForm = ({ className, ...props }: RegisterFormProps) => {
               />
             </div>
           </div>
-          <div>
+          <div className="max-md:mb-3">
             <label className="sr-only mb-2 ml-1 font-bold text-xs text-slate-700">
               Last Name
             </label>
@@ -88,8 +88,8 @@ export const RegisterForm = ({ className, ...props }: RegisterFormProps) => {
             </div>
           </div>
         </div>
-        <div className="flex items-center gap-2">
-          <div>
+        <div className="flex items-center gap-2 max-md:block">
+          <div className="max-md:mb-3">
             <label className="sr-only mb-2 ml-1 font-bold text-xs text-slate-700">
               Email
             </label>
@@ -102,7 +102,7 @@ export const RegisterForm = ({ className, ...props }: RegisterFormProps) => {
               />
             </div>
           </div>
-          <div>
+          <div className="max-md:mb-3">
             <label className="sr-only mb-2 ml-1 font-bold text-xs text-slate-700">
               Phone
             </label>
@@ -132,7 +132,7 @@ export const RegisterForm = ({ className, ...props }: RegisterFormProps) => {
         </div>
 
         <hr />
-        <div className="mt-2">
+        <div className="mt-3">
         <h5 className="text-accent font-semibold">Merchant details</h5>
           <div className="mt-2">
             <label className="sr-only mb-2 ml-1 font-bold text-xs text-slate-700">
@@ -162,7 +162,7 @@ export const RegisterForm = ({ className, ...props }: RegisterFormProps) => {
           </div>
         </div>
 
-        <div className="2xl:mb-4 lg:mb-3">
+        <div className="2xl:mb-4 lg:mb-3 max-md:m-5">
           <div className="flex gap-1">
             <input type="checkbox" onChange={handleInputChange} name="terms" defaultChecked={registerData.terms} />
             <p>

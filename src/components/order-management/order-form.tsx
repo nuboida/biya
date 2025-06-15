@@ -86,27 +86,27 @@ export const PaymentRequestForm = ({
 
   return (
     <>
-      <div className="w-3/4 flex flex-col gap-6 bg-white py-10 px-36">
+      <div className="w-3/4 flex flex-col gap-6 bg-white py-10 px-36 max-lg:px-5 max-lg:w-11/12">
         <Input
           placeholder="Enter CustomerId"
           name="customerId"
-          className="mt-5"
+          className="mt-5 max-lg:mt-1"
           onChange={handleInputChange}
         />
         <Input
           placeholder="Enter amount"
           name="amount"
-          className="mt-5"
+          className="mt-5 max-lg:mt-1"
           onChange={handleInputChange}
         />
         <Input
           placeholder="Enter order Id"
           name="orderId"
-          className="mt-5"
+          className="mt-5 max-lg:mt-1"
           onChange={handleInputChange}
         />
 
-        <div className="mt-6">
+        <div className="mt-6 max-lg:mt-2">
           <Button size="lg" disabled={isLoading} onClick={onSubmit}>
             {isLoading && (
               <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />

@@ -9,7 +9,7 @@ const AddVendorPage = async () => {
   return (
     <>
       <section>
-        <div className="px-10 mb-10">
+        <div className="px-10 mb-10 max-md:px-5">
           <div className="flex justify-between items-center pt-10">
             <div className="mr-auto flex items-center gap-5">
               <Link href="/vendors">
@@ -23,9 +23,9 @@ const AddVendorPage = async () => {
 
       <section>
         <div>
-          <div className="px-10 mb-10">
+          <div className="px-10 mb-10 max-md:px-5">
             <div className="w-full max-h-full bg-slated-100">
-              <div className="relative rounded-lg min-h-[80vh] flex justify-center items-center">
+              <div className="relative rounded-lg min-h-[80vh] flex justify-center items-center max-md:min-h-[60vh]">
                 <AddVendorForm token={String(token)} merchantId={merchantId} />
               </div>
             </div>

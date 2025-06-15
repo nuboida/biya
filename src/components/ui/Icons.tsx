@@ -24,7 +24,9 @@ import {
   ChevronDown,
   X,
   Camera,
-  BriefcaseBusiness
+  BriefcaseBusiness,
+  SearchX,
+  Store
 } from "lucide-react";
 
 import { Icon as LucideIcon } from "lucide-react"
@@ -57,5 +59,7 @@ export const Icons = {
   chevronDown: ChevronDown,
   x: X,
   briefCase: BriefcaseBusiness,
-  camera: Camera
+  camera: Camera,
+  searchx: SearchX,
+  store: Store
 }

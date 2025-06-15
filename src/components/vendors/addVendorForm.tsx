@@ -75,7 +75,7 @@ export const AddVendorForm = ({ token, merchantId }: AddVendorFormProps) => {
   }
 
   return (
-    <div className="w-96 flex flex-col gap-6">
+    <div className="w-96 flex flex-col gap-6 max-md:w-[90%]">
       <div>
         <Input
           placeholder="Name"

@@ -16,8 +16,8 @@ const WalletPage = async () => {
     <>
       <section>
         <div className="pt-10 mb-10">
-          <div className="grid grid-cols-12 grid-rows gap-6 px-10">
-            <div className="bg-primary-100 text-white py-7 px-6 col-span-4 row-span-1 flex flex-col justify-center">
+          <div className="grid grid-cols-12 grid-rows gap-6 px-10 max-md:block max-md:px-5">
+            <div className="bg-primary-100 text-white py-7 px-6 col-span-4 row-span-1 flex flex-col justify-center max-md:mb-5">
               <WalletBalanceWidget balance={balance} role={role} />
               {
                 typeof balance === "number" && (

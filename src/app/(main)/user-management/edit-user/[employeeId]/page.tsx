@@ -16,7 +16,7 @@ const EditUserPage = async ({ params }: Props) => {
   return (
     <>
       <section>
-        <div className="px-10 mb-10">
+        <div className="px-10 mb-10 max-md:px-5">
           <div className="flex justify-between items-center pt-10">
             <div className="mr-auto flex items-center gap-5">
               <Link href="/user-management">
@@ -28,7 +28,7 @@ const EditUserPage = async ({ params }: Props) => {
         </div>
       </section>
       <section>
-        <div className="px-10 mb-10">
+        <div className="px-10 mb-10 max-md:px-5">
           <div className="w-full max-h-full bg-slated-100">
             <div className="relative rounded-lg min-h-[80vh] flex justify-center items-center">
               <InviteUserForm token={String(token)} merchantId={merchantId} edit employee={employee ? employee : {firstName: '', lastName: '', phone: '', email: '', id: ''}} />

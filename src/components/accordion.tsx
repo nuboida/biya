@@ -121,10 +121,10 @@ const AccordionItem = ({ header, ...rest }: AccordionItemProps) => (
         />
       </>
     )}
-    className="mb-10"
+    className="mb-10 max-lg:mb-5"
     buttonProps={{
       className: ({ isEnter }) =>
-        `flex w-full px-4 py-7 text-left ${isEnter && "bg-accent text-black/50"}
+        `flex w-full px-4 py-7 text-left max-lg:py-3 ${isEnter && "bg-accent text-black/50"}
         ${
           rest.itemKey === "item-1"
             ? "bg-[#17235D] text-white"
@@ -291,13 +291,13 @@ export function SettingsAccordion({
             itemKey="item-1"
             header={
               <div>
-                <h1 className="text-2xl font-semibold">Business Information</h1>
+                <h1 className="text-2xl font-semibold max-lg:text-sm">Business Information</h1>
               </div>
             }
           >
-            <div className="flex gap-16">
+            <div className="flex gap-16 max-lg:flex-col max-lg:gap-5 max-lg:items-center">
               <div className={cn(
-                "w-[264px] h-[264px] border-gray-100 border relative",
+                "w-[264px] h-[264px] border-gray-100 border relative max-lg:w-[132px] max-lg:h-[132px]",
                 isImageLoading && "bg-[rgba(0,0,0,0.5)] backdrop-blur-sm flex cursor-not-allowed"
                 )}>
                 {merchant.logoUrl && (
@@ -328,7 +328,7 @@ export function SettingsAccordion({
                 </button>
               </div>
               <div className="grow">
-                <div className="flex gap-5 mb-5">
+                <div className="flex gap-5 mb-5 max-lg:flex-col">
                   <div className="focus:shadow-soft-primary-outline text-lg leading-5.6 ease-soft block w-full appearance-none rounded-sm border border-solid border-gray-300 bg-white bg-clip-padding px-3 2xl:py-3 lg:py-2 font-bold text-gray-700 transition-all focus:border-black focus:outline-none focus:transition-shadow">
                     {merchant.businessName}
                   </div>
@@ -349,7 +349,7 @@ export function SettingsAccordion({
             itemKey="item-2"
             header={
               <div>
-                <h1 className="text-2xl font-semibold">
+                <h1 className="text-2xl font-semibold max-lg:text-sm">
                   Password and Security
                 </h1>
               </div>
@@ -359,9 +359,9 @@ export function SettingsAccordion({
               {typeof error == "string" && (
                 <p className="px-1 pb-4 text-red-600 font-semibold">{error}</p>
               )}
-              <div className="flex gap-16">
+              <div className="flex gap-16 max-lg:flex-col">
                 <div className="grow">
-                  <div className="flex gap-5 mb-5">
+                  <div className="flex gap-5 mb-5 max-lg:flex-col">
                     <Input
                       type="password"
                       placeholder="Current Password"
@@ -377,16 +377,16 @@ export function SettingsAccordion({
                       value={passwordChange.newPassword}
                     />
                   </div>
-                  <div className="flex gap-5 mb-5 justify-between">
+                  <div className="flex gap-5 mb-5 justify-between max-lg:flex-col">
                     <Input
                       type="password"
                       placeholder="Confirm Password"
                       name="confirmPassword"
-                      className="w-1/2"
+                      className="w-1/2 max-lg:w-full"
                       onChange={handlePasswordChange}
                       value={passwordChange.confirmPassword}
                     />
-                    <div className="w-1/2 flex justify-end">
+                    <div className="w-1/2 flex justify-end max-lg:w-full">
                       <Button
                         className="bg-accent px-10"
                         disabled={isLoading}
@@ -411,15 +411,15 @@ export function SettingsAccordion({
             itemKey="item-3"
             header={
               <div>
-                <h1 className="text-2xl font-semibold">Bank Details</h1>
+                <h1 className="text-2xl font-semibold max-lg:text-sm">Bank Details</h1>
               </div>
             }
           >
-            <div className="flex items-center justify-between px-3 relative">
+            <div className="flex items-center justify-between px-3 relative max-lg:flex-col">
               <div className="flex flex-col max-h-[300px] flex-wrap gap-x-6">
                 {accounts.map((account: Account) => (
                   <div
-                    className={cn("text-black mb-4 flex items-center border border-blue-500 gap-4 py-4 pl-8 pr-2",
+                    className={cn("text-black mb-4 flex items-center border border-blue-500 gap-4 py-4 pl-8 pr-2 max-lg:pl-0",
                       account.recipientCode === '' && "border-blue-200"
                     )}
                     key={account._id}
@@ -443,7 +443,7 @@ export function SettingsAccordion({
                           }
                         })}
                     </div>
-                    <h1 className={cn(account.recipientCode === "" && "opacity-40", "mr-auto text-lg")}>
+                    <h1 className={cn(account.recipientCode === "" && "opacity-40", "mr-auto text-lg max-lg:text-xs")}>
                       {banks.map((bank) => {
                         if (bank.code === account.bankCode) {
                           return `${bank.name}: ${account.accountNumber}`;
@@ -456,7 +456,7 @@ export function SettingsAccordion({
                       setSelectedAccount(account._id);
                       setDeleteBankModal(true);
                     }}>
-                      <Icons.trash className="w-5"/>
+                      <Icons.trash className="w-5 max-lg:w-4"/>
                     </button>
                   </div>
                 ))}
@@ -481,12 +481,11 @@ export function SettingsAccordion({
             itemKey="item-4"
             header={
               <div>
-                <h1 className="text-2xl font-semibold">Help and Support</h1>
+                <h1 className="text-2xl font-semibold max-lg:text-sm">Help and Support</h1>
               </div>
             }
           >
-            Suspendisse massa risus, pretium id interdum in, dictum sit amet
-            ante. Fusce vulputate purus sed tempus feugiat.
+            You can send us an email at <span className="text-accent">merchant@biya.com.ng</span>
           </AccordionItem>
         </Accordion>
       </div>

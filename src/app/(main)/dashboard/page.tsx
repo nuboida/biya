@@ -8,7 +8,9 @@ import Link from "next/link";
 const DashboardPage = async () => {
   const { token, merchantId, role } = await verifySession();
   const merchant = await getMerchant(token!, merchantId);
-  const noOfAgents = merchant.employees.filter(employee => employee.role !== 'Owner').length;
+  const noOfAgents = merchant.employees.filter(
+    (employee) => employee.role !== "Owner"
+  ).length;
   const paymentRequests = await getPaymentRequests(token!, merchantId);
   const totalRequestAmount = paymentRequests.reduce((acc, n) => {
     if (n.status === "APPROVED") {
@@ -18,8 +20,8 @@ const DashboardPage = async () => {
   }, 0);
 
   const todayRequestAmount = paymentRequests.reduce((acc, n) => {
-    const getCreatedDate = n.createdAt.split('T')[0];
-    const getTodayDate = new Date().toISOString().split('T')[0];
+    const getCreatedDate = n.createdAt.split("T")[0];
+    const getTodayDate = new Date().toISOString().split("T")[0];
     if (getCreatedDate === getTodayDate) {
       acc += n.amount;
     }
@@ -34,33 +36,41 @@ const DashboardPage = async () => {
     (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
   );
 
-
   return (
     <>
       <section>
-        <div className="px-10 mb-10">
+        <div className="px-10 mb-10 max-lg:px-5">
           <div className="flex justify-between items-center pt-10">
             <div className="mr-auto">
-              <h1 className="text-3xl font-semibold">Welcome Back</h1>
-              <p>Here is an overview of all that you have done</p>
+              <h1 className="text-3xl font-semibold max-md:text-xl">
+                Welcome Back
+              </h1>
+              <p className="max-md:w-2/3">
+                Here is an overview of all that you have done
+              </p>
             </div>
             <div>
               <Link href="/order-management/initiate">
-                <Button size="default" className="bg-accent hover:bg-accent/60 active:bg-primary-100 text-white px-10">
+                <Button
+                  size="default"
+                  className="bg-accent hover:bg-accent/60 active:bg-primary-100 text-white px-10"
+                >
                   Initiate Order
                 </Button>
               </Link>
             </div>
           </div>
         </div>
-        <div className="flex gap-4 px-10">
-          <div className="bg-primary-100 text-white py-7 px-6 w-1/3">
-            <WalletBalanceWidget balance={role === "Owner" ? balance : totalRequestAmount}  role={role} />
+        <div className="flex gap-4 px-10 max-lg:block max-lg:px-5">
+          <div className="bg-primary-100 text-white py-7 px-6 w-1/3 max-lg:w-full">
+            <WalletBalanceWidget
+              balance={role === "Owner" ? balance : totalRequestAmount}
+              role={role}
+            />
           </div>
 
-          {
-            role === "Owner" && (
-            <div className="bg-slated-200 py-7 px-6 w-1/4 flex flex-col justify-between">
+          {role === "Owner" && (
+            <div className="bg-slated-200 py-7 px-6 w-1/4 flex flex-col justify-between max-lg:w-full max-lg:my-2">
               <div className="flex justify-between items-center">
                 <h1 className="font-medium text-2xl">Total No of Agents</h1>
                 <div>
@@ -101,61 +111,60 @@ const DashboardPage = async () => {
                 <h1 className="text-6xl font-mono">{noOfAgents}</h1>
               </div>
             </div>
-            )
-          }
+          )}
 
-          {
-            role !== "Owner" && (
-              <div className="bg-slated-200 py-7 px-6 w-1/4 flex flex-col justify-between">
-            <div className="flex justify-between items-center">
-              <h1 className="font-medium text-2xl">Today&apos;s Total Requests</h1>
-              <div>
-                <svg
-                  width="31"
-                  height="31"
-                  viewBox="0 0 31 31"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <rect
-                    x="0.947266"
-                    y="0.257812"
-                    width="30"
-                    height="30"
-                    fill="#17235D"
-                  />
-                  <g clipPath="url(#clip0_127_34496)">
-                    <path
-                      d="M15.9473 22.7578C11.805 22.7578 8.44727 19.4001 8.44727 15.2578C8.44727 11.1156 11.805 7.75781 15.9473 7.75781C20.0895 7.75781 23.4473 11.1156 23.4473 15.2578C23.4473 19.4001 20.0895 22.7578 15.9473 22.7578ZM15.1995 18.2578L20.502 12.9546L19.4415 11.8941L15.1995 16.1368L13.0778 14.0151L12.0173 15.0756L15.1995 18.2578Z"
-                      fill="white"
+          {role !== "Owner" && (
+            <div className="bg-slated-200 py-7 px-6 w-1/4 flex flex-col justify-between max-lg:w-full">
+              <div className="flex justify-between items-center">
+                <h1 className="font-medium text-2xl">
+                  Today&apos;s Total Requests
+                </h1>
+                <div>
+                  <svg
+                    width="31"
+                    height="31"
+                    viewBox="0 0 31 31"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <rect
+                      x="0.947266"
+                      y="0.257812"
+                      width="30"
+                      height="30"
+                      fill="#17235D"
                     />
-                  </g>
-                  <defs>
-                    <clipPath id="clip0_127_34496">
-                      <rect
-                        width="18"
-                        height="18"
+                    <g clipPath="url(#clip0_127_34496)">
+                      <path
+                        d="M15.9473 22.7578C11.805 22.7578 8.44727 19.4001 8.44727 15.2578C8.44727 11.1156 11.805 7.75781 15.9473 7.75781C20.0895 7.75781 23.4473 11.1156 23.4473 15.2578C23.4473 19.4001 20.0895 22.7578 15.9473 22.7578ZM15.1995 18.2578L20.502 12.9546L19.4415 11.8941L15.1995 16.1368L13.0778 14.0151L12.0173 15.0756L15.1995 18.2578Z"
                         fill="white"
-                        transform="translate(6.94727 6.25781)"
                       />
-                    </clipPath>
-                  </defs>
-                </svg>
+                    </g>
+                    <defs>
+                      <clipPath id="clip0_127_34496">
+                        <rect
+                          width="18"
+                          height="18"
+                          fill="white"
+                          transform="translate(6.94727 6.25781)"
+                        />
+                      </clipPath>
+                    </defs>
+                  </svg>
+                </div>
+              </div>
+              <div>
+                <h1 className="text-7xl">
+                  &#8358;
+                  <span className="font-mono text-6xl inline-block pl-1">
+                    {convertKoboToNaira(todayRequestAmount)}
+                  </span>
+                </h1>
               </div>
             </div>
-            <div>
-            <h1 className="text-7xl">
-              &#8358;
-              <span className="font-mono text-6xl inline-block pl-1">
-                 {convertKoboToNaira(todayRequestAmount)}
-              </span>
-            </h1>
-            </div>
-          </div>
-            )
-          }
+          )}
 
-          <div className="bg-slated-200 py-7 px-6 w-1/4 flex flex-col justify-between">
+          <div className="bg-slated-200 py-7 px-6 w-1/4 flex flex-col justify-between max-lg:w-full max-lg:my-2">
             <div className="flex justify-between items-center">
               <h1 className="font-medium text-2xl">Total Requests</h1>
               <div>
@@ -196,7 +205,7 @@ const DashboardPage = async () => {
               <h1 className="text-6xl font-mono">{paymentRequests.length}</h1>
             </div>
           </div>
-          <div className="bg-slated-200 py-7 px-6 w-1/4 flex flex-col justify-between">
+          <div className="bg-slated-200 py-7 px-6 w-1/4 flex flex-col justify-between max-lg:w-full max-lg:my-2">
             <div className="flex justify-between items-center">
               <h1 className="font-medium xl:text-2xl lg:text-xl">
                 Pending Requests
@@ -242,7 +251,7 @@ const DashboardPage = async () => {
         </div>
       </section>
       <section className="mt-10">
-        <div className="px-10 mb-10">
+        <div className="px-10 mb-10 max-lg:px-5">
           <div className="w-full max-h-full">
             <div className="relative rounded-lg shadow min-h-[80vh]">
               <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
@@ -287,7 +296,10 @@ const DashboardPage = async () => {
                             &#8358; {convertKoboToNaira(paymentRequest.amount)}
                           </td>
                           <td className="tableData">
-                            &#8358; {paymentRequest.payout ? convertKoboToNaira(paymentRequest.payout) : "--"}
+                            &#8358;{" "}
+                            {paymentRequest.payout
+                              ? convertKoboToNaira(paymentRequest.payout)
+                              : "--"}
                           </td>
                           <td className="tableData">
                             &#8358; {convertKoboToNaira(paymentRequest.charge)}
@@ -310,7 +322,9 @@ const DashboardPage = async () => {
                                 "text-purple-500"
                             )}
                           >
-                            {paymentRequest.status === "APPROVED" ? 'PAID' : paymentRequest.status}
+                            {paymentRequest.status === "APPROVED"
+                              ? "PAID"
+                              : paymentRequest.status}
                           </td>
                         </tr>
                       ))}

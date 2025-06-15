@@ -23,7 +23,7 @@ const MainLayout: FC<MainLayoutProps> = async ({ children }) => {
   return (
     <>
       <MainHeader role={session.role} merchant={{businessName: merchant.businessName, merchantId: merchant.merchantId, logoUrl: merchant.logoUrl, isMerchantVerified: merchant.isMerchantVerified || false}}/>
-      <main className="pt-32 pb-20 container">{children}</main>
+      <main className="pt-32 pb-20 container max-lg:px-1 max-lg:pt-20">{children}</main>
     </>
   );
 };

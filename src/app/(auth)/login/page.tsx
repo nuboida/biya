@@ -10,11 +10,11 @@ const LoginPage = () => {
           <div className="flex flex-wrap mt-0 -mx-3">
             <div className="flex flex-col w-full max-w-full px-3 mx-auto md:flex-0 shrink-0 md:w-6/12 lg:w-5/12 xl:w-4/12">
               <div>
-                <Image src={"/logo.png"} alt="logo" width={150} height={30} />
+                <Image src={"/logo.png"} alt="logo" width={150} height={30} className="w-auto h-auto" />
               </div>
-              <div className="relative flex flex-col min-w-0 mt-24 break-words bg-transparent border-0 shadow-none rounded-2xl bg-clip-border">
+              <div className="relative flex flex-col min-w-0 mt-24 break-words bg-transparent border-0 shadow-none rounded-2xl bg-clip-border max-md:mt-8">
                 <div className="p-6 pb-0 mb-0 bg-transparent border-b-0 rounded-t-2xl">
-                  <h3 className="relative z-10 text-8xl font-mono">
+                  <h3 className="relative z-10 text-8xl font-mono max-md:text-5xl">
                     Welcome Back
                   </h3>
                   <p className="mb-0">
@@ -25,7 +25,7 @@ const LoginPage = () => {
                 <LoginForm />
               </div>
             </div>
-            <div className="w-full max-w-full px-3 lg:flex-0 shrink-0 md:w-6/12">
+            <div className="w-full max-w-full px-3 lg:flex-0 shrink-0 md:w-6/12 max-md:hidden">
               <div className="lg:w-[75%] 2xl:w-full">
                 <Image
                   src={"/auth-image.png"}

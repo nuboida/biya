@@ -9,10 +9,10 @@ const OrderManagementPage = async () => {
   return (
     <>
       <section>
-        <div className="px-10 mb-10">
+        <div className="px-10 mb-10 max-md:px-5">
           <div className="flex justify-between items-center pt-10">
             <div className="mr-auto">
-              <h1 className="text-3xl font-semibold">Create Orders</h1>
+              <h1 className="text-3xl font-semibold max-md:text-xl">Create Orders</h1>
               <p>Initiate orders and see who has also initiated orders</p>
             </div>
             <div>
@@ -26,7 +26,7 @@ const OrderManagementPage = async () => {
         </div>
       </section>
       <section className="mt-10">
-        <div className="px-10 mb-10">
+        <div className="px-10 mb-10 max-md:px-5">
           <div className="w-full max-h-full bg-slated-100">
             <div className="relative rounded-lg min-h-[80vh]">
               <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">

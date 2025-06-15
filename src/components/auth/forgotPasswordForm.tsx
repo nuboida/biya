@@ -18,9 +18,9 @@ export const ForgotPasswordForm = () => {
     <>
     <form action={recoveryAction} role="form">
       <div className="rounded-t mb-0 px-6 py-6">
-        <div className="rounded-t mb-0 px-6 py-6">
+        <div className="rounded-t mb-0 px-6 py-6 max-md:p-2">
           <div className="text-center mb-3">
-            <h1 className="text-6xl font-mono">Forgot Password</h1>
+            <h1 className="text-6xl font-mono max-md:text-5xl">Forgot Password</h1>
             <p>
               Kindly input the email/phone number you registered with to reset
               password

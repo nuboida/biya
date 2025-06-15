@@ -6,6 +6,7 @@ import clsx from "clsx";
 import { redirect, usePathname } from "next/navigation";
 import { logout } from "@/action";
 import { Icons } from "./ui/Icons";
+import { useEffect, useState } from "react";
 
 interface NavigationProps {
   role: string;
@@ -67,6 +68,19 @@ const navigationalItems = (role: string): NavigationItem[] => {
 
 export const MainHeader = ({ role, merchant }: NavigationProps) => {
   const path = usePathname();
+  const [menu, setMenu] = useState(false);
+  const toggleMenu = () => {
+    if (menu) {
+      setMenu(false)
+    } else {
+      setMenu(true);
+    }
+  }
+
+  useEffect(() => {
+    setMenu(false)
+  }, [path]);
+
   return (
     <>
       <header className="fixed overflow-hidden z-20 w-full">
@@ -106,13 +120,14 @@ export const MainHeader = ({ role, merchant }: NavigationProps) => {
               </div>
               <div>
                 <h1 className="text-xl text-white font-bold">
-                  Merchant has not been approved. You can send us an email at <span className="text-accent">merchant@biya.com.ng</span>
+                  Merchant has not been approved. You can send us an email at{" "}
+                  <span className="text-accent">merchant@biya.com.ng</span>
                 </h1>
               </div>
             </div>
           </div>
         )}
-        <nav className="border-b-2 bg-white/50 backdrop-blur-2xl flex items-center py-6 px-10 mr-auto">
+        <nav className="border-b-2 bg-white/50 backdrop-blur-2xl flex items-center py-6 px-10 mr-auto max-lg:hidden">
           <div className="w-full flex items-center justify-between lg:w-auto mr-20">
             <Link href="/">
               <Image
@@ -127,7 +142,7 @@ export const MainHeader = ({ role, merchant }: NavigationProps) => {
           </div>
           <div className="w-full group-data-[state=active]:hfit h-0 lg:w-fit flex-wrap justify-end items-center space-y-8 lg:space-y-0 lg:flex lg:h-fit md:flex-nowrap">
             <div className="mt-6 dark:text-body md:-ml-4 lg:pr-4 lg:mt-0">
-              <ul className="space-y-6 tracking-wide text-base lg:text-lg lg:flex lg:space-y-0">
+              <ul className="space-y-6 tracking-wide text-base lg:text-lg lg:flex lg:space-y-0" onClick={() => setMenu(false)}>
                 {navigationalItems(role)?.map((item, i) => (
                   <Link
                     key={i}
@@ -184,6 +199,72 @@ export const MainHeader = ({ role, merchant }: NavigationProps) => {
             </div>
           </div>
         </nav>
+        <nav className="border-b-2  bg-white/50 backdrop-blur-2xl flex justify-between items-center py-6 px-10 mr-auto xl:hidden">
+          <div>
+            <Link href="/">
+              <Image
+                src={"/logo.png"}
+                alt="logo"
+                width={100}
+                height={20}
+                priority
+                className="w-auto h-auto"
+              />
+            </Link>
+          </div>
+          <div className="w-[25px]" onClick={toggleMenu}>
+            <div className="h-1 w-full bg-black mb-[5px]"></div>
+            <div className="h-1 w-full bg-black mb-[5px]"></div>
+            <div className="h-1 w-full bg-black mb-[5px]"></div>
+          </div>
+        </nav>
+        {menu && (
+          <div className="flex flex-col h-screen bg-white">
+            <div className="flex flex-col items-center justify-center flex-shrink-0 px-4 py-2 space-y-4 border-b dark:border-primary-dark">
+              {merchant.logoUrl ? (
+                <Image
+                  src={merchant.logoUrl || ""}
+                  alt="merchant logo"
+                  width={50}
+                  height={50}
+                  className="w-auto h-auto"
+                />
+              ) : (
+                <Icons.briefCase className="w-[20px] h-[20px]" />
+              )}
+              <h2
+                id="settinsPanelLabel"
+                className="text-xl font-medium text-gray-500 dark:text-light"
+              >
+                {`${merchant.businessName} - ${merchant.merchantId}`}
+              </h2>
+            </div>
+            <ul className="space-y-6 flex flex-col justify-center items-center tracking-wide text-base lg:text-lg lg:flex lg:space-y-0">
+              {navigationalItems(role)?.map((item, i) => (
+                <Link
+                  key={i}
+                  href={item.disabled ? "/" : item.href}
+                  className={clsx(
+                    "md:px-4 block",
+                    !path.includes(item.href) &&
+                      "hover:bg-slate-100 hover:font-semibold"
+                  )}
+                >
+                  <span
+                    className={clsx(
+                      path.includes(item.href)
+                        ? "bg-primary-200 text-white py-2 px-6 font-semibold"
+                        : "transparent",
+                      item.disabled && "cursor-not-allowed opacity-50"
+                    )}
+                  >
+                    {item.title}
+                  </span>
+                </Link>
+              ))}
+            </ul>
+          </div>
+        )}
       </header>
     </>
   );
