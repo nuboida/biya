@@ -93,12 +93,15 @@ export const PaymentRequestForm = ({
           className="mt-5 max-lg:mt-1"
           onChange={handleInputChange}
         />
-        <Input
-          placeholder="Enter amount"
-          name="amount"
-          className="mt-5 max-lg:mt-1"
-          onChange={handleInputChange}
-        />
+        <div className="flex items-center">
+          <div className="border border-r-0 px-3 2xl:py-3 lg:py-2 max-md:py-3 font-semibold text-lg bg-slate-400">&#8358;</div>
+          <Input
+          type="number"
+            placeholder="Enter amount"
+            name="amount"
+            onChange={handleInputChange}
+          />
+        </div>
         <Input
           placeholder="Enter order Id"
           name="orderId"

@@ -227,13 +227,17 @@ export const VendorWithdrawalModal = ({
                     </h1>
                   </div>
                   <div>
-                    <Input
-                      type="number"
-                      placeholder="Amount"
-                      name="amount"
-                      onChange={handleChange}
-                      disabled={!account._id}
-                    />
+                    <div className="flex items-center">
+                      <div className="border border-r-0 px-3 2xl:py-3 lg:py-2 max-md:py-3 font-semibold text-lg bg-slate-400">&#8358;</div>
+                      <Input
+                        type="number"
+                        placeholder="Amount"
+                        name="amount"
+                        onChange={handleChange}
+                        disabled={!account._id}
+                      />
+                    </div>
+                    <p className="text-red-400">&#8358;50 charged for every withdrawal</p>
                     <textarea
                       rows={3}
                       className="w-full text-black border border-solid border-gray-300 mt-5 px-3 2xl:py-3 lg:py-2 resize-none"

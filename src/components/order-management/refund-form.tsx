@@ -71,12 +71,14 @@ export const RefundForm = ({
         <div className="text-lg leading-5.6 ease-soft block w-full appearance-none rounded-sm border border-solid border-gray-300 bg-slate-400 bg-clip-padding px-3 2xl:py-3 lg:py-2 font-bold text-gray-700">
           &#8358; {convertKoboToNaira(amount - refund)}
         </div>
-        <Input
-          placeholder="Enter amount to be refunded"
-          className="mt-5 max-lg:mt-1"
-          name="amount"
-          onChange={handleInputChange}
-        />
+        <div className="flex items-center">
+          <div className="border border-r-0 px-3 2xl:py-3 lg:py-2 max-md:py-3 font-semibold text-lg bg-slate-400">&#8358;</div>
+          <Input
+            placeholder="Enter amount to be refunded"
+            name="amount"
+            onChange={handleInputChange}
+          />
+        </div>
         <textarea
           rows={5}
           className="w-full border border-solid border-gray-300 mt-5 px-3 2xl:py-3 lg:py-2 resize-none max-lg:mt-1"

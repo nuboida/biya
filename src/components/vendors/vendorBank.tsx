@@ -3,6 +3,8 @@
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { AddVendorAccButton } from "./addVendorAccountButton";
+import { useState } from "react";
+import fallback from "../../../public/bank-building.svg";
 
 interface VendorBankComponentProps {
   bankAccount: {
@@ -22,6 +24,7 @@ const VendorBankComponent = ({
   banks,
   vendorId,
 }: VendorBankComponentProps) => {
+  const [imageError, setImageError] = useState(false);
   return (
     <>
       <div className="flex justify-between items-center px-8">
@@ -46,11 +49,14 @@ const VendorBankComponent = ({
                       )}
                     >
                       <Image
-                        src={`/bank-logos/${bank.slug}.png`}
+                        src={imageError ? fallback : `/bank-logos/${bank.slug}.png`}
                         alt="bank logo"
                         width={50}
                         height={50}
                         className="w-full h-full"
+                        onError={() => {
+                          setImageError(true);
+                        }}
                       />
                     </div>
                   );

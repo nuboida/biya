@@ -5,6 +5,7 @@ import Image from "next/image";
 import { InfoModal } from "../ui/info-modal";
 import { Input } from "../ui/input";
 import toast from "../ui/toast";
+import fallback from "../../../public/bank-building.svg";
 
 interface WithdrawalModalProps {
   onClose: () => void;
@@ -94,6 +95,10 @@ export const WithdrawalModal = ({
     amount: 0,
     reason: "",
   });
+  const [imageError, setImageError] = useState({
+    index: 0,
+    error: false
+  });
 
   useEffect(() => {
     setIsMounted(true);
@@ -168,7 +173,7 @@ export const WithdrawalModal = ({
           key={account._id}
         >
           <div
-            className="text-black mb-2 flex items-center gap-4 cursor-pointer"
+            className="text-black mb-4 flex items-center gap-4 cursor-pointer"
             onClick={() => {
               toggleAccount(account._id);
               setInputData({ ...inputData, accountId: account._id });
@@ -180,11 +185,17 @@ export const WithdrawalModal = ({
                   return (
                     <div key={bank.longCode + i}>
                       <Image
-                        src={`/bank-logos/${bank.slug}.png`}
+                        src={imageError.error && imageError.index === i ? fallback : `/bank-logos/${bank.slug}.png`}
                         alt="bank logo"
                         width={50}
                         height={50}
                         className="w-full h-full"
+                        onError={() => {
+                          setImageError({
+                            index: i,
+                            error: true
+                          })
+                        }}
                       />
                     </div>
                   );
@@ -204,11 +215,15 @@ export const WithdrawalModal = ({
           </div>
           {selectedItem === account._id && (
             <div>
-              <Input
-                placeholder="Amount"
-                name="amount"
-                onChange={handleChange}
-              />
+              <div className="flex items-center">
+                <div className="border border-r-0 px-3 2xl:py-3 lg:py-2 max-md:py-3 font-semibold text-lg bg-slate-400">&#8358;</div>
+                <Input
+                  placeholder="Amount"
+                  name="amount"
+                  onChange={handleChange}
+                />
+              </div>
+                <p className="text-red-400">&#8358;50 charged for every withdrawal</p>
               <textarea
                 rows={3}
                 className="w-full text-black border border-solid border-gray-300 mt-5 px-3 2xl:py-3 lg:py-2 resize-none"

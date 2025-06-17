@@ -16,6 +16,7 @@ import clsx from "clsx";
 import Image from "next/image";
 import { DeleteBankAccountModal } from "./delete-bank-account-modal";
 import { useRouter } from "next/navigation";
+import fallback from "../../public/bank-building.svg";
 
 /**
  * @type {React.ExoticComponent<import('@szhsin/react-accordion').AccordionItemProps>}
@@ -169,6 +170,10 @@ export function SettingsAccordion({
     confirmPassword: "",
   });
   const [error, setError] = useState("");
+  const [imageError, setImageError] = useState({
+    index: 0,
+    error: false
+  });
   const fileUpload = useRef<HTMLInputElement>(null);
 
   const uploadImage = (e: ChangeEvent<HTMLInputElement>) => {
@@ -431,7 +436,13 @@ export function SettingsAccordion({
                             return (
                               <div key={bank.longCode + i} className={cn(account.recipientCode === "" && "opacity-40")}>
                                 <Image
-                                  src={`/bank-logos/${bank.slug}.png`}
+                                  src={imageError.error && imageError.index === i ? fallback : `/bank-logos/${bank.slug}.png`}
+                                  onError={() => {
+                                    setImageError({
+                                      index: i,
+                                      error: true
+                                    })
+                                  }}
                                   alt="bank logo"
                                   width={50}
                                   height={50}
@@ -485,7 +496,7 @@ export function SettingsAccordion({
               </div>
             }
           >
-            You can send us an email at <span className="text-accent">merchant@biya.com.ng</span>
+            You can send us an email at <span className="text-accent">hello@biya.com.ng</span>
           </AccordionItem>
         </Accordion>
       </div>
