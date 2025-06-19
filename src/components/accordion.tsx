@@ -37,6 +37,7 @@ interface SettingsAccordionProps {
     merchantId: string;
     businessEmail: string;
     logoUrl: string;
+    employees: { firstName: string; lastName: string; role: string; email: string; phone: string }[];
   };
 }
 
@@ -125,7 +126,9 @@ const AccordionItem = ({ header, ...rest }: AccordionItemProps) => (
     className="mb-10 max-lg:mb-5"
     buttonProps={{
       className: ({ isEnter }) =>
-        `flex w-full px-4 py-7 text-left max-lg:py-3 ${isEnter && "bg-accent text-black/50"}
+        `flex w-full px-4 py-7 text-left max-lg:py-3 ${
+          isEnter && "bg-accent text-black/50"
+        }
         ${
           rest.itemKey === "item-1"
             ? "bg-[#17235D] text-white"
@@ -151,7 +154,7 @@ export function SettingsAccordion({
 }: SettingsAccordionProps) {
   const router = useRouter();
   const [deleteBankModal, setDeleteBankModal] = useState(false);
-  const [selectedAccount, setSelectedAccount] = useState('');
+  const [selectedAccount, setSelectedAccount] = useState("");
   const [isMounted, setIsMounted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isImageLoading, setIsImageLoading] = useState(false);
@@ -172,7 +175,7 @@ export function SettingsAccordion({
   const [error, setError] = useState("");
   const [imageError, setImageError] = useState({
     index: 0,
-    error: false
+    error: false,
   });
   const fileUpload = useRef<HTMLInputElement>(null);
 
@@ -184,19 +187,19 @@ export function SettingsAccordion({
     if (e.currentTarget.files[0].type !== "image/png") {
       toast({
         message: "Unknown image format",
-        type: 'error'
+        type: "error",
       });
-      setIsImageLoading(false)
-      throw new Error("Unknown file format")
+      setIsImageLoading(false);
+      throw new Error("Unknown file format");
     }
 
     if (e.currentTarget.files[0].size > 5000) {
       toast({
         message: "File size too large, File should not be larger than 5mb",
-        type: "error"
-      })
+        type: "error",
+      });
       setIsImageLoading(false);
-      throw new Error("File size too large")
+      throw new Error("File size too large");
     }
 
     const formData = new FormData();
@@ -278,6 +281,10 @@ export function SettingsAccordion({
     });
   };
 
+  const getOwner = () => {
+    return merchant.employees.filter((employee) => employee.role === "Owner");
+  };
+
   return (
     <>
       {bankValidationModal && (
@@ -286,9 +293,18 @@ export function SettingsAccordion({
           token={token}
           merchantId={merchantId}
           banks={banks}
+          ownerFirstName={getOwner()[0].firstName}
+          ownerLastName={getOwner()[0].lastName}
         />
       )}
-      {deleteBankModal && (<DeleteBankAccountModal onClose={() => setDeleteBankModal(false)} token={token} merchantId={merchantId} id={selectedAccount} />)}
+      {deleteBankModal && (
+        <DeleteBankAccountModal
+          onClose={() => setDeleteBankModal(false)}
+          token={token}
+          merchantId={merchantId}
+          id={selectedAccount}
+        />
+      )}
       <div className="mx-2 my-4 border-t">
         {/* `transitionTimeout` prop should be equal to the transition duration in CSS */}
         <Accordion transition transitionTimeout={200}>
@@ -296,15 +312,20 @@ export function SettingsAccordion({
             itemKey="item-1"
             header={
               <div>
-                <h1 className="text-2xl font-semibold max-lg:text-sm">Business Information</h1>
+                <h1 className="text-2xl font-semibold max-lg:text-sm">
+                  Business Information
+                </h1>
               </div>
             }
           >
             <div className="flex gap-16 max-lg:flex-col max-lg:gap-5 max-lg:items-center">
-              <div className={cn(
-                "w-[264px] h-[264px] border-gray-100 border relative max-lg:w-[132px] max-lg:h-[132px]",
-                isImageLoading && "bg-[rgba(0,0,0,0.5)] backdrop-blur-sm flex cursor-not-allowed"
-                )}>
+              <div
+                className={cn(
+                  "w-[264px] h-[264px] border-gray-100 border relative max-lg:w-[132px] max-lg:h-[132px]",
+                  isImageLoading &&
+                    "bg-[rgba(0,0,0,0.5)] backdrop-blur-sm flex cursor-not-allowed"
+                )}
+              >
                 {merchant.logoUrl && (
                   <Image
                     src={merchant.logoUrl}
@@ -325,7 +346,7 @@ export function SettingsAccordion({
                 <button
                   className={cn(
                     "absolute bottom-0 right-1 p-2 rounded-full border",
-                    isImageLoading && 'cursor-not-allowed'
+                    isImageLoading && "cursor-not-allowed"
                   )}
                   onClick={() => handleUpload()}
                 >
@@ -335,15 +356,42 @@ export function SettingsAccordion({
               <div className="grow">
                 <div className="flex gap-5 mb-5 max-lg:flex-col">
                   <div className="focus:shadow-soft-primary-outline text-lg leading-5.6 ease-soft block w-full appearance-none rounded-sm border border-solid border-gray-300 bg-white bg-clip-padding px-3 2xl:py-3 lg:py-2 font-bold text-gray-700 transition-all focus:border-black focus:outline-none focus:transition-shadow">
-                    {merchant.businessName}
+                    Business Name:{" "}
+                    <span className="text-blue-400">
+                      {merchant.businessName}
+                    </span>
                   </div>
                   <div className="focus:shadow-soft-primary-outline text-lg leading-5.6 ease-soft block w-full appearance-none rounded-sm border border-solid border-gray-300 bg-white bg-clip-padding px-3 2xl:py-3 lg:py-2 font-bold text-gray-700 transition-all focus:border-black focus:outline-none focus:transition-shadow">
-                    {merchant.merchantId}
+                    Business Id:{" "}
+                    <span className="text-blue-400">{merchant.merchantId}</span>
                   </div>
                 </div>
                 <div className="flex gap-5 mb-5">
                   <div className="focus:shadow-soft-primary-outline text-lg leading-5.6 ease-soft block w-full appearance-none rounded-sm border border-solid border-gray-300 bg-white bg-clip-padding px-3 2xl:py-3 lg:py-2 font-bold text-gray-700 transition-all focus:border-black focus:outline-none focus:transition-shadow">
-                    {merchant.businessEmail}
+                    Buiness Email:{" "}
+                    <span className="text-blue-400">
+                      {merchant.businessEmail}
+                    </span>
+                  </div>
+                </div>
+                <div className="flex gap-5 mb-5">
+                  <div className="focus:shadow-soft-primary-outline text-lg leading-5.6 ease-soft block w-full appearance-none rounded-sm border border-solid border-gray-300 bg-white bg-clip-padding px-3 2xl:py-3 lg:py-2 font-bold text-gray-700 transition-all focus:border-black focus:outline-none focus:transition-shadow">
+                    Buiness Owner:{" "}
+                    <span className="text-blue-400">{`${
+                      getOwner()[0].firstName
+                    } ${getOwner()[0].lastName}`}</span>
+                  </div>
+                </div>
+                <div className="flex gap-5 mb-5">
+                  <div className="focus:shadow-soft-primary-outline text-lg leading-5.6 ease-soft block w-full appearance-none rounded-sm border border-solid border-gray-300 bg-white bg-clip-padding px-3 2xl:py-3 lg:py-2 font-bold text-gray-700 transition-all focus:border-black focus:outline-none focus:transition-shadow">
+                    Owner&apos;s Email:{" "}
+                    <span className="text-blue-400">{getOwner()[0].email}</span>
+                  </div>
+                </div>
+                <div className="flex gap-5 mb-5">
+                  <div className="focus:shadow-soft-primary-outline text-lg leading-5.6 ease-soft block w-full appearance-none rounded-sm border border-solid border-gray-300 bg-white bg-clip-padding px-3 2xl:py-3 lg:py-2 font-bold text-gray-700 transition-all focus:border-black focus:outline-none focus:transition-shadow">
+                    Owner&apos;s Phone:{" "}
+                    <span className="text-blue-400">{getOwner()[0].phone}</span>
                   </div>
                 </div>
               </div>
@@ -416,7 +464,9 @@ export function SettingsAccordion({
             itemKey="item-3"
             header={
               <div>
-                <h1 className="text-2xl font-semibold max-lg:text-sm">Bank Details</h1>
+                <h1 className="text-2xl font-semibold max-lg:text-sm">
+                  Bank Details
+                </h1>
               </div>
             }
           >
@@ -424,37 +474,51 @@ export function SettingsAccordion({
               <div className="flex flex-col max-h-[300px] flex-wrap gap-x-6">
                 {accounts.map((account: Account) => (
                   <div
-                    className={cn("text-black mb-4 flex items-center border border-blue-500 gap-4 py-4 pl-8 pr-2 max-lg:pl-0",
-                      account.recipientCode === '' && "border-blue-200"
+                    className={cn(
+                      "text-black mb-4 flex items-center border border-blue-500 gap-4 py-4 pl-8 pr-2 max-lg:pl-0",
+                      account.recipientCode === "" && "border-blue-200"
                     )}
                     key={account._id}
                   >
                     <div className="w-[30px] h-[30px] border relative">
-
-                        {banks.map((bank, i) => {
-                          if (bank.code === account.bankCode) {
-                            return (
-                              <div key={bank.longCode + i} className={cn(account.recipientCode === "" && "opacity-40")}>
-                                <Image
-                                  src={imageError.error && imageError.index === i ? fallback : `/bank-logos/${bank.slug}.png`}
-                                  onError={() => {
-                                    setImageError({
-                                      index: i,
-                                      error: true
-                                    })
-                                  }}
-                                  alt="bank logo"
-                                  width={50}
-                                  height={50}
-                                  className="w-full h-full"
-                                />
-                              </div>
-                            );
-                          } else {
-                          }
-                        })}
+                      {banks.map((bank, i) => {
+                        if (bank.code === account.bankCode) {
+                          return (
+                            <div
+                              key={bank.longCode + i}
+                              className={cn(
+                                account.recipientCode === "" && "opacity-40"
+                              )}
+                            >
+                              <Image
+                                src={
+                                  imageError.error && imageError.index === i
+                                    ? fallback
+                                    : `/bank-logos/${bank.slug}.png`
+                                }
+                                onError={() => {
+                                  setImageError({
+                                    index: i,
+                                    error: true,
+                                  });
+                                }}
+                                alt="bank logo"
+                                width={50}
+                                height={50}
+                                className="w-full h-full"
+                              />
+                            </div>
+                          );
+                        } else {
+                        }
+                      })}
                     </div>
-                    <h1 className={cn(account.recipientCode === "" && "opacity-40", "mr-auto text-lg max-lg:text-xs")}>
+                    <h1
+                      className={cn(
+                        account.recipientCode === "" && "opacity-40",
+                        "mr-auto text-lg max-lg:text-xs"
+                      )}
+                    >
                       {banks.map((bank) => {
                         if (bank.code === account.bankCode) {
                           return `${bank.name}: ${account.accountNumber}`;
@@ -463,11 +527,14 @@ export function SettingsAccordion({
                         }
                       })}
                     </h1>
-                    <button className="ml-auto text-red-400 px-3" onClick={() => {
-                      setSelectedAccount(account._id);
-                      setDeleteBankModal(true);
-                    }}>
-                      <Icons.trash className="w-5 max-lg:w-4"/>
+                    <button
+                      className="ml-auto text-red-400 px-3"
+                      onClick={() => {
+                        setSelectedAccount(account._id);
+                        setDeleteBankModal(true);
+                      }}
+                    >
+                      <Icons.trash className="w-5 max-lg:w-4" />
                     </button>
                   </div>
                 ))}
@@ -492,11 +559,14 @@ export function SettingsAccordion({
             itemKey="item-4"
             header={
               <div>
-                <h1 className="text-2xl font-semibold max-lg:text-sm">Help and Support</h1>
+                <h1 className="text-2xl font-semibold max-lg:text-sm">
+                  Help and Support
+                </h1>
               </div>
             }
           >
-            You can send us an email at <span className="text-accent">hello@biya.com.ng</span>
+            You can send us an email at{" "}
+            <span className="text-accent">hello@biya.com.ng</span>
           </AccordionItem>
         </Accordion>
       </div>

@@ -9,6 +9,7 @@ import Link from "next/link";
 const UserManagementPage = async () => {
   const { token, merchantId } = await verifySession();
   const merchant = await getMerchant(token!, merchantId);
+
   return (
     <>
       <section>

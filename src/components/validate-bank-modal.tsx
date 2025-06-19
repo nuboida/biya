@@ -10,6 +10,8 @@ interface ValidateBankModalProps {
   banks: {code: string; name: string}[];
   token: string;
   merchantId: string;
+  ownerFirstName: string;
+  ownerLastName: string;
 }
 
 interface BankValidationRequest {
@@ -39,7 +41,7 @@ const validateBank = async (token: string, merchantId: string, request: BankVali
   }
 }
 
-const ValidateBankModal: React.FC<ValidateBankModalProps> = ({onClose, token, merchantId, banks}) => {
+const ValidateBankModal: React.FC<ValidateBankModalProps> = ({onClose, token, merchantId, banks, ownerFirstName, ownerLastName}) => {
   const [bankCredentials, setBankCredential] = useState<BankValidationRequest>({
     country: "NG",
     type: "bank_account",
@@ -97,8 +99,8 @@ const ValidateBankModal: React.FC<ValidateBankModalProps> = ({onClose, token, me
             label: bank.name,
             value: bank.code
           }))} onChange={handleDropdown} defaultValue={bankCredentials.bank_code}  />
-          <Input name="first_name" placeholder="First Name" onChange={handleInputChange} className="mb-3" />
-          <Input name="last_name" placeholder="Last Name" onChange={handleInputChange} className="mb-3" />
+          <Input name="first_name" placeholder="First Name" onChange={handleInputChange} className="mb-3 disabled:opacity-40" value={ownerFirstName} disabled/>
+          <Input name="last_name" placeholder="Last Name" onChange={handleInputChange} className="mb-3 disabled:opacity-40" value={ownerLastName} disabled />
         </div>
 
       </Modal>
