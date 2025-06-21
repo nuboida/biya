@@ -17,23 +17,23 @@ const nextConfig: NextConfig = {
     return [
       {
         source: '/api/auth/:path*',
-        destination: 'https://merchant.biya.com.ng/api/v1/auth/:path*'
+        destination: 'https://merchant.biyabot.com.ng/api/v1/auth/:path*'
       },
       {
         source: '/api/employee/:employeeId',
-        destination: 'https://merchant.biya.com.ng/api/v1/employees/:employeeId'
+        destination: 'https://merchant.biyabot.com.ng/api/v1/employees/:employeeId'
       },
       {
         source: '/api/merchants/:path*',
-        destination: 'https://merchant.biya.com.ng/api/v1/merchants/:path*'
+        destination: 'https://merchant.biyabot.com.ng/api/v1/merchants/:path*'
       },
       {
         source: '/api/merchants/:merchantId/:path*',
-        destination: 'https://merchant.biya.com.ng/api/v1/merchants/:merchantId/:path*'
+        destination: 'https://merchant.biyabot.com.ng/api/v1/merchants/:merchantId/:path*'
       },
       {
         source: "/api/:path*",
-        destination: "https://merchant.biya.com.ng/api/v1/:path*"
+        destination: "https://merchant.biyabot.com.ng/api/v1/:path*"
       },
     ];
   }
