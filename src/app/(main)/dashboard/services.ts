@@ -2,7 +2,7 @@ import { GetMerchantResponse, PaymentRequestModel, WalletBalanceResponse } from 
 
 export const getPaymentRequests = async (token: string, merchantId: string): Promise<PaymentRequestModel[]> => {
   try {
-    const response = await fetch(`https://merch.biya.com.ng/api/v1/merchants/${merchantId}/payment-requests?employeeId=`, {
+    const response = await fetch(`https://merchant.biyabot.com.ng/api/v1/merchants/${merchantId}/payment-requests?employeeId=`, {
       method: "GET",
       headers: {
         "Accept": "application/json",
@@ -18,7 +18,7 @@ export const getPaymentRequests = async (token: string, merchantId: string): Pro
 
 export const getWalletBalance = async (token: string, merchantId: string): Promise<WalletBalanceResponse> => {
   try {
-    const response = await fetch(`https://merch.biya.com.ng/api/v1/merchants/${merchantId}/wallet-balance`, {
+    const response = await fetch(`https://merchant.biyabot.com.ng/api/v1/merchants/${merchantId}/wallet-balance`, {
       method: "GET",
       headers: {
         "Accept": "application/json",
@@ -37,7 +37,7 @@ export const getMerchant = async (
   merchantId: string
 ): Promise<GetMerchantResponse> => {
   const response = await fetch(
-    `https://merch.biya.com.ng/api/v1/merchants/${merchantId}`,
+    `https://merchant.biyabot.com.ng/api/v1/merchants/${merchantId}`,
     {
       method: "GET",
       headers: {

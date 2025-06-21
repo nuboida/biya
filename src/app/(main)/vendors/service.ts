@@ -19,7 +19,7 @@ export const getSingleVendor = async (token: string, vendorId: string): Promise<
 
 export const getBanks = async (token: string) => {
   try {
-    const response = await fetch(`https://merch.biya.com.ng/api/v1/banks`, {
+    const response = await fetch(`https://merchant.biyabot.com.ng/api/v1/banks`, {
       method: "GET",
       headers: {
         Accept: "application/json",

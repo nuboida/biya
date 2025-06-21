@@ -4,7 +4,7 @@ export const getPaymentRequests = async (token: string, merchantId: string, empl
   try {
     let response;
     if (!employeeId) {
-      response = await fetch(`https://merch.biya.com.ng/api/v1/merchants/${merchantId}/payment-requests?employeeId=`, {
+      response = await fetch(`https://merchant.biyabot.com.ng/api/v1/merchants/${merchantId}/payment-requests?employeeId=`, {
         method: "GET",
         headers: {
           "Accept": "application/json",
@@ -13,7 +13,7 @@ export const getPaymentRequests = async (token: string, merchantId: string, empl
         }
       });
     } else {
-      response = await fetch(`https://merch.biya.com.ng/api/v1/merchants/${merchantId}/payment-requests?employeeId=${employeeId}`, {
+      response = await fetch(`https://merchant.biyabot.com.ng/api/v1/merchants/${merchantId}/payment-requests?employeeId=${employeeId}`, {
         method: "GET",
         headers: {
           "Accept": "application/json",
@@ -30,7 +30,7 @@ export const getPaymentRequests = async (token: string, merchantId: string, empl
 
 export const getSinglePaymentRequest = async (token: string, merchantId: string, paymentRequestId: string): Promise<PaymentRequestsResponse> => {
   try {
-    const response = await fetch(`https://merch.biya.com.ng/api/v1/merchants/${merchantId}/${paymentRequestId}/payment-request`, {
+    const response = await fetch(`https://merchant.biyabot.com.ng/api/v1/merchants/${merchantId}/${paymentRequestId}/payment-request`, {
       method: "GET",
       headers: {
         "Accept": "application/json",

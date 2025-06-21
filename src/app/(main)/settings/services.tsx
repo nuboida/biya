@@ -5,7 +5,7 @@ export const getMerchant = async (
   merchantId: string
 ): Promise<GetMerchantResponse> => {
   const response = await fetch(
-    `https://merch.biya.com.ng/api/v1/merchants/${merchantId}`,
+    `https://merchant.biyabot.com.ng/api/v1/merchants/${merchantId}`,
     {
       method: "GET",
       headers: {
