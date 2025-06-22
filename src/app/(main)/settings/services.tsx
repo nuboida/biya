@@ -1,11 +1,11 @@
 import { GetMerchantResponse } from "./model";
-
+const apiUrl = process.env.NODE_ENV === "production" ? process.env.PRODUCTION_API : process.env.DEVELOPMENT_API;
 export const getMerchant = async (
   token: string,
   merchantId: string
 ): Promise<GetMerchantResponse> => {
   const response = await fetch(
-    `https://merchant.biyabot.com.ng/api/v1/merchants/${merchantId}`,
+    `${apiUrl}/merchants/${merchantId}`,
     {
       method: "GET",
       headers: {

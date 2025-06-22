@@ -1,8 +1,10 @@
 import { VendorResponse } from "./models";
 
+const apiUrl = process.env.NODE_ENV === "production" ? process.env.PRODUCTION_API : process.env.DEVELOPMENT_API;
+
 export const getSingleVendor = async (token: string, vendorId: string): Promise<VendorResponse> => {
   try {
-    const response = await fetch(`https://merchant.biyabot.com.ng/api/v1/merchants/vendor/${vendorId}`, {
+    const response = await fetch(`${apiUrl}/merchants/vendor/${vendorId}`, {
       method: "GET",
       headers: {
         "Accept": "application/json",
@@ -19,7 +21,7 @@ export const getSingleVendor = async (token: string, vendorId: string): Promise<
 
 export const getBanks = async (token: string) => {
   try {
-    const response = await fetch(`https://merchant.biyabot.com.ng/api/v1/banks`, {
+    const response = await fetch(`${apiUrl}/banks`, {
       method: "GET",
       headers: {
         Accept: "application/json",
