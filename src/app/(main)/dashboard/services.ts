@@ -1,6 +1,7 @@
 import { GetMerchantResponse, PaymentRequestModel, WalletBalanceResponse } from "./model";
 
-const apiUrl = process.env.NODE_ENV === "production" ? process.env.PRODUCTION_API : process.env.DEVELOPMENT_API
+// const apiUrl = process.env.NODE_ENV === "production" ? process.env.PRODUCTION_API : process.env.DEVELOPMENT_API
+const apiUrl = "https://merchant.biyabot.com.ng/api/v1";
 
 export const getPaymentRequests = async (token: string, merchantId: string): Promise<PaymentRequestModel[]> => {
   try {
