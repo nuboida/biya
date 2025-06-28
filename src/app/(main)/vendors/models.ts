@@ -13,7 +13,7 @@ export interface VendorResponse {
 }
 
 export interface VendorTransactionsResponse {
-  id: string;
+  _id: string;
   vendor: string;
   amount: number;
   createdAt: string;
