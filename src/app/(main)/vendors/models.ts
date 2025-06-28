@@ -12,6 +12,14 @@ export interface VendorResponse {
   }
 }
 
+export interface VendorTransactionsResponse {
+  id: string;
+  vendor: string;
+  amount: number;
+  createdAt: string;
+  reason: string;
+}
+
 export interface BanksResponse {
   code: string;
   name: string;

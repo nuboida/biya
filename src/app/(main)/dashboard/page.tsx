@@ -8,6 +8,7 @@ import Link from "next/link";
 const DashboardPage = async () => {
   const { token, merchantId, role } = await verifySession();
   const merchant = await getMerchant(token!, merchantId);
+
   const noOfAgents = merchant.employees.filter(
     (employee) => employee.role !== "Owner"
   ).length;

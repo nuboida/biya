@@ -1,8 +1,10 @@
 import { Icons } from "@/components/ui/Icons";
 import { verifySession } from "@/dal";
 import Link from "next/link";
-import { getBanks, getSingleVendor } from "../service";
+import { getBanks, getSingleVendor, getVendorTransactions } from "../service";
 import VendorBankComponent from "@/components/vendors/vendorBank";
+import {format} from 'date-fns';
+import { convertKoboToNaira } from "@/lib/utils";
 
 interface Props {
   params: Promise<{ vendorId: string }>;
@@ -13,6 +15,8 @@ const VendorPage = async ({ params }: Props) => {
   const { token } = await verifySession();
   const vendor = await getSingleVendor(token!, vendorId);
   const banks = await getBanks(token!);
+  const vendorTransactions = await getVendorTransactions(token!, vendorId);
+
 
   return (
     <>
@@ -49,6 +53,41 @@ const VendorPage = async ({ params }: Props) => {
                 <VendorBankComponent bankAccount={vendor.bankAccount} token={String(token)} banks={banks.data} vendorId={vendorId} />
               </div>
             </div>
+            {vendorTransactions.length != 0 && (
+                            <div className="flex justify-center items-center mb-2 w-[90%] bg-white mt-10 px-5 max-md:overflow-auto">
+                              <div className="w-full">
+                                <div className="flex justify-between items-center py-4">
+                                  <h4 className="font-semibold">Withdrawals to vendor</h4>
+                                </div>
+                                <table className="table w-full table-auto border-collapse border-0 text-left align-middle leading-5">
+                                  <thead>
+                                    <tr>
+                                      <th className="min-w-[50px]">#</th>
+                                      <th className="min-w-[50px] tableHeader">Amount</th>
+                                      <th className="min-w-[120px] tableHeader">Reason for withdrawal</th>
+                                      <th className="min-w-[120px] tableHeader">Date</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    {vendorTransactions.length !== 0 &&
+                                      vendorTransactions.map((transaction, i) => (
+                                        <tr key={transaction.id}>
+                                          <td>{i + 1}</td>
+                                          <td className="tableData">
+                                            <span>&#8358; </span>
+                                            {convertKoboToNaira(transaction.amount)}
+                                          </td>
+                                          <td className="tableData">{transaction.reason}</td>
+                                          <td className="tableData">
+                                            {format(new Date(transaction.createdAt), 'eeee, d MMM yyyy. hh:mma')}
+                                          </td>
+                                        </tr>
+                                      ))}
+                                  </tbody>
+                                </table>
+                              </div>
+                            </div>
+                          )}
           </div>
         </div>
       </section>

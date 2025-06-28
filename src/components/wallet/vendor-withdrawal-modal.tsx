@@ -19,6 +19,7 @@ interface WithdrawFundsRequest {
   amount: number;
   reason: string;
   accountId: string;
+  vendor: string;
 }
 
 const getBanks = async (token: string) => {
@@ -103,6 +104,7 @@ export const VendorWithdrawalModal = ({
     accountId: "",
     amount: 0,
     reason: "",
+    vendor: ''
   });
 
   useEffect(() => {
@@ -133,7 +135,7 @@ export const VendorWithdrawalModal = ({
     });
     getVendor(token, id).then((res) => {
       setAccount(res.bankAccount);
-      setInputData({...inputData, accountId: res.bankAccount._id})
+      setInputData({...inputData, accountId: res.bankAccount._id, vendor: id});
     });
     setSelectedItem(id);
   };
