@@ -22,8 +22,8 @@ const WalletPage = async () => {
               {
                 typeof balance === "number" && (
                   <div className="flex justify-between item-center">
-                    <WithDrawalButton token={String(token)} merchantId={merchantId} />
-                    <VendorWithdrawalButton vendors={merchant.vendors} token={String(token)} merchantId={merchantId} />
+                    <WithDrawalButton token={String(token)} merchantId={merchantId} transactionCharge={merchant.transactionWithdrawalCharge} />
+                    <VendorWithdrawalButton vendors={merchant.vendors} token={String(token)} merchantId={merchantId} transactionCharge={merchant.transactionWithdrawalCharge} />
                   </div>
                 )
               }

@@ -8,13 +8,14 @@ import { WithdrawalModal } from "./withdrawal-modal";
 interface WithdrawButtonProps {
   token: string;
   merchantId: string;
+  transactionCharge: number;
 }
 
-export const WithDrawalButton = ({ token, merchantId }: WithdrawButtonProps) => {
+export const WithDrawalButton = ({ token, merchantId, transactionCharge }: WithdrawButtonProps) => {
   const [withdrawalModal, setWithdrawalModal] = useState(false);
   return (
     <>
-    {withdrawalModal && <WithdrawalModal onClose={() => setWithdrawalModal(false)} token={token} merchantId={merchantId} />}
+    {withdrawalModal && <WithdrawalModal onClose={() => setWithdrawalModal(false)} token={token} merchantId={merchantId} transactionCharge={transactionCharge} />}
       <div>
         <Button
           size="default"

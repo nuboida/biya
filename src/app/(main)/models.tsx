@@ -22,6 +22,7 @@ export interface GetMerchantResponse {
   businessName: string;
   logoUrl: string;
   isMerchantVerified: boolean;
+  transactionWithdrawalCharge: number;
   employees: Employee[],
   vendors: Vendor[]
 }

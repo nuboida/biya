@@ -11,13 +11,14 @@ interface VendorWithdrawalButtonProps {
   vendors: Vendor[];
   merchantId: string;
   token: string;
+  transactionCharge: number
 }
 
-export const VendorWithdrawalButton = ({ vendors, token, merchantId }: VendorWithdrawalButtonProps) => {
+export const VendorWithdrawalButton = ({ vendors, token, merchantId, transactionCharge }: VendorWithdrawalButtonProps) => {
   const [vendorWithdrawModal, setVendorWithdrawModal] = useState(false);
   return (
     <>
-    { vendorWithdrawModal && <VendorWithdrawalModal onClose={() => setVendorWithdrawModal(false)} vendors={vendors} token={token} merchantId={merchantId} /> }
+    { vendorWithdrawModal && <VendorWithdrawalModal onClose={() => setVendorWithdrawModal(false)} vendors={vendors} token={token} merchantId={merchantId} transactionCharge={transactionCharge} /> }
       <div>
         <Button
           size="default"

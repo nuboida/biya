@@ -6,11 +6,13 @@ import { InfoModal } from "../ui/info-modal";
 import { Input } from "../ui/input";
 import toast from "../ui/toast";
 import fallback from "../../../public/bank-building.svg";
+import { convertKoboToNaira } from "@/lib/utils";
 
 interface WithdrawalModalProps {
   onClose: () => void;
   token: string;
   merchantId: string;
+  transactionCharge: number;
 }
 
 interface Account {
@@ -82,6 +84,7 @@ export const WithdrawalModal = ({
   onClose,
   token,
   merchantId,
+  transactionCharge
 }: WithdrawalModalProps) => {
   const [isMounted, setIsMounted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -223,7 +226,7 @@ export const WithdrawalModal = ({
                   onChange={handleChange}
                 />
               </div>
-                <p className="text-red-400">&#8358;50 charged for every withdrawal</p>
+                <p className="text-red-400">&#8358;{transactionCharge ? convertKoboToNaira(transactionCharge) : 50} charged for every withdrawal</p>
               <textarea
                 rows={3}
                 className="w-full text-black border border-solid border-gray-300 mt-5 px-3 2xl:py-3 lg:py-2 resize-none"
