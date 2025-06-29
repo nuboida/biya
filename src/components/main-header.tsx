@@ -150,7 +150,7 @@ export const MainHeader = ({ role, merchant }: NavigationProps) => {
                     className={clsx(
                       "md:px-4 block",
                       !path.includes(item.href) &&
-                        "hover:bg-slate-100 hover:font-semibold"
+                        "hover:bg-slate-100 hover:font-semibold text-nowrap"
                     )}
                   >
                     <span

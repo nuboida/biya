@@ -11,10 +11,9 @@ export const WalletBalanceWidget = ({ balance, role }: WalletBalanceWidgetProps)
     <>
       {typeof balance == "string" ? (
         <div>
-          <h1 className="font-medium text-2xl">Create Wallet</h1>
+          <h1 className="font-medium text-2xl">Wallet</h1>
           <p className="w-[80%] pb-4">
-            No wallet has been created. Create a wallet so you can start making
-            transactions
+            No wallet has been created. Perform a transaction to activate your wallet.
           </p>
           <Button size="default" className="bg-accent text-white">
             Create Wallet
